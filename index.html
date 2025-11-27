@@ -176,7 +176,7 @@
 
           <button class="btn" type="submit">ส่งคำขอซ่อม</button>
         </form>
-        <p class="muted" style="margin-top:10px">*ตัวอย่างฟอร์มสาธิต — ข้อมูลถูกเก็บชั่วคราวในเครื่องคุณเพื่อโชว์หน้าสถานะ</p>
+        <p class="muted" style="margin-top:10px">*โหมดทดสอบ:* ถ้ายังไม่ได้ตั้งค่า <code>WEB_APP_URL</code> ข้อมูลจะถูกเก็บชั่วคราวในเครื่องคุณ; หากตั้งค่าแล้ว ระบบจะส่งเข้า <strong>Google Sheets</strong> อัตโนมัติ</p>
       </div>
     </section>
 
@@ -271,17 +271,13 @@
   </div>
 
   <script>
-    // ====== Tiny client-side router ======
-    const APP_NAME = 'Maintenance Portal';
-    const titleMap = {
-      home:"Maintenance",
-      report:"การแจ้งซ่อม",
-      success:"การแจ้งซ่อม",
-      status:"สถานะการแจ้งซ่อม",
-      powerbi:"Power BI",
-      pm:"Preventive Maintenance",
-      guide:"คู่มือการใช้งาน"
-    };
+    /* ===== Config ===== */
+    const APP_NAME   = 'Maintenance Portal';
+    const WEB_APP_URL = 'PASTE_YOUR_WEB_APP_URL_HERE'; // <<-- ใส่ URL ของ Apps Script Web App ที่ลงท้ายด้วย /exec
+    const API_TOKEN   = 'CHANGE_ME_SECRET';            // <<-- ให้ตรงกับ TOKEN ใน Apps Script
+
+    /* ===== Router ===== */
+    const titleMap = { home:"Maintenance", report:"การแจ้งซ่อม", success:"การแจ้งซ่อม", status:"สถานะการแจ้งซ่อม", powerbi:"Power BI", pm:"Preventive Maintenance", guide:"คู่มือการใช้งาน" };
     function show(view){
       document.querySelectorAll('[data-view]').forEach(el=>el.classList.remove('active'));
       const el = document.querySelector(`[data-view="${view}"]`);
@@ -293,42 +289,70 @@
       if(view==='status') renderTable();
     }
     function go(view){ show(view); }
-    window.addEventListener('load',()=>{
-      const initial = location.hash?.slice(1) || 'home';
-      show(initial);
-    });
+    window.addEventListener('load',()=>{ const initial = location.hash?.slice(1) || 'home'; show(initial); });
 
-    // ====== Demo storage for tickets (local only) ======
+    /* ===== Local fallback (demo) ===== */
+    const DEMO = !/^https?:\/\//i.test(WEB_APP_URL); // ถ้ายังไม่ตั้งค่า URL ให้ทำงานแบบ localStorage
     const KEY='tickets.v1';
     const getTickets=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
     const setTickets=(v)=>localStorage.setItem(KEY,JSON.stringify(v));
 
-    document.getElementById('ticketForm').addEventListener('submit', (e)=>{
+    /* ===== API helpers (Google Apps Script) ===== */
+    async function apiCreateTicket(payload){
+      const body = new URLSearchParams({ action:'create', token: API_TOKEN, ...payload }).toString();
+      const res  = await fetch(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
+      return res.json();
+    }
+    async function apiListTickets(limit=500){
+      const res = await fetch(`${WEB_APP_URL}?action=list&limit=${limit}`);
+      return res.json();
+    }
+    async function apiUpdateStatus(id, status){
+      const body = new URLSearchParams({ action:'updateStatus', id, status, token: API_TOKEN }).toString();
+      const res  = await fetch(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
+      return res.json();
+    }
+
+    /* ===== Submit form ===== */
+    document.getElementById('ticketForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
-      const ticket = {
-        id: Date.now().toString(36),
-        date: data.reqDate,
-        time: data.reqTime,
-        assigned: data.assigned,
-        dept: data.dept,
-        machine: data.machine,
-        desc: data.desc,
-        techType: data.techType,
-        supervisor: data.supervisor,
-        status: 'Scheduled'
+      const payload = {
+        reqDate: data.reqDate, reqTime: data.reqTime, assigned: data.assigned,
+        dept: data.dept, machine: data.machine, desc: data.desc,
+        techType: data.techType, supervisor: data.supervisor, status: 'Scheduled'
       };
-      const all = getTickets();
-      all.unshift(ticket); setTickets(all);
-      e.target.reset();
-      go('success');
+
+      try{
+        if(DEMO){
+          // เก็บในเครื่องชั่วคราว
+          const ticket = { id: Date.now().toString(36), date: data.reqDate, time: data.reqTime, assigned: data.assigned, dept: data.dept, machine: data.machine, desc: data.desc, techType: data.techType, supervisor: data.supervisor, status: 'Scheduled' };
+          const all = getTickets(); all.unshift(ticket); setTickets(all);
+          e.target.reset(); go('success');
+        }else{
+          const r = await apiCreateTicket(payload);
+          if(r.ok){ e.target.reset(); go('success'); }
+          else{ alert('บันทึกไม่สำเร็จ: '+(r.error||'unknown')); }
+        }
+      }catch(err){ alert('เครือข่ายผิดพลาด'); }
     });
 
-    function renderTable(){
+    /* ===== Render table ===== */
+    async function renderTable(){
       const tbody = document.querySelector('#tbl tbody');
-      tbody.innerHTML='';
-      const rows = getTickets();
-      let s=0,c=0,o=0;
+      tbody.innerHTML = DEMO ? '' : '<tr><td colspan="5">Loading...</td></tr>';
+
+      let rows = [];
+      if(DEMO){
+        rows = getTickets();
+      }else{
+        try{ const r = await apiListTickets(500); rows = (r.rows||[]).map(x=>({
+          id: x['ID'], date: x['Request Date'], dept: x['Machine Department'], machine: x['Machine Name'], desc: x['Problem Description'], status: x['Status']||'Scheduled'
+        })); }
+        catch(e){ tbody.innerHTML = '<tr><td colspan="5">Load failed</td></tr>'; return; }
+      }
+
+      let s=0,c=0,o=0; tbody.innerHTML='';
       for(const r of rows){
         if(r.status==='Scheduled') s++; else if(r.status==='Completed') c++; else o++;
         const tr = document.createElement('tr');
@@ -337,7 +361,7 @@
           <td>${r.dept||''}</td>
           <td>${r.machine||''}</td>
           <td>${r.desc||''}</td>
-          <td><button class="chip" data-id="${r.id}">${r.status}</button></td>`;
+          <td><button class="chip" data-id="${r.id||''}" data-status="${r.status}">${r.status}</button></td>`;
         tbody.appendChild(tr);
       }
       document.getElementById('kScheduled').textContent=s;
@@ -345,17 +369,22 @@
       document.getElementById('kOverdue').textContent=o;
     }
 
-    // toggle status cycle
-    document.addEventListener('click', (ev)=>{
+    /* ===== Toggle status ===== */
+    document.addEventListener('click', async (ev)=>{
       const btn = ev.target.closest('button.chip[data-id]');
       if(!btn) return;
+      const cycle = { 'Scheduled':'Completed', 'Completed':'Overdue', 'Overdue':'Scheduled' };
       const id = btn.getAttribute('data-id');
-      const all = getTickets();
-      const t = all.find(x=>x.id===id);
-      if(!t) return;
-      t.status = t.status==='Scheduled'? 'Completed' : (t.status==='Completed'? 'Overdue' : 'Scheduled');
-      setTickets(all);
-      renderTable();
+      const next = cycle[btn.dataset.status] || 'Scheduled';
+
+      if(DEMO){
+        const all = getTickets();
+        const t = all.find(x=>x.id===id);
+        if(t){ t.status = next; setTickets(all); renderTable(); }
+      }else{
+        try{ const r = await apiUpdateStatus(id, next); if(r.ok) renderTable(); else alert('อัปเดตไม่สำเร็จ'); }
+        catch(err){ alert('เครือข่ายผิดพลาด'); }
+      }
     });
   </script>
 </body>
