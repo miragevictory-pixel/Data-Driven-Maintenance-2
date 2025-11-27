@@ -272,9 +272,9 @@
 
   <script>
     /* ===== Config ===== */
-    const APP_NAME   = 'Maintenance Database';
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyWhg_QM2Ankj9SVl2atCbxcw7ZUkQp7ztmFt8EASWacO7pycMZqji_aczUsFisK5891w/exec'; // <<-- ใส่ URL ของ Apps Script Web App ที่ลงท้ายด้วย /exec
-    const API_TOKEN   = '65109010093';            // <<-- ให้ตรงกับ TOKEN ใน Apps Script
+    const APP_NAME   = 'Maintenance Portal';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxr16qrVFmWjf7wHw0HoLtyDb_T4BMbUfOAi3QIwUmB4QBcxDfcUo-b7MYEkAjaM1zC6g/exec'; // <<-- ใส่ URL ของ Apps Script Web App ที่ลงท้ายด้วย /exec
+    const API_TOKEN   = 'CHANGE_ME_SECRET';            // <<-- ให้ตรงกับ TOKEN ใน Apps Script
 
     /* ===== Router ===== */
     const titleMap = { home:"Maintenance", report:"การแจ้งซ่อม", success:"การแจ้งซ่อม", status:"สถานะการแจ้งซ่อม", powerbi:"Power BI", pm:"Preventive Maintenance", guide:"คู่มือการใช้งาน" };
@@ -298,19 +298,22 @@
     const setTickets=(v)=>localStorage.setItem(KEY,JSON.stringify(v));
 
     /* ===== API helpers (Google Apps Script) ===== */
+    async function fetchJSON(url, options){
+      const res = await fetch(url, options);
+      const text = await res.text();
+      try{ return JSON.parse(text); }
+      catch(e){ throw new Error(`Bad response (${res.status}): ${text.slice(0,200)}`); }
+    }
     async function apiCreateTicket(payload){
       const body = new URLSearchParams({ action:'create', token: API_TOKEN, ...payload }).toString();
-      const res  = await fetch(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
-      return res.json();
+      return fetchJSON(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
     }
     async function apiListTickets(limit=500){
-      const res = await fetch(`${WEB_APP_URL}?action=list&limit=${limit}`);
-      return res.json();
+      return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}`);
     }
     async function apiUpdateStatus(id, status){
       const body = new URLSearchParams({ action:'updateStatus', id, status, token: API_TOKEN }).toString();
-      const res  = await fetch(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
-      return res.json();
+      return fetchJSON(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
     }
 
     /* ===== Submit form ===== */
@@ -334,7 +337,7 @@
           if(r.ok){ e.target.reset(); go('success'); }
           else{ alert('บันทึกไม่สำเร็จ: '+(r.error||'unknown')); }
         }
-      }catch(err){ alert('เครือข่ายผิดพลาด'); }
+      }catch(err){ alert('เครือข่ายผิดพลาด: ' + err.message); }
     });
 
     /* ===== Render table ===== */
@@ -383,12 +386,9 @@
         if(t){ t.status = next; setTickets(all); renderTable(); }
       }else{
         try{ const r = await apiUpdateStatus(id, next); if(r.ok) renderTable(); else alert('อัปเดตไม่สำเร็จ'); }
-        catch(err){ alert('เครือข่ายผิดพลาด'); }
+        catch(err){ alert('เครือข่ายผิดพลาด: ' + err.message); }
       }
     });
   </script>
 </body>
 </html>
-
-
-
