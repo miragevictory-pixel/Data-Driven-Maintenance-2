@@ -49,6 +49,13 @@
       background:var(--brand); color:#fff; border:0; border-radius:999px; padding:14px 18px; font-weight:700;
       box-shadow:0 4px 0 #5f1c11, var(--shadow); transition:transform .05s ease;
     }
+    .btn small{
+      display:block;
+      font-weight:400;
+      font-size:13px;
+      opacity:.9;
+      margin-top:2px;
+    }
     .btn:active{transform:translateY(1px)}
     .link{color:var(--brand); font-weight:600; text-decoration:none}
 
@@ -73,11 +80,27 @@
     }
     .field textarea{min-height:96px; resize:vertical}
 
+    /* ให้ฟิลด์ที่มีลำดับมีระยะห่างทางซ้าย ป้องกันเลขกลมทับหัวข้อ */
+    .field[data-step]{
+      padding-left: 40px;
+    }
+
     /* Numbered bullets like mockup */
     .field[data-step]::before{
       content: attr(data-step);
-      position:absolute; left:-10px; top:-10px; width:28px; height:28px; display:grid; place-items:center;
-      background:var(--brand); color:#fff; border-radius:50%; font-weight:800; box-shadow:var(--shadow);
+      position:absolute;
+      left:8px;
+      top:8px;
+      width:26px;
+      height:26px;
+      display:grid;
+      place-items:center;
+      background:var(--brand);
+      color:#fff;
+      border-radius:50%;
+      font-weight:800;
+      font-size:14px;
+      box-shadow:var(--shadow);
     }
 
     /* ====== Status ====== */
@@ -95,7 +118,13 @@
     /* ====== Footer Nav (mobile) ====== */
     .tabbar{position:fixed; bottom:14px; left:0; right:0; display:flex; justify-content:center; pointer-events:none}
     .tabbar .inner{pointer-events:auto; background:#fff; border-radius:999px; box-shadow:var(--shadow); display:flex; gap:8px; padding:8px}
-    .chip{border-radius:999px; padding:8px 12px; border:1px solid #eee; background:#fff; font-weight:600; cursor:pointer}
+    .chip{border-radius:999px; padding:8px 12px; border:1px solid #eee; background:#fff; font-weight:600; cursor:pointer; font-size:14px}
+    .chip small{
+      display:block;
+      font-weight:400;
+      font-size:11px;
+      opacity:.85;
+    }
   </style>
 </head>
 <body>
@@ -113,37 +142,46 @@
       <img class="big-img" alt="illustration" src="" onerror="this.remove()" />
 
       <div class="menu">
-        <button class="btn" onclick="go('report')">แจ้งซ่อม</button>
-        <button class="btn" onclick="go('status')">สถานะการแจ้งซ่อม</button>
-        <button class="btn" onclick="go('powerbi')">Power BI</button>
-        <button class="btn" onclick="go('guide')">คู่มือการใช้งาน</button>
+        <button class="btn" onclick="go('report')">
+          แจ้งซ่อม
+          <small>Repair request</small>
+        </button>
+        <button class="btn" onclick="go('status')">
+          สถานะการแจ้งซ่อม
+          <small>Request status</small>
+        </button>
+        <button class="btn" onclick="go('powerbi')">
+          Power BI
+          <small>Dashboard</small>
+        </button>
+        <button class="btn" onclick="go('guide')">
+          คู่มือการใช้งาน
+          <small>User guide</small>
+        </button>
       </div>
     </section>
 
     <!-- ============ REPORT (FORM) ============ -->
     <section data-view="report">
       <div class="card">
-        <h2 style="margin:0 0 8px">การแจ้งซ่อม</h2>
-        <!-- NOTE: ตัวอย่างฟอร์มฝั่งหน้าเว็บเก็บไว้ใน LocalStorage
-             * ถ้าจะเชื่อม Google Forms แทน: เอา <form> ออก แล้วใส่ <iframe src="FORM_URL?embedded=true"></iframe>
-             * หรือ set form.action เป็น Web App URL (Apps Script) ของคุณ -->
+        <h2 style="margin:0 0 8px">การแจ้งซ่อม (Repair Request)</h2>
         <form id="ticketForm">
           <div class="field" data-step="1">
             <label for="reqDate">วันที่แจ้งซ่อม (Request Date)</label>
             <input id="reqDate" name="reqDate" type="date" required />
           </div>
           <div class="field" data-step="2">
-            <label for="reqTime">เวลาแจ้งซ่อม</label>
+            <label for="reqTime">เวลาแจ้งซ่อม (Request Time)</label>
             <input id="reqTime" name="reqTime" type="time" required />
           </div>
           <div class="field" data-step="3">
-            <label for="assigned">ชื่อผู้แจ้ง (Assigned)</label>
-            <input id="assigned" name="assigned" type="text" placeholder="เช่น สมชาย" required />
+            <label for="assigned">ชื่อผู้แจ้ง (Requestor Name)</label>
+            <input id="assigned" name="assigned" type="text" placeholder="เช่น สมชาย / e.g. Somchai" required />
           </div>
           <div class="field" data-step="4">
             <label for="dept">รหัสแผนก (Machine Department)</label>
             <select id="dept" name="dept" required>
-              <option value="" disabled selected>เลือก...</option>
+              <option value="" disabled selected>เลือก... / Select...</option>
               <option>P3/1</option>
               <option>P3/2</option>
               <option>P3/3</option>
@@ -152,16 +190,16 @@
           </div>
           <div class="field" data-step="5">
             <label for="machine">ชื่อเครื่องจักร (Machine Name)</label>
-            <input id="machine" name="machine" type="text" placeholder="เช่น เครื่องตัด..." required />
+            <input id="machine" name="machine" type="text" placeholder="เช่น เครื่องตัด... / e.g. Cutting machine" required />
           </div>
           <div class="field" data-step="6">
             <label for="desc">รายละเอียดปัญหา (Repair Description)</label>
-            <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ" required></textarea>
+            <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ (Describe problem / location / condition)" required></textarea>
           </div>
           <div class="field" data-step="7">
             <label for="techType">ประเภทงาน (Technician Department)</label>
             <select id="techType" name="techType" required>
-              <option value="" disabled selected>เลือก...</option>
+              <option value="" disabled selected>เลือก... / Select...</option>
               <option>Mechanical</option>
               <option>Electrical</option>
               <option>Mold</option>
@@ -169,25 +207,28 @@
             </select>
           </div>
           <div class="field" data-step="8">
-            <label for="supervisor">ชื่อพนักงานซ่อม (Supervisor)</label>
-            <input id="supervisor" name="supervisor" type="text" placeholder="เช่น เศรษฐาณณ์" />
-            <small>ระบุถ้าทราบ (ไม่บังคับ)</small>
+            <label for="supervisor">ชื่อพนักงานซ่อม (Supervisor / Technician)</label>
+            <input id="supervisor" name="supervisor" type="text" placeholder="เช่น เศรษฐาณณ์ / Optional" />
+            <small>ระบุถ้าทราบ (ไม่บังคับ) / Optional field</small>
           </div>
 
-          <button class="btn" type="submit">ส่งคำขอซ่อม</button>
+          <button class="btn" type="submit">ส่งคำขอซ่อม <small>Submit request</small></button>
         </form>
-        <p class="muted" style="margin-top:10px">*โหมดทดสอบ:* ถ้ายังไม่ได้ตั้งค่า <code>WEB_APP_URL</code> ข้อมูลจะถูกเก็บชั่วคราวในเครื่องคุณ; หากตั้งค่าแล้ว ระบบจะส่งเข้า <strong>Google Sheets</strong> อัตโนมัติ</p>
+        <p class="muted" style="margin-top:10px">
+          *โหมดทดสอบ:* ถ้ายังไม่ได้ตั้งค่า <code>WEB_APP_URL</code> ข้อมูลจะถูกเก็บชั่วคราวในเครื่องคุณ;
+          หากตั้งค่าแล้ว ระบบจะส่งเข้า <strong>Google Sheets</strong> อัตโนมัติ
+        </p>
       </div>
     </section>
 
     <!-- ============ SUBMIT SUCCESS ============ -->
     <section data-view="success">
       <div class="card" style="text-align:center">
-        <h2>การแจ้งซ่อมเสร็จสิ้น</h2>
-        <p class="muted">ระบบได้บันทึกคำขอไว้แล้ว</p>
+        <h2>การแจ้งซ่อมเสร็จสิ้น (Request Submitted)</h2>
+        <p class="muted">ระบบได้บันทึกคำขอไว้แล้ว / Your request has been recorded.</p>
         <div style="display:flex; gap:8px; justify-content:center; margin-top:12px">
-          <button class="chip" onclick="go('status')">ดูสถานะ</button>
-          <button class="chip" onclick="go('home')">กลับหน้าแรก</button>
+          <button class="chip" onclick="go('status')">ดูสถานะ<br><small>View status</small></button>
+          <button class="chip" onclick="go('home')">กลับหน้าแรก<br><small>Back to home</small></button>
         </div>
       </div>
     </section>
@@ -201,7 +242,7 @@
       </div>
 
       <div class="card">
-        <h3 style="margin-top:0">รายการคำขอ</h3>
+        <h3 style="margin-top:0">รายการคำขอ (Request List)</h3>
         <table id="tbl">
           <thead>
             <tr>
@@ -214,17 +255,18 @@
           </thead>
           <tbody></tbody>
         </table>
-        <p class="muted" style="margin:10px 0 0">*กดสถานะในตารางเพื่อสลับ Scheduled → Completed → Overdue</p>
+        <p class="muted" style="margin:10px 0 0">
+          *กดสถานะในตารางเพื่อสลับ Scheduled → Completed → Overdue / Click status to toggle
+        </p>
       </div>
     </section>
 
     <!-- ============ POWER BI ============ -->
     <section data-view="powerbi">
       <div class="card">
-        <h2 style="margin:0 0 12px">Power BI</h2>
-        <p class="muted">ใส่ลิงก์ Embed ของ Power BI แทน <code>IFRAME</code> ด้านล่างนี้</p>
+        <h2 style="margin:0 0 12px">Power BI Dashboard</h2>
+        <p class="muted">ใส่ลิงก์ Embed ของ Power BI แทน <code>IFRAME</code> ด้านล่างนี้ / Replace src with your Power BI embed link.</p>
         <div style="display:grid; gap:12px">
-          <!-- วางลิงก์ Embed จริงของคุณแทน src ด้านล่าง -->
           <iframe title="Overview" style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa" src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D" allowfullscreen></iframe>
           <iframe title="Maintenance Wise" style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa" src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D" allowfullscreen></iframe>
         </div>
@@ -235,7 +277,7 @@
     <section data-view="pm">
       <div class="card">
         <h2 style="margin:0 0 10px">Dashboard : Preventive Maintenance</h2>
-        <p>จะแสดงข้อมูลเกี่ยวกับการบำรุงรักษาเชิงป้องกัน (Preventive Maintenance) ที่ทำเป็นรอบตามปฏิทิน/ชั่วโมงเดินเครื่อง/เงื่อนไข เพื่อลดโอกาสเกิด Breakdown และทำให้เครื่องทำงานได้เสถียร</p>
+        <p>จะแสดงข้อมูลเกี่ยวกับการบำรุงรักษาเชิงป้องกัน (Preventive Maintenance) …</p>
         <ul>
           <li>PM Compliance %, Breakdown hrs, MTBF/MTTR</li>
           <li>แผน PM รายเครื่อง + สถานะล่าสุด</li>
@@ -247,14 +289,14 @@
     <!-- ============ GUIDE ============ -->
     <section data-view="guide">
       <div class="card">
-        <h2 style="margin:0 0 10px">คู่มือการใช้งาน</h2>
+        <h2 style="margin:0 0 10px">คู่มือการใช้งาน (User Guide)</h2>
         <ol>
-          <li>กด “แจ้งซ่อม” ใส่รายละเอียด แล้วกดส่ง</li>
-          <li>ดูรายการและนับงานใน “สถานะการแจ้งซ่อม”</li>
-          <li>ฝังรายงานจริงใน “Power BI” ด้วยลิงก์ Embed</li>
+          <li>กด “แจ้งซ่อม (Repair request)” ใส่รายละเอียด แล้วกดส่ง</li>
+          <li>ดูรายการและนับงานใน “สถานะการแจ้งซ่อม (Request status)”</li>
+          <li>ฝังรายงานจริงใน “Power BI Dashboard” ด้วยลิงก์ Embed</li>
           <li>ปรับชื่อแผนก/ชนิดงาน/ชื่อเครื่องได้จากรายการในฟอร์ม</li>
         </ol>
-        <p class="muted">*ไฟล์นี้เป็น Single‑File HTML — อัปโหลดขึ้น Google Drive/เว็บเซิร์ฟเวอร์แล้วเปิดใช้งานได้ทันที</p>
+        <p class="muted">*ไฟล์นี้เป็น Single-File HTML — อัปโหลดขึ้น Google Drive/เว็บเซิร์ฟเวอร์แล้วเปิดใช้งานได้ทันที</p>
       </div>
     </section>
   </main>
@@ -262,22 +304,30 @@
   <!-- Quick tabs for demo -->
   <div class="tabbar">
     <div class="inner">
-      <button class="chip" onclick="go('home')">Home</button>
-      <button class="chip" onclick="go('report')">แจ้งซ่อม</button>
-      <button class="chip" onclick="go('status')">สถานะ</button>
-      <button class="chip" onclick="go('powerbi')">Power BI</button>
-      <button class="chip" onclick="go('guide')">คู่มือ</button>
+      <button class="chip" onclick="go('home')">Home<br><small>หน้าแรก</small></button>
+      <button class="chip" onclick="go('report')">แจ้งซ่อม<br><small>Repair</small></button>
+      <button class="chip" onclick="go('status')">สถานะ<br><small>Status</small></button>
+      <button class="chip" onclick="go('powerbi')">Power BI<br><small>Dashboard</small></button>
+      <button class="chip" onclick="go('guide')">คู่มือ<br><small>Guide</small></button>
     </div>
   </div>
 
   <script>
     /* ===== Config ===== */
     const APP_NAME   = 'DATA';
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbypCAC7GHGiZ9sN-3krJ4Eeq_0-0AdnnmwTGnRSKL_PIrfX70FagGunBQd5xDW5cevZ4A/exec'; // <<-- ใส่ URL ของ Apps Script Web App ที่ลงท้ายด้วย /exec
-    const API_TOKEN   = '65109010093';            // <<-- ให้ตรงกับ TOKEN ใน Apps Script
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbypCAC7GHGiZ9sN-3krJ4Eeq_0-0AdnnmwTGnRSKL_PIrfX70FagGunBQd5xDW5cevZ4A/exec';
+    const API_TOKEN   = '65109010093';
 
     /* ===== Router ===== */
-    const titleMap = { home:"Maintenance", report:"การแจ้งซ่อม", success:"การแจ้งซ่อม", status:"สถานะการแจ้งซ่อม", powerbi:"Power BI", pm:"Preventive Maintenance", guide:"คู่มือการใช้งาน" };
+    const titleMap = {
+      home:"Maintenance",
+      report:"การแจ้งซ่อม",
+      success:"การแจ้งซ่อม",
+      status:"สถานะการแจ้งซ่อม",
+      powerbi:"Power BI",
+      pm:"Preventive Maintenance",
+      guide:"คู่มือการใช้งาน"
+    };
     function show(view){
       document.querySelectorAll('[data-view]').forEach(el=>el.classList.remove('active'));
       const el = document.querySelector(`[data-view="${view}"]`);
@@ -292,7 +342,7 @@
     window.addEventListener('load',()=>{ const initial = location.hash?.slice(1) || 'home'; show(initial); });
 
     /* ===== Local fallback (demo) ===== */
-    const DEMO = !/^https?:\/\//i.test(WEB_APP_URL); // ถ้ายังไม่ตั้งค่า URL ให้ทำงานแบบ localStorage
+    const DEMO = !/^https?:\/\//i.test(WEB_APP_URL);
     const KEY='tickets.v1';
     const getTickets=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
     const setTickets=(v)=>localStorage.setItem(KEY,JSON.stringify(v));
@@ -328,8 +378,18 @@
 
       try{
         if(DEMO){
-          // เก็บในเครื่องชั่วคราว
-          const ticket = { id: Date.now().toString(36), date: data.reqDate, time: data.reqTime, assigned: data.assigned, dept: data.dept, machine: data.machine, desc: data.desc, techType: data.techType, supervisor: data.supervisor, status: 'Scheduled' };
+          const ticket = {
+            id: Date.now().toString(36),
+            date: data.reqDate,
+            time: data.reqTime,
+            assigned: data.assigned,
+            dept: data.dept,
+            machine: data.machine,
+            desc: data.desc,
+            techType: data.techType,
+            supervisor: data.supervisor,
+            status: 'Scheduled'
+          };
           const all = getTickets(); all.unshift(ticket); setTickets(all);
           e.target.reset(); go('success');
         }else{
@@ -349,10 +409,21 @@
       if(DEMO){
         rows = getTickets();
       }else{
-        try{ const r = await apiListTickets(500); rows = (r.rows||[]).map(x=>({
-          id: x['ID'], date: x['Request Date'], dept: x['Machine Department'], machine: x['Machine Name'], desc: x['Problem Description'], status: x['Status']||'Scheduled'
-        })); }
-        catch(e){ tbody.innerHTML = '<tr><td colspan="5">Load failed</td></tr>'; return; }
+        try{
+          const r = await apiListTickets(500);
+          rows = (r.rows||[]).map(x=>({
+            id: x['ID'],
+            date: x['Request Date'],
+            dept: x['Machine Department'],
+            machine: x['Machine Name'],
+            desc: x['Problem Description'],
+            status: x['Status']||'Scheduled'
+          }));
+        }
+        catch(e){
+          tbody.innerHTML = '<tr><td colspan="5">Load failed</td></tr>';
+          return;
+        }
       }
 
       let s=0,c=0,o=0; tbody.innerHTML='';
@@ -385,16 +456,15 @@
         const t = all.find(x=>x.id===id);
         if(t){ t.status = next; setTickets(all); renderTable(); }
       }else{
-        try{ const r = await apiUpdateStatus(id, next); if(r.ok) renderTable(); else alert('อัปเดตไม่สำเร็จ'); }
-        catch(err){ alert('เครือข่ายผิดพลาด: ' + err.message); }
+        try{
+          const r = await apiUpdateStatus(id, next);
+          if(r.ok) renderTable(); else alert('อัปเดตไม่สำเร็จ');
+        }
+        catch(err){
+          alert('เครือข่ายผิดพลาด: ' + err.message);
+        }
       }
     });
   </script>
 </body>
 </html>
-
-
-
-
-
-
