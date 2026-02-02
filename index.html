@@ -4,12 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Maintenance Portal</title>
-  <meta name="application-name" content="Maintenance Portal">
-  <meta name="apple-mobile-web-app-title" content="Maintenance Portal">
 
   <style>
     :root{
-      --brand:#9e2f1c; /* โทนแดงอิฐ */
+      --brand:#9e2f1c;
       --bg:#fff9f7;
       --text:#1e1e1e;
       --muted:#6b6b6b;
@@ -17,7 +15,6 @@
       --radius:18px;
       --shadow:0 6px 18px rgba(0,0,0,.12);
     }
-
     * , *::before, *::after{ box-sizing:border-box; }
     html,body{height:100%;}
     body{
@@ -41,33 +38,21 @@
 
     .container{max-width:420px; margin:0 auto; padding:18px 16px 72px}
     @media (min-width: 640px){ .container{ max-width: 720px; } }
-    @media (min-width: 1024px){ .container{ max-width: 980px; padding-bottom:32px; } }
+    @media (min-width: 1024px){ .container{ max-width: 1100px; padding-bottom:32px; } }
 
     /* ====== Home ====== */
     .hero{ width:100%; text-align:center; margin:16px 0 24px; }
-    .hero span{
-      font-size:36px; font-weight:700; color:var(--brand);
-      letter-spacing:0.5px;
-    }
-    .big-img{width:100%; max-width:500px; margin:18px auto 10px; display:block; opacity:.9}
-    .menu{display:flex; flex-direction:column; gap:22px; margin-top:10px}
-
+    .hero span{ font-size:42px; font-weight:800; color:var(--brand); letter-spacing:.5px; }
+    .menu{display:flex; flex-direction:column; gap:18px; margin-top:10px; max-width:820px; margin-left:auto; margin-right:auto;}
     .btn{
-      display:block; width:100%; text-align:center; text-decoration:none; cursor:pointer;
+      display:block; width:100%; text-align:center; cursor:pointer;
       background:var(--brand); color:#fff; border:0; border-radius:999px;
-      padding:12px 18px; font-weight:700;
+      padding:14px 18px; font-weight:800;
       box-shadow:0 4px 0 #5f1c11, var(--shadow);
       transition:transform .05s ease;
     }
-    .btn small{
-      display:block;
-      font-weight:700;
-      font-size:14px;
-      opacity:.9;
-      margin-top:2px;
-    }
+    .btn small{ display:block; font-weight:700; font-size:15px; opacity:.95; margin-top:4px; }
     .btn:active{transform:translateY(1px)}
-    .link{color:var(--brand); font-weight:600; text-decoration:none}
 
     /* ====== Views ====== */
     [data-view]{display:none}
@@ -78,62 +63,102 @@
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       padding:20px;
-      margin:18px 0;
+      margin:18px auto;
     }
     .muted{color:var(--muted)}
 
-    /* ====== Form (base) ====== */
-    form{display:grid; gap:14px}
-    .field{display:grid; gap:8px; position:relative}
-    .field label{ font-weight:700; font-size:20px; line-height:1.35; }
-    .field small{color:var(--muted)}
+    /* ====== Form ====== */
+    form{display:grid; gap:12px}
+    .field{display:grid; gap:6px; position:relative}
+    .field label{ font-weight:800; font-size:18px; line-height:1.25; }
+    .field small{color:var(--muted); font-size:13px}
     .field input,.field select,.field textarea{
       width:100%;
       border-radius:12px;
       border:1px solid #ddd;
-      padding:12px 12px;
-      font-size:16px;
+      padding:10px 12px;
+      font-size:15px;
       background:#fff;
       outline-color:var(--brand);
     }
-    .field textarea{min-height:96px; resize:vertical}
+    .field textarea{min-height:90px; resize:vertical}
 
-    .field[data-step]{ padding-left: 60px; }
+    /* numbered bullets */
+    .field[data-step]{ padding-left:52px; }
     .field[data-step]::before{
       content: attr(data-step);
       position:absolute;
-      left:20px;
+      left:16px;
       top:50%;
       transform:translateY(-50%);
-      width:30px;
-      height:30px;
+      width:28px;
+      height:28px;
       display:grid;
       place-items:center;
       background:var(--brand);
       color:#fff;
       border-radius:50%;
-      font-weight:800;
-      font-size:14px;
+      font-weight:900;
+      font-size:13px;
       box-shadow:var(--shadow);
     }
 
-    /* ====== Status ====== */
+    /* Report card sizing */
+    [data-view="report"] .card{
+      max-width: 860px;
+      padding:18px;
+    }
+    [data-view="report"] h2{ font-size:22px; margin:0 0 10px; }
+
+    /* Step header */
+    .stepbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin:0 0 10px;
+      padding:10px 12px;
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+    .stepbar b{font-size:15px}
+    .stepbar span{color:var(--muted); font-size:13px}
+
+    .rowActions{
+      display:flex;
+      gap:10px;
+      margin-top:6px;
+    }
+    .btnSecondary{
+      width:100%;
+      border-radius:999px;
+      padding:12px 18px;
+      font-weight:800;
+      border:1px solid #e6e6e6;
+      background:#fff;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+    }
+
+    /* Status/Table */
     .kpi{
-      display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;
-      margin:6px 0 10px;
+      display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;
+      margin:8px 0 12px;
+      max-width:1100px; margin-left:auto; margin-right:auto;
     }
     .kpi .box{
       background:#fff; border-radius:14px; box-shadow:var(--shadow);
-      padding:12px; text-align:center
+      padding:14px; text-align:center
     }
-    .kpi .box b{display:block; font-size:12px; color:var(--muted)}
-    .kpi .box span{font-size:22px; font-weight:800; color:var(--brand)}
-
-    table{width:100%; border-collapse:collapse; font-size:14px}
-    th,td{padding:10px 8px; border-bottom:1px solid #eee; vertical-align:top}
+    .kpi .box b{display:block; font-size:13px; color:var(--muted)}
+    .kpi .box span{font-size:28px; font-weight:900; color:var(--brand)}
+    table{width:100%; border-collapse:collapse; font-size:15px}
+    th,td{padding:12px 10px; border-bottom:1px solid #eee; vertical-align:top}
     th{background:#fafafa; text-align:left; color:#444}
 
-    /* ====== Footer Nav (mobile) ====== */
+    /* Footer nav (mobile) */
     .tabbar{
       position:fixed; bottom:14px; left:0; right:0;
       display:flex; justify-content:center; pointer-events:none
@@ -144,148 +169,167 @@
     }
     .chip{
       border-radius:999px; padding:8px 12px; border:1px solid #eee;
-      background:#fff; font-weight:600; cursor:pointer; font-size:14px
+      background:#fff; font-weight:700; cursor:pointer; font-size:14px
     }
-    .chip small{ display:block; font-weight:400; font-size:11px; opacity:.85; }
+    .chip small{ display:block; font-weight:500; font-size:11px; opacity:.85; }
 
-    /* ====== Desktop-friendly overrides for report form ====== */
     @media (min-width: 1024px){
-      .tabbar{ display:none; } /* ไม่ให้บังบน PC */
-    }
-    [data-view="report"] .card{
-      max-width: 820px;
-      margin-left:auto;
-      margin-right:auto;
-      padding: 18px;
-    }
-    [data-view="report"] h2{ font-size:20px; line-height:1.25; }
-
-    [data-view="report"] form{ gap:12px; }
-    [data-view="report"] .field{ gap:6px; }
-    [data-view="report"] .field label{
-      font-size: clamp(16px, 1.2vw, 18px);
-      line-height:1.3;
-    }
-    [data-view="report"] .field input,
-    [data-view="report"] .field select,
-    [data-view="report"] .field textarea{
-      font-size:15px;
-      padding:10px 12px;
-    }
-    [data-view="report"] .field textarea{ min-height: 90px; }
-    [data-view="report"] .field small{ font-size:13px; }
-    [data-view="report"] .field[data-step]{ padding-left:52px; }
-    [data-view="report"] .field[data-step]::before{
-      left:16px; width:28px; height:28px; font-size:13px;
-    }
-
-    @media (max-width: 640px){
-      [data-view="report"] .field label{ font-size:18px; }
-      [data-view="report"] .field input,
-      [data-view="report"] .field select,
-      [data-view="report"] .field textarea{ font-size:16px; }
-      .btn small{ font-size:15px; }
+      .tabbar{ display:none; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Top bar -->
   <div class="topbar">
     <button class="back" aria-label="ย้อนกลับ" onclick="go('home')">⟵</button>
     <h1 id="title">Maintenance</h1>
   </div>
 
   <main class="container">
-    <!-- ============ HOME ============ -->
+
+    <!-- HOME -->
     <section data-view="home" class="active">
       <div class="hero"><span>Maintenance</span></div>
-      <img class="big-img" alt="illustration" src="" onerror="this.remove()" />
 
       <div class="menu">
-        <button class="btn" onclick="go('report')">
-          แจ้งซ่อม
-          <small>Repair request</small>
-        </button>
-        <button class="btn" onclick="go('status')">
-          สถานะการแจ้งซ่อม
-          <small>Request status</small>
-        </button>
-        <button class="btn" onclick="go('powerbi')">
-          Power BI
-          <small>Dashboard</small>
-        </button>
-        <button class="btn" onclick="go('guide')">
-          คู่มือการใช้งาน
-          <small>User guide</small>
-        </button>
+        <button class="btn" onclick="go('report')">แจ้งซ่อม<small>Repair request</small></button>
+        <button class="btn" onclick="go('status')">สถานะการแจ้งซ่อม<small>Request status</small></button>
+        <button class="btn" onclick="go('powerbi')">Power BI<small>Dashboard</small></button>
+        <button class="btn" onclick="go('guide')">คู่มือการใช้งาน<small>User guide</small></button>
       </div>
     </section>
 
-    <!-- ============ REPORT (FORM) ============ -->
+    <!-- REPORT -->
     <section data-view="report">
       <div class="card">
-        <h2 style="margin:0 0 8px">การแจ้งซ่อม (Repair Request)</h2>
+        <h2>การแจ้งซ่อม (Repair Request)</h2>
+
+        <div class="stepbar">
+          <div>
+            <b id="stepTitle">Step 1/2</b><br/>
+            <span id="stepHint">กรอกข้อมูลหลัก (1–8)</span>
+          </div>
+          <div>
+            <span class="muted" id="stepProgress">1–8 / 13</span>
+          </div>
+        </div>
 
         <form id="ticketForm">
-          <div class="field" data-step="1">
-            <label for="assigned">ชื่อผู้แจ้ง (Requestor Name)</label>
-            <input id="assigned" name="assigned" type="text" placeholder="เช่น สมชาย / e.g. Somchai" required />
+
+          <!-- STEP 1 -->
+          <div id="step1">
+            <!-- 1 RequestDate (auto readonly) -->
+            <div class="field" data-step="1">
+              <label for="RequestDate">RequestDate</label>
+              <input id="RequestDate" name="RequestDate" type="date" readonly />
+              <small>ระบบใส่ให้อัตโนมัติ</small>
+            </div>
+
+            <!-- 2 TimeREquest (auto readonly) -->
+            <div class="field" data-step="2">
+              <label for="TimeREquest">TimeREquest</label>
+              <input id="TimeREquest" name="TimeREquest" type="time" readonly />
+              <small>ระบบใส่ให้อัตโนมัติ</small>
+            </div>
+
+            <!-- 3 Machine Section -->
+            <div class="field" data-step="3">
+              <label for="MachineSection">Machine Section</label>
+              <select id="MachineSection" name="Machine Section" required>
+                <option value="" disabled selected>เลือก... / Select...</option>
+                <option>P3/1</option>
+                <option>P3/2</option>
+                <option>P3/3</option>
+                <option>P4/1</option>
+              </select>
+            </div>
+
+            <!-- 4 Machine -->
+            <div class="field" data-step="4">
+              <label for="Machine">Machine</label>
+              <input id="Machine" name="Machine" type="text" placeholder="เช่น เครื่องตัด... / e.g. Cutting machine" required />
+            </div>
+
+            <!-- 5 Repairdescription -->
+            <div class="field" data-step="5">
+              <label for="Repairdescription">Repairdescription</label>
+              <textarea id="Repairdescription" name="Repairdescription" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ (Describe problem / location / condition)" required></textarea>
+            </div>
+
+            <!-- 6 Pre order -->
+            <div class="field" data-step="6">
+              <label for="PreOrder">Pre order</label>
+              <input id="PreOrder" name="Pre order" type="text" placeholder="ถ้ามีให้กรอก (Optional)" />
+              <small>ถ้ายังไม่มีให้เว้นว่างได้</small>
+            </div>
+
+            <!-- 7 Assigned -->
+            <div class="field" data-step="7">
+              <label for="Assigned">Assigned</label>
+              <input id="Assigned" name="Assigned" type="text" placeholder="ชื่อช่าง/ผู้รับงาน (Optional)" />
+            </div>
+
+            <!-- 8 Department -->
+            <div class="field" data-step="8">
+              <label for="Department">Department</label>
+              <select id="Department" name="Department" required>
+                <option value="" disabled selected>เลือก... / Select...</option>
+                <option>Mechanical</option>
+                <option>Electrical</option>
+                <option>Mold</option>
+                <option>PM</option>
+              </select>
+            </div>
+
+            <div class="rowActions">
+              <button class="btn" type="button" onclick="nextStep()">ถัดไป <small>Next</small></button>
+            </div>
           </div>
 
-          <div class="field" data-step="2">
-            <label for="dept">Machine Section</label>
-            <select id="dept" name="dept" required>
-              <option value="" disabled selected>เลือก... / Select...</option>
-              <option>P3/1</option>
-              <option>P3/2</option>
-              <option>P3/3</option>
-              <option>P4/1</option>
-            </select>
+          <!-- STEP 2 -->
+          <div id="step2" style="display:none;">
+            <!-- 9 Supervisor -->
+            <div class="field" data-step="9">
+              <label for="Supervisor">Supervisor</label>
+              <input id="Supervisor" name="Supervisor" type="text" placeholder="ชื่อหัวหน้าหรือผู้ตรวจ (Optional)" />
+            </div>
+
+            <!-- 10 Work Order No. -->
+            <div class="field" data-step="10">
+              <label for="WorkOrderNo">Work Order No.</label>
+              <input id="WorkOrderNo" name="Work Order No." type="text" placeholder="เช่น WO-00123 (Optional)" />
+            </div>
+
+            <!-- 11 Time to repair -->
+            <div class="field" data-step="11">
+              <label for="TimeToRepair">Time to repair</label>
+              <input id="TimeToRepair" name="Time to repair" type="text" placeholder="เช่น 2 ชั่วโมง / 120 นาที (Optional)" />
+            </div>
+
+            <!-- 12 ScgeduldedDate -->
+            <div class="field" data-step="12">
+              <label for="ScgeduldedDate">ScgeduldedDate</label>
+              <input id="ScgeduldedDate" name="ScgeduldedDate" type="date" />
+              <small>ถ้ายังไม่กำหนด ให้เว้นว่างได้</small>
+            </div>
+
+            <!-- 13 Status -->
+            <div class="field" data-step="13">
+              <label for="Status">Status</label>
+              <select id="Status" name="Status" required>
+                <option>Scheduled</option>
+                <option>Completed</option>
+                <option>Overdue</option>
+              </select>
+              <small>ค่าเริ่มต้นเป็น Scheduled</small>
+            </div>
+
+            <div class="rowActions">
+              <button class="btnSecondary" type="button" onclick="prevStep()">ย้อนกลับ</button>
+              <button class="btn" type="submit">ส่งคำขอซ่อม <small>Submit request</small></button>
+            </div>
           </div>
 
-          <div class="field" data-step="3">
-            <label for="machine">Machine</label>
-            <input id="machine" name="machine" type="text" placeholder="เช่น เครื่องตัด... / e.g. Cutting machine" required />
-          </div>
-
-          <div class="field" data-step="4">
-            <label for="desc">Repairdescription</label>
-            <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ (Describe problem / location / condition)" required></textarea>
-          </div>
-
-          <div class="field" data-step="5">
-            <label for="preorder">Pre order</label>
-            <input id="preorder" name="preorder" type="text" placeholder="ถ้ามีให้กรอก (Optional)" />
-            <small>ถ้ายังไม่มีให้เว้นว่างได้</small>
-          </div>
-
-          <div class="field" data-step="6">
-            <label for="department">Department</label>
-            <select id="department" name="department" required>
-              <option value="" disabled selected>เลือก... / Select...</option>
-              <option>Mechanical</option>
-              <option>Electrical</option>
-              <option>Mold</option>
-              <option>PM</option>
-            </select>
-          </div>
-
-          <div class="field" data-step="7">
-            <label for="supervisor">Supervisor</label>
-            <input id="supervisor" name="supervisor" type="text" placeholder="ชื่อหัวหน้าหรือผู้ตรวจ (Optional)" />
-            <small>ระบุถ้าทราบ (ไม่บังคับ) / Optional field</small>
-          </div>
-
-          <div class="field" data-step="8">
-            <label for="assignedTo">Assigned</label>
-            <input id="assignedTo" name="assignedTo" type="text" placeholder="ชื่อช่าง/ผู้รับงาน (Optional)" />
-            <small>ถ้ายังไม่ระบุ ให้เว้นว่างได้</small>
-          </div>
-
-          <button class="btn" type="submit">
-            ส่งคำขอซ่อม <small>Submit request</small>
-          </button>
         </form>
 
         <p class="muted" style="margin-top:10px">
@@ -294,19 +338,19 @@
       </div>
     </section>
 
-    <!-- ============ SUBMIT SUCCESS ============ -->
+    <!-- SUCCESS -->
     <section data-view="success">
-      <div class="card" style="text-align:center">
+      <div class="card" style="text-align:center; max-width:820px;">
         <h2>การแจ้งซ่อมเสร็จสิ้น (Request Submitted)</h2>
         <p class="muted">ระบบได้บันทึกคำขอไว้แล้ว / Your request has been recorded.</p>
-        <div style="display:flex; gap:8px; justify-content:center; margin-top:12px">
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap;">
           <button class="chip" onclick="go('status')">ดูสถานะ<br><small>View status</small></button>
           <button class="chip" onclick="go('home')">กลับหน้าแรก<br><small>Back to home</small></button>
         </div>
       </div>
     </section>
 
-    <!-- ============ STATUS ============ -->
+    <!-- STATUS -->
     <section data-view="status">
       <div class="kpi">
         <div class="box"><b>Scheduled</b><span id="kScheduled">0</span></div>
@@ -314,16 +358,16 @@
         <div class="box"><b>Overdue</b><span id="kOverdue">0</span></div>
       </div>
 
-      <div class="card">
-        <h3 style="margin-top:0">รายการคำขอ (Request List)</h3>
+      <div class="card" style="max-width:1100px;">
+        <h2 style="margin:0 0 10px; font-size:20px;">รายการคำขอ (Request List)</h2>
         <table id="tbl">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Department</th>
-              <th>Machine</th>
+              <th style="width:160px;">RequestDate</th>
+              <th style="width:160px;">Machine Section</th>
+              <th style="width:220px;">Machine</th>
               <th>Description</th>
-              <th>Status</th>
+              <th style="width:140px;">Status</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -334,52 +378,35 @@
       </div>
     </section>
 
-    <!-- ============ POWER BI ============ -->
+    <!-- POWER BI -->
     <section data-view="powerbi">
-      <div class="card">
+      <div class="card" style="max-width:1100px;">
         <h2 style="margin:0 0 12px">Power BI Dashboard</h2>
-        <p class="muted">ใส่ลิงก์ Embed ของ Power BI แทน <code>IFRAME</code> ด้านล่างนี้ / Replace src with your Power BI embed link.</p>
+        <p class="muted">ใส่ลิงก์ Embed ของ Power BI แทน <code>src</code> ใน iframe</p>
         <div style="display:grid; gap:12px">
           <iframe title="Overview" style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa"
-            src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
-            allowfullscreen></iframe>
-
-          <iframe title="Maintenance Wise" style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa"
             src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
             allowfullscreen></iframe>
         </div>
       </div>
     </section>
 
-    <!-- ============ PM (Info) ============ -->
-    <section data-view="pm">
-      <div class="card">
-        <h2 style="margin:0 0 10px">Dashboard : Preventive Maintenance</h2>
-        <p>จะแสดงข้อมูลเกี่ยวกับการบำรุงรักษาเชิงป้องกัน (Preventive Maintenance) …</p>
-        <ul>
-          <li>PM Compliance %, Breakdown hrs, MTBF/MTTR</li>
-          <li>แผน PM รายเครื่อง + สถานะล่าสุด</li>
-          <li>Top Risks จาก FMEA เชื่อมกับโหมดเสีย</li>
-        </ul>
+    <!-- GUIDE -->
+    <section data-view="guide">
+      <div class="card" style="max-width:900px;">
+        <h2 style="margin:0 0 12px">คู่มือการใช้งาน (User Guide)</h2>
+        <ol style="font-size:16px; line-height:1.6;">
+          <li>กด “แจ้งซ่อม” แล้วกรอกข้อมูลให้ครบ 2 หน้า จากนั้นกดส่ง</li>
+          <li>ดูรายการและจำนวนงานใน “สถานะการแจ้งซ่อม”</li>
+          <li>ฝังรายงานจริงใน “Power BI Dashboard” ด้วยลิงก์ Embed</li>
+        </ol>
+        <p class="muted">*ไฟล์นี้เป็น Single-File HTML — อัปโหลดขึ้น GitHub Pages แล้วใช้งานได้ทันที</p>
       </div>
     </section>
 
-    <!-- ============ GUIDE ============ -->
-    <section data-view="guide">
-      <div class="card">
-        <h2 style="margin:0 0 10px">คู่มือการใช้งาน (User Guide)</h2>
-        <ol>
-          <li>กด “แจ้งซ่อม (Repair request)” ใส่รายละเอียด แล้วกดส่ง</li>
-          <li>ดูรายการและนับงานใน “สถานะการแจ้งซ่อม (Request status)”</li>
-          <li>ฝังรายงานจริงใน “Power BI Dashboard” ด้วยลิงก์ Embed</li>
-          <li>ปรับชื่อแผนก/ชนิดงาน/ชื่อเครื่องได้จากรายการในฟอร์ม</li>
-        </ol>
-        <p class="muted">*ไฟล์นี้เป็น Single-File HTML — อัปโหลดขึ้น Google Drive/เว็บเซิร์ฟเวอร์แล้วเปิดใช้งานได้ทันที</p>
-      </div>
-    </section>
   </main>
 
-  <!-- Quick tabs for demo (mobile only on desktop hidden by CSS) -->
+  <!-- Mobile nav -->
   <div class="tabbar">
     <div class="inner">
       <button class="chip" onclick="go('home')">Home<br><small>หน้าแรก</small></button>
@@ -396,14 +423,12 @@
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbypCAC7GHGiZ9sN-3krJ4Eeq_0-0AdnnmwTGnRSKL_PIrfX70FagGunBQd5xDW5cevZ4A/exec';
     const API_TOKEN   = '65109010093';
 
-    /* ===== Router ===== */
     const titleMap = {
       home:"Maintenance",
       report:"การแจ้งซ่อม",
       success:"การแจ้งซ่อม",
       status:"สถานะการแจ้งซ่อม",
       powerbi:"Power BI",
-      pm:"Preventive Maintenance",
       guide:"คู่มือการใช้งาน"
     };
 
@@ -418,28 +443,65 @@
       window.scrollTo({top:0, behavior:'smooth'});
 
       if(view === 'status') renderTable();
+      if(view === 'report') syncAutoDateTime();
     }
     function go(view){ show(view); }
-
     window.addEventListener('load', () => {
       const initial = (location.hash || '#home').slice(1);
       show(initial);
     });
 
+    /* ===== Stepper (2 pages) ===== */
+    function setStep(step){
+      const step1 = document.getElementById('step1');
+      const step2 = document.getElementById('step2');
+      const title = document.getElementById('stepTitle');
+      const hint  = document.getElementById('stepHint');
+      const prog  = document.getElementById('stepProgress');
+
+      if(step === 1){
+        step1.style.display = '';
+        step2.style.display = 'none';
+        title.textContent = 'Step 1/2';
+        hint.textContent = 'กรอกข้อมูลหลัก (1–8)';
+        prog.textContent = '1–8 / 13';
+      }else{
+        step1.style.display = 'none';
+        step2.style.display = '';
+        title.textContent = 'Step 2/2';
+        hint.textContent = 'ข้อมูลเพิ่มเติม (9–13)';
+        prog.textContent = '9–13 / 13';
+      }
+    }
+
+    function nextStep(){
+      // เช็ค required ของ step1 ก่อน
+      const requiredIds = ['MachineSection','Machine','Repairdescription','Department'];
+      for(const id of requiredIds){
+        const el = document.getElementById(id);
+        if(!el) continue;
+        if(String(el.value||'').trim()===''){
+          el.focus();
+          alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบก่อน');
+          return;
+        }
+      }
+      setStep(2);
+    }
+    function prevStep(){ setStep(1); }
+
     /* ===== Local fallback (demo) ===== */
     const DEMO = !/^https?:\/\//i.test(WEB_APP_URL);
-    const KEY='tickets.v2';
+    const KEY='tickets.v3';
     const getTickets=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
     const setTickets=(v)=>localStorage.setItem(KEY,JSON.stringify(v));
 
-    /* ===== API helpers ===== */
     async function fetchJSON(url, options){
       const res = await fetch(url, options);
       const text = await res.text();
       try{ return JSON.parse(text); }
       catch(e){ throw new Error(`Bad response (${res.status}): ${text.slice(0,200)}`); }
     }
-
     async function apiCreateTicket(payload){
       const body = new URLSearchParams({ action:'create', token: API_TOKEN, ...payload }).toString();
       return fetchJSON(WEB_APP_URL, {
@@ -448,11 +510,9 @@
         body
       });
     }
-
     async function apiListTickets(limit=500){
       return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}`);
     }
-
     async function apiUpdateStatus(id, status){
       const body = new URLSearchParams({ action:'updateStatus', id, status, token: API_TOKEN }).toString();
       return fetchJSON(WEB_APP_URL, {
@@ -462,51 +522,53 @@
       });
     }
 
+    /* ===== Auto RequestDate + TimeREquest ===== */
+    function syncAutoDateTime(){
+      const now = new Date();
+      const d = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
+      const t = now.toTimeString().slice(0,5);   // HH:MM
+      const dateEl = document.getElementById('RequestDate');
+      const timeEl = document.getElementById('TimeREquest');
+      if(dateEl) dateEl.value = d;
+      if(timeEl) timeEl.value = t;
+      setStep(1);
+    }
+
     /* ===== Submit form ===== */
     document.getElementById('ticketForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
+
+      // ensure auto datetime updated
+      syncAutoDateTime();
+
       const data = Object.fromEntries(new FormData(e.target).entries());
 
-      // สร้าง RequestDate + TimeREquest อัตโนมัติ
-      const now = new Date();
-      const RequestDate = now.toLocaleDateString('en-CA');  // YYYY-MM-DD
-      const TimeREquest = now.toTimeString().slice(0,5);    // HH:MM
-
-      // ✅ payload ตามคอลัมน์ 1–13 (ตามที่คุณกำหนด)
-      claimRequired(data.dept, 'Machine Section');
-      claimRequired(data.machine, 'Machine');
-      claimRequired(data.desc, 'Repairdescription');
-      claimRequired(data.assigned, 'Requestor Name');
-      claimRequired(data.department, 'Department');
-
+      // payload 13 fields (exact keys)
       const payload = {
-        RequestDate,
-        TimeREquest,
-        "Machine Section": data.dept || '',
-        Machine: data.machine || '',
-        Repairdescription: data.desc || '',
-        "Pre order": data.preorder || '',
-        Assigned: data.assignedTo || '',
-        Department: data.department || '',
-        Supervisor: data.supervisor || '',
-        "Work Order No.": '',
-        "Time to repair": '',
-        ScgeduldedDate: '',
-        Status: 'Scheduled',
-
-        // เก็บเพิ่มไว้ (ถ้า Apps Script อยากใช้บันทึกผู้แจ้ง)
-        Recorder: data.assigned || ''
+        "RequestDate": data["RequestDate"] || '',
+        "TimeREquest": data["TimeREquest"] || '',
+        "Machine Section": data["Machine Section"] || '',
+        "Machine": data["Machine"] || '',
+        "Repairdescription": data["Repairdescription"] || '',
+        "Pre order": data["Pre order"] || '',
+        "Assigned": data["Assigned"] || '',
+        "Department": data["Department"] || '',
+        "Supervisor": data["Supervisor"] || '',
+        "Work Order No.": data["Work Order No."] || '',
+        "Time to repair": data["Time to repair"] || '',
+        "ScgeduldedDate": data["ScgeduldedDate"] || '',
+        "Status": data["Status"] || 'Scheduled'
       };
 
       try{
         if(DEMO){
           const ticket = {
             id: Date.now().toString(36),
-            date: RequestDate,
-            dept: data.dept,
-            machine: data.machine,
-            desc: data.desc,
-            status: 'Scheduled'
+            date: payload.RequestDate,
+            dept: payload["Machine Section"],
+            machine: payload.Machine,
+            desc: payload.Repairdescription,
+            status: payload.Status
           };
           const all = getTickets();
           all.unshift(ticket);
@@ -526,13 +588,6 @@
         alert('เครือข่ายผิดพลาด: ' + err.message);
       }
     });
-
-    function claimRequired(v, label){
-      if(v === undefined || v === null || String(v).trim() === ''){
-        // ไม่ใช้ throw เพื่อให้ UX ไม่ crash ถ้าบางเบราว์เซอร์แปลก
-        // form required fields จะกันอยู่แล้ว แต่กันเผื่อ
-      }
-    }
 
     /* ===== Render table ===== */
     async function renderTable(){
