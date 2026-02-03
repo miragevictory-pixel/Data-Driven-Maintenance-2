@@ -42,34 +42,28 @@
       font-size:20px;
       margin:0;
       font-weight:800;
-      letter-spacing:.3px;
+      letter-spacing:.3px
     }
 
-    /* ✅ Back button: layer + effect */
+    /* Back button with effect */
     .back{
       appearance:none;
       border:0;
       cursor:pointer;
-
       width:40px;
       height:40px;
       border-radius:999px;
-
       display:grid;
       place-items:center;
-
       color:#fff;
       background: rgba(255,255,255,.14);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.18),
         0 6px 14px rgba(0,0,0,.18);
-
       font-size:20px;
       line-height:1;
-
       transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
     }
-
     .back:hover{
       background: rgba(255,255,255,.22);
       box-shadow:
@@ -77,7 +71,6 @@
         0 10px 20px rgba(0,0,0,.22);
       transform: translateY(-1px);
     }
-
     .back:active{
       transform: translateY(1px) scale(.98);
       background: rgba(0,0,0,.12);
@@ -85,16 +78,15 @@
         inset 0 2px 8px rgba(0,0,0,.25),
         0 4px 10px rgba(0,0,0,.15);
     }
-
     .back:focus-visible{
-      outline:none;
+      outline: none;
       box-shadow:
         0 0 0 3px rgba(255,255,255,.30),
         0 0 0 6px rgba(0,0,0,.12),
         inset 0 0 0 1px rgba(255,255,255,.22);
     }
 
-    /* ✅ ทำให้ทุกหน้าบน Desktop “ไม่เล็ก” */
+    /* Container for desktop */
     .container{
       max-width: 520px;
       margin:0 auto;
@@ -110,7 +102,7 @@
       }
     }
 
-    /* ====== Views ====== */
+    /* Views */
     [data-view]{display:none}
     [data-view].active{display:block}
 
@@ -123,20 +115,13 @@
     }
     .muted{color:var(--muted)}
 
-    /* ====== Home ====== */
+    /* Home */
     .hero{ width:100%; text-align:center; margin: 18px 0 18px; }
     .hero span{
       font-size: 40px;
       font-weight: 900;
       color:var(--brand);
       letter-spacing:0.6px;
-    }
-    .big-img{
-      width:100%;
-      max-width:640px;
-      margin: 14px auto 10px;
-      display:block;
-      opacity:.9
     }
     .menu{
       display:flex;
@@ -147,6 +132,7 @@
       margin-left:auto;
       margin-right:auto;
     }
+
     .btn{
       display:block;
       width:100%;
@@ -177,7 +163,100 @@
       .btn small{ font-size: 16px; }
     }
 
-    /* ====== Status ====== */
+    /* Form */
+    form{display:grid; gap:14px}
+    .field{display:grid; gap:8px; position:relative}
+    .field label{ font-weight:800; font-size:20px; line-height:1.35; }
+    .field small{color:var(--muted)}
+    .field input,.field select,.field textarea{
+      width:100%;
+      border-radius:12px;
+      border:1px solid #ddd;
+      padding:12px 12px;
+      font-size:16px;
+      background:#fff;
+      outline-color:var(--brand);
+    }
+    .field textarea{min-height:96px; resize:vertical}
+
+    .field[data-step]{ padding-left: 60px; }
+    .field[data-step]::before{
+      content: attr(data-step);
+      position:absolute;
+      left:20px;
+      top:50%;
+      transform:translateY(-50%);
+      width:30px;
+      height:30px;
+      display:grid;
+      place-items:center;
+      background:var(--brand);
+      color:#fff;
+      border-radius:50%;
+      font-weight:900;
+      font-size:14px;
+      box-shadow:var(--shadow);
+    }
+
+    /* Step panels */
+    .step{ display:none; }
+    .step.active{ display:block; }
+
+    .stepbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:14px 14px;
+      border:1px solid #eee;
+      border-radius:14px;
+      background:#fff;
+      margin: 10px 0 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.06);
+    }
+    .stepbar b{ font-size:14px; }
+    .progress{
+      flex:1;
+      height:10px;
+      background:#f1f1f1;
+      border-radius:999px;
+      overflow:hidden;
+    }
+    .progress > div{
+      height:100%;
+      width:50%;
+      background:var(--brand);
+      border-radius:999px;
+      transition: width .2s ease;
+    }
+    .step-count{
+      font-size:13px;
+      color:var(--muted);
+      min-width:84px;
+      text-align:right;
+    }
+
+    .row-actions{
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .chip{
+      border-radius:999px;
+      padding:10px 14px;
+      border:1px solid #eee;
+      background:#fff;
+      font-weight:800;
+      cursor:pointer;
+      font-size:14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.06);
+      transition: transform .08s ease;
+    }
+    .chip:active{ transform: translateY(1px); }
+
+    /* Status */
     .kpi{
       display:grid;
       grid-template-columns:1fr 1fr 1fr;
@@ -226,7 +305,7 @@
     }
     [data-view="status"] .card{ overflow:auto; }
 
-    /* ====== Footer Nav (mobile) ====== */
+    /* Mobile tabbar */
     .tabbar{
       position:fixed;
       bottom:14px; left:0; right:0;
@@ -243,25 +322,11 @@
       gap:8px;
       padding:8px
     }
-    .chip{
-      border-radius:999px;
-      padding:8px 12px;
-      border:1px solid #eee;
-      background:#fff;
-      font-weight:700;
-      cursor:pointer;
-      font-size:14px
-    }
-    .chip small{
-      display:block;
-      font-weight:500;
-      font-size:11px;
-      opacity:.85;
-    }
+    .tabbar .inner .chip{ padding:8px 12px; font-size:13px; box-shadow:none; }
+    .tabbar .inner .chip small{ display:block; font-weight:500; font-size:11px; opacity:.85; }
 
     @media (min-width: 1024px){
       .tabbar{ display:none; }
-
       [data-view="status"] .card,
       [data-view="guide"] .card,
       [data-view="powerbi"] .card{
@@ -270,13 +335,23 @@
         margin-right:auto;
         padding: 26px;
       }
-
       [data-view="guide"] .card{
         font-size:18px;
         line-height:1.7;
       }
       [data-view="guide"] h2{ font-size:24px; margin-bottom:14px; }
       [data-view="guide"] li{ margin: 10px 0; }
+      [data-view="powerbi"] h2{ font-size:24px; }
+      [data-view="powerbi"] .muted{ font-size:16px; }
+      [data-view="powerbi"] iframe{ border-radius:14px; }
+    }
+
+    /* Report card width */
+    [data-view="report"] .card{
+      max-width: 980px;
+      margin-left:auto;
+      margin-right:auto;
+      padding: 22px;
     }
   </style>
 </head>
@@ -299,6 +374,158 @@
       </div>
     </section>
 
+    <!-- REPORT -->
+    <section data-view="report">
+      <div class="card">
+        <h2 style="margin:0 0 8px">การแจ้งซ่อม (Repair Request)</h2>
+
+        <!-- Step bar -->
+        <div class="stepbar">
+          <b id="stepTitle">Step 1/2</b>
+          <div class="progress"><div id="progressFill"></div></div>
+          <div class="step-count" id="stepCount">1–8 / 13</div>
+        </div>
+
+        <form id="ticketForm">
+          <!-- STEP 1 : 1-8 -->
+          <div class="step active" data-step-panel="1">
+            <!-- 1 RequestDate (auto, show only) -->
+            <div class="field" data-step="1">
+              <label for="RequestDateShow">RequestDate</label>
+              <input id="RequestDateShow" type="text" disabled />
+              <small>ระบบจะสร้างให้อัตโนมัติ</small>
+            </div>
+
+            <!-- 2 TimeREquest (auto, show only) -->
+            <div class="field" data-step="2">
+              <label for="TimeREquestShow">TimeREquest</label>
+              <input id="TimeREquestShow" type="text" disabled />
+              <small>ระบบจะสร้างให้อัตโนมัติ</small>
+            </div>
+
+            <!-- 3 Machine Section -->
+            <div class="field" data-step="3">
+              <label for="dept">Machine Section</label>
+              <select id="dept" name="dept" required>
+                <option value="" disabled selected>เลือก... / Select...</option>
+                <option>P3/1</option>
+                <option>P3/2</option>
+                <option>P3/3</option>
+                <option>P4/1</option>
+              </select>
+            </div>
+
+            <!-- 4 Machine -->
+            <div class="field" data-step="4">
+              <label for="machine">Machine</label>
+              <input id="machine" name="machine" type="text" placeholder="เช่น เครื่องตัด... / e.g. Cutting machine" required />
+            </div>
+
+            <!-- 5 Repairdescription -->
+            <div class="field" data-step="5">
+              <label for="desc">Repairdescription</label>
+              <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ (Describe problem / location / condition)" required></textarea>
+            </div>
+
+            <!-- 6 Pre order -->
+            <div class="field" data-step="6">
+              <label for="preorder">Pre order</label>
+              <input id="preorder" name="preorder" type="text" placeholder="ถ้ามีให้กรอก (Optional)" />
+            </div>
+
+            <!-- 7 Assigned -->
+            <div class="field" data-step="7">
+              <label for="assignedTo">Assigned</label>
+              <input id="assignedTo" name="assignedTo" type="text" placeholder="ชื่อช่าง/ผู้รับงาน (Optional)" />
+            </div>
+
+            <!-- 8 Department -->
+            <div class="field" data-step="8">
+              <label for="department">Department</label>
+              <select id="department" name="department" required>
+                <option value="" disabled selected>เลือก... / Select...</option>
+                <option>Mechanical</option>
+                <option>Electrical</option>
+                <option>Mold</option>
+                <option>PM</option>
+              </select>
+            </div>
+
+            <div class="row-actions">
+              <span></span>
+              <button type="button" class="btn" onclick="nextStep()">ถัดไป <small>Next</small></button>
+            </div>
+          </div>
+
+          <!-- STEP 2 : 9-13 -->
+          <div class="step" data-step-panel="2">
+            <!-- 9 Supervisor -->
+            <div class="field" data-step="9">
+              <label for="supervisor">Supervisor</label>
+              <input id="supervisor" name="supervisor" type="text" placeholder="ชื่อหัวหน้าหรือผู้ตรวจ (Optional)" />
+            </div>
+
+            <!-- 10 Work Order No. -->
+            <div class="field" data-step="10">
+              <label for="workOrderNo">Work Order No.</label>
+              <input id="workOrderNo" name="workOrderNo" type="text" placeholder="เช่น WO-0001 (Optional)" />
+            </div>
+
+            <!-- 11 Time to repair -->
+            <div class="field" data-step="11">
+              <label for="timeToRepair">Time to repair</label>
+              <input id="timeToRepair" name="timeToRepair" type="text" placeholder="เช่น 2.5 hrs / 150 min (Optional)" />
+            </div>
+
+            <!-- 12 ScgeduldedDate -->
+            <div class="field" data-step="12">
+              <label for="scheduledDate">ScgeduldedDate</label>
+              <input id="scheduledDate" name="scheduledDate" type="date" />
+              <small>ถ้ายังไม่กำหนดให้เว้นว่างได้</small>
+            </div>
+
+            <!-- 13 Status -->
+            <div class="field" data-step="13">
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <option value="Scheduled" selected>Scheduled</option>
+                <option value="Completed">Completed</option>
+                <option value="Overdue">Overdue</option>
+              </select>
+              <small>ค่าเริ่มต้น Scheduled</small>
+            </div>
+
+            <!-- Requestor name hidden (สำหรับ Recorder) -->
+            <div class="field" style="display:none">
+              <label for="requestorName">Requestor Name</label>
+              <input id="requestorName" name="requestorName" type="text" />
+            </div>
+
+            <div class="row-actions">
+              <button type="button" class="chip" onclick="prevStep()">⟵ ย้อนกลับ</button>
+              <button class="btn" type="submit">ส่งคำขอซ่อม <small>Submit request</small></button>
+            </div>
+          </div>
+        </form>
+
+        <p class="muted" style="margin-top:12px">
+          *หมายเหตุ:* ระบบจะสร้าง <code>RequestDate</code> และ <code>TimeREquest</code> ให้อัตโนมัติจากเวลาปัจจุบัน
+        </p>
+      </div>
+    </section>
+
+    <!-- SUCCESS -->
+    <section data-view="success">
+      <div class="card" style="text-align:center">
+        <h2>การแจ้งซ่อมเสร็จสิ้น (Request Submitted)</h2>
+        <p class="muted">ระบบได้บันทึกคำขอไว้แล้ว / Your request has been recorded.</p>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap">
+          <button class="chip" onclick="go('status')">ดูสถานะ<br><small>View status</small></button>
+          <button class="chip" onclick="go('home')">กลับหน้าแรก<br><small>Back to home</small></button>
+        </div>
+      </div>
+    </section>
+
     <!-- STATUS -->
     <section data-view="status">
       <div class="kpi">
@@ -312,8 +539,8 @@
         <table id="tbl">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Department</th>
+              <th>RequestDate</th>
+              <th>Machine Section</th>
               <th>Machine</th>
               <th>Description</th>
               <th>Status</th>
@@ -321,6 +548,9 @@
           </thead>
           <tbody></tbody>
         </table>
+        <p class="muted" style="margin:12px 0 0">
+          *กดสถานะในตารางเพื่อสลับ Scheduled → Completed → Overdue / Click status to toggle
+        </p>
       </div>
     </section>
 
@@ -328,11 +558,19 @@
     <section data-view="powerbi">
       <div class="card">
         <h2 style="margin:0 0 12px">Power BI Dashboard</h2>
-        <p class="muted">ใส่ลิงก์ Embed ของ Power BI แทน <code>IFRAME</code></p>
-        <iframe title="Overview"
-          style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa; border-radius:14px"
-          src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
-          allowfullscreen></iframe>
+        <p class="muted">ใส่ลิงก์ Embed ของ Power BI แทน <code>IFRAME</code> ด้านล่างนี้ / Replace src with your Power BI embed link.</p>
+
+        <div style="display:grid; gap:14px">
+          <iframe title="Overview"
+            style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa"
+            src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
+            allowfullscreen></iframe>
+
+          <iframe title="Maintenance Wise"
+            style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa"
+            src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
+            allowfullscreen></iframe>
+        </div>
       </div>
     </section>
 
@@ -341,17 +579,21 @@
       <div class="card">
         <h2 style="margin:0 0 10px">คู่มือการใช้งาน (User Guide)</h2>
         <ol>
-          <li>กด “แจ้งซ่อม” ใส่รายละเอียด แล้วกดส่ง</li>
-          <li>ดูรายการและนับงานใน “สถานะการแจ้งซ่อม”</li>
+          <li>กด “แจ้งซ่อม (Repair request)” กรอก Step 1 แล้วกด “ถัดไป” เพื่อไป Step 2</li>
+          <li>ใน Step 2 ตรวจสอบข้อมูล แล้วกด “ส่งคำขอซ่อม”</li>
+          <li>ดูรายการและนับงานใน “สถานะการแจ้งซ่อม (Request status)”</li>
           <li>ฝังรายงานจริงใน “Power BI Dashboard” ด้วยลิงก์ Embed</li>
         </ol>
+        <p class="muted">*ไฟล์นี้เป็น Single-File HTML — อัปโหลดขึ้น GitHub Pages/เว็บเซิร์ฟเวอร์แล้วเปิดใช้งานได้ทันที</p>
       </div>
     </section>
   </main>
 
+  <!-- Mobile tabbar -->
   <div class="tabbar">
     <div class="inner">
       <button class="chip" onclick="go('home')">Home<br><small>หน้าแรก</small></button>
+      <button class="chip" onclick="go('report')">แจ้งซ่อม<br><small>Repair</small></button>
       <button class="chip" onclick="go('status')">สถานะ<br><small>Status</small></button>
       <button class="chip" onclick="go('powerbi')">Power BI<br><small>Dashboard</small></button>
       <button class="chip" onclick="go('guide')">คู่มือ<br><small>Guide</small></button>
@@ -359,10 +601,16 @@
   </div>
 
   <script>
-    const APP_NAME = 'DATA';
+    /* ===== Config ===== */
+    const APP_NAME    = 'DATA';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbypCAC7GHGiZ9sN-3krJ4Eeq_0-0AdnnmwTGnRSKL_PIrfX70FagGunBQd5xDW5cevZ4A/exec';
+    const API_TOKEN   = '65109010093';
 
+    /* ===== Router ===== */
     const titleMap = {
       home:"Maintenance",
+      report:"การแจ้งซ่อม",
+      success:"การแจ้งซ่อม",
       status:"สถานะการแจ้งซ่อม",
       powerbi:"Power BI",
       guide:"คู่มือการใช้งาน"
@@ -377,12 +625,262 @@
       document.title = `${titleMap[view] || 'Maintenance'} · ${APP_NAME}`;
       history.replaceState(null, '', `#${view}`);
       window.scrollTo({top:0, behavior:'smooth'});
+
+      if(view === 'status') renderTable();
+
+      // เข้า report ให้ reset step และอัปเดตเวลา
+      if(view === 'report'){
+        resetStep();
+        setAutoDateTime();
+      }
     }
     function go(view){ show(view); }
 
     window.addEventListener('load', () => {
       const initial = (location.hash || '#home').slice(1);
       show(initial);
+      setAutoDateTime();
+    });
+
+    /* ===== Step logic ===== */
+    let currentStep = 1;
+
+    function setAutoDateTime(){
+      const now = new Date();
+      const RequestDate = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
+      const TimeREquest = now.toTimeString().slice(0,5);   // HH:MM
+      const d = document.getElementById('RequestDateShow');
+      const t = document.getElementById('TimeREquestShow');
+      if(d) d.value = RequestDate;
+      if(t) t.value = TimeREquest;
+    }
+
+    function showStep(n){
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      const target = document.querySelector(`.step[data-step-panel="${n}"]`);
+      if(target) target.classList.add('active');
+      currentStep = n;
+
+      // update progress UI
+      const title = document.getElementById('stepTitle');
+      const count = document.getElementById('stepCount');
+      const fill = document.getElementById('progressFill');
+
+      if(n === 1){
+        title.textContent = 'Step 1/2';
+        count.textContent = '1–8 / 13';
+        fill.style.width = '50%';
+      }else{
+        title.textContent = 'Step 2/2';
+        count.textContent = '9–13 / 13';
+        fill.style.width = '100%';
+      }
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function nextStep(){
+      // validate Step 1 required fields ก่อน
+      const requiredIds = ['dept','machine','desc','department'];
+      for(const id of requiredIds){
+        const el = document.getElementById(id);
+        if(el && !el.checkValidity()){
+          el.reportValidity();
+          return;
+        }
+      }
+      showStep(2);
+    }
+
+    function prevStep(){
+      showStep(1);
+    }
+
+    function resetStep(){
+      showStep(1);
+    }
+
+    /* ===== Local fallback (demo) ===== */
+    const DEMO = !/^https?:\/\//i.test(WEB_APP_URL);
+    const KEY='tickets.v2';
+    const getTickets=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
+    const setTickets=(v)=>localStorage.setItem(KEY,JSON.stringify(v));
+
+    /* ===== API helpers ===== */
+    async function fetchJSON(url, options){
+      const res = await fetch(url, options);
+      const text = await res.text();
+      try{ return JSON.parse(text); }
+      catch(e){ throw new Error(`Bad response (${res.status}): ${text.slice(0,200)}`); }
+    }
+
+    async function apiCreateTicket(payload){
+      const body = new URLSearchParams({ action:'create', token: API_TOKEN, ...payload }).toString();
+      return fetchJSON(WEB_APP_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body
+      });
+    }
+
+    async function apiListTickets(limit=500){
+      return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}`);
+    }
+
+    async function apiUpdateStatus(id, status){
+      const body = new URLSearchParams({ action:'updateStatus', id, status, token: API_TOKEN }).toString();
+      return fetchJSON(WEB_APP_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body
+      });
+    }
+
+    /* ===== Submit form ===== */
+    document.getElementById('ticketForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      // auto date/time
+      const now = new Date();
+      const RequestDate = now.toLocaleDateString('en-CA');
+      const TimeREquest = now.toTimeString().slice(0,5);
+
+      // ค่า Step2
+      const workOrderNo = data.workOrderNo || '';
+      const timeToRepair = data.timeToRepair || '';
+      const scheduledDate = data.scheduledDate || '';
+      const status = data.status || 'Scheduled';
+
+      // payload 1–13
+      const payload = {
+        RequestDate,
+        TimeREquest,
+        "Machine Section": data.dept || '',
+        Machine: data.machine || '',
+        Repairdescription: data.desc || '',
+        "Pre order": data.preorder || '',
+        Assigned: data.assignedTo || '',
+        Department: data.department || '',
+        Supervisor: data.supervisor || '',
+        "Work Order No.": workOrderNo,
+        "Time to repair": timeToRepair,
+        ScgeduldedDate: scheduledDate,
+        Status: status,
+      };
+
+      try{
+        if(DEMO){
+          const ticket = {
+            id: Date.now().toString(36),
+            date: RequestDate,
+            dept: data.dept,
+            machine: data.machine,
+            desc: data.desc,
+            status: status
+          };
+          const all = getTickets();
+          all.unshift(ticket);
+          setTickets(all);
+          e.target.reset();
+          resetStep();
+          go('success');
+        } else {
+          const r = await apiCreateTicket(payload);
+          if(r.ok){
+            e.target.reset();
+            resetStep();
+            go('success');
+          } else {
+            alert('บันทึกไม่สำเร็จ: ' + (r.error || 'unknown'));
+          }
+        }
+      } catch(err){
+        alert('เครือข่ายผิดพลาด: ' + err.message);
+      }
+    });
+
+    /* ===== Render table ===== */
+    async function renderTable(){
+      const tbody = document.querySelector('#tbl tbody');
+      tbody.innerHTML = DEMO ? '' : '<tr><td colspan="5">Loading...</td></tr>';
+
+      let rows = [];
+      if(DEMO){
+        rows = getTickets();
+      } else {
+        try{
+          const r = await apiListTickets(500);
+          rows = (r.rows||[]).map(x=>({
+            id: x['ID'] || x['id'] || '',
+            date: x['RequestDate'] || x['Request Date'] || '',
+            dept: x['Machine Section'] || x['Machine Department'] || '',
+            machine: x['Machine'] || x['Machine Name'] || '',
+            desc: x['Repairdescription'] || x['Problem Description'] || '',
+            status: x['Status'] || 'Scheduled'
+          }));
+        } catch(e){
+          tbody.innerHTML = '<tr><td colspan="5">Load failed</td></tr>';
+          return;
+        }
+      }
+
+      let s=0,c=0,o=0;
+      tbody.innerHTML='';
+      for(const r of rows){
+        if(r.status==='Scheduled') s++;
+        else if(r.status==='Completed') c++;
+        else o++;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${escapeHtml(r.date||'')}</td>
+          <td>${escapeHtml(r.dept||'')}</td>
+          <td>${escapeHtml(r.machine||'')}</td>
+          <td>${escapeHtml(r.desc||'')}</td>
+          <td><button class="chip" data-id="${escapeHtml(r.id||'')}" data-status="${escapeHtml(r.status)}">${escapeHtml(r.status)}</button></td>
+        `;
+        tbody.appendChild(tr);
+      }
+      document.getElementById('kScheduled').textContent=s;
+      document.getElementById('kCompleted').textContent=c;
+      document.getElementById('kOverdue').textContent=o;
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+    }
+
+    /* ===== Toggle status ===== */
+    document.addEventListener('click', async (ev)=>{
+      const btn = ev.target.closest('button.chip[data-id]');
+      if(!btn) return;
+
+      const cycle = { 'Scheduled':'Completed', 'Completed':'Overdue', 'Overdue':'Scheduled' };
+      const id = btn.getAttribute('data-id');
+      const next = cycle[btn.dataset.status] || 'Scheduled';
+
+      if(DEMO){
+        const all = getTickets();
+        const t = all.find(x=>x.id===id);
+        if(t){
+          t.status = next;
+          setTickets(all);
+          renderTable();
+        }
+      } else {
+        try{
+          const r = await apiUpdateStatus(id, next);
+          if(r.ok) renderTable();
+          else alert('อัปเดตไม่สำเร็จ');
+        } catch(err){
+          alert('เครือข่ายผิดพลาด: ' + err.message);
+        }
+      }
     });
   </script>
 </body>
