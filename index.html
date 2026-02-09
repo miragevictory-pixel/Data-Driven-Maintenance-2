@@ -30,7 +30,6 @@
       line-height:1.5;
     }
 
-    /* ====== Top Bar ====== */
     .topbar{
       position:sticky; top:0; z-index:20;
       background:var(--brand); color:#fff;
@@ -45,7 +44,6 @@
       letter-spacing:.3px
     }
 
-    /* Back button with effect */
     .back{
       appearance:none;
       border:0;
@@ -78,15 +76,7 @@
         inset 0 2px 8px rgba(0,0,0,.25),
         0 4px 10px rgba(0,0,0,.15);
     }
-    .back:focus-visible{
-      outline: none;
-      box-shadow:
-        0 0 0 3px rgba(255,255,255,.30),
-        0 0 0 6px rgba(0,0,0,.12),
-        inset 0 0 0 1px rgba(255,255,255,.22);
-    }
 
-    /* Container for desktop */
     .container{
       max-width: 520px;
       margin:0 auto;
@@ -102,7 +92,6 @@
       }
     }
 
-    /* Views */
     [data-view]{display:none}
     [data-view].active{display:block}
 
@@ -115,7 +104,6 @@
     }
     .muted{color:var(--muted)}
 
-    /* Home */
     .hero{ width:100%; text-align:center; margin: 18px 0 18px; }
     .hero span{
       font-size: 40px;
@@ -123,6 +111,7 @@
       color:var(--brand);
       letter-spacing:0.6px;
     }
+
     .menu{
       display:flex;
       flex-direction:column;
@@ -157,13 +146,6 @@
     }
     .btn:active{transform:translateY(1px)}
 
-    @media (min-width: 1024px){
-      .hero span{ font-size: 46px; }
-      .btn{ padding: 16px 24px; font-size: 18px; }
-      .btn small{ font-size: 16px; }
-    }
-
-    /* Form */
     form{display:grid; gap:14px}
     .field{display:grid; gap:8px; position:relative}
     .field label{ font-weight:800; font-size:20px; line-height:1.35; }
@@ -198,7 +180,6 @@
       box-shadow:var(--shadow);
     }
 
-    /* Step panels */
     .step{ display:none; }
     .step.active{ display:block; }
 
@@ -264,7 +245,6 @@
       color:#7a1b12;
     }
 
-    /* Status */
     .kpi{
       display:grid;
       grid-template-columns:1fr 1fr 1fr;
@@ -314,7 +294,6 @@
     }
     [data-view="status"] .card{ overflow:auto; }
 
-    /* Modal */
     .modal{
       position:fixed;
       inset:0;
@@ -350,7 +329,6 @@
       margin-top:12px;
     }
 
-    /* Mobile tabbar */
     .tabbar{
       position:fixed;
       bottom:14px; left:0; right:0;
@@ -391,7 +369,6 @@
       [data-view="powerbi"] iframe{ border-radius:14px; }
     }
 
-    /* Report card width */
     [data-view="report"] .card{
       max-width: 980px;
       margin-left:auto;
@@ -424,7 +401,6 @@
       <div class="card">
         <h2 style="margin:0 0 8px">การแจ้งซ่อม (Repair Request)</h2>
 
-        <!-- Step bar -->
         <div class="stepbar">
           <b id="stepTitle">Step 1/2</b>
           <div class="progress"><div id="progressFill"></div></div>
@@ -432,7 +408,6 @@
         </div>
 
         <form id="ticketForm">
-          <!-- STEP 1 -->
           <div class="step active" data-step-panel="1">
             <div class="field" data-step="1">
               <label for="RequestDateShow">RequestDate</label>
@@ -494,7 +469,6 @@
             </div>
           </div>
 
-          <!-- STEP 2 -->
           <div class="step" data-step-panel="2">
             <div class="field" data-step="9">
               <label for="supervisor">Supervisor</label>
@@ -632,7 +606,6 @@
 
       <form id="updateForm">
         <input type="hidden" id="u_id" name="id" />
-        <input type="hidden" id="u_status" name="status" value="Completed" />
 
         <div class="field">
           <label for="u_supervisor">Supervisor</label>
@@ -684,7 +657,6 @@
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxoGPh-Q175O0rfbm0tA8B6tjb5TSvVgPxmuZ0CqI79wUP8zuEqbBWsJj5sYPTdiQaljA/exec';
     const API_TOKEN   = '0992183266';
 
-    /* ===== Router ===== */
     const titleMap = {
       home:"Maintenance",
       report:"การแจ้งซ่อม",
@@ -705,7 +677,6 @@
       window.scrollTo({top:0, behavior:'smooth'});
 
       if(view === 'status') renderTable();
-
       if(view === 'report'){
         resetStep();
         setAutoDateTime();
@@ -719,24 +690,18 @@
       setAutoDateTime();
     });
 
-    /* ===== Step logic ===== */
-    let currentStep = 1;
-
     function setAutoDateTime(){
       const now = new Date();
       const RequestDate = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
       const TimeREquest = now.toTimeString().slice(0,5);   // HH:MM
-      const d = document.getElementById('RequestDateShow');
-      const t = document.getElementById('TimeREquestShow');
-      if(d) d.value = RequestDate;
-      if(t) t.value = TimeREquest;
+      document.getElementById('RequestDateShow').value = RequestDate;
+      document.getElementById('TimeREquestShow').value = TimeREquest;
     }
 
     function showStep(n){
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       const target = document.querySelector(`.step[data-step-panel="${n}"]`);
       if(target) target.classList.add('active');
-      currentStep = n;
 
       const title = document.getElementById('stepTitle');
       const count = document.getElementById('stepCount');
@@ -768,7 +733,6 @@
     function prevStep(){ showStep(1); }
     function resetStep(){ showStep(1); }
 
-    /* ===== API helpers ===== */
     async function fetchJSON(url, options){
       const res = await fetch(url, options);
       const text = await res.text();
@@ -789,7 +753,6 @@
       return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}`);
     }
 
-    // ✅ NEW: updateTicket (อัปเดตบรรทัดเดิม)
     async function apiUpdateTicket(payload){
       const body = new URLSearchParams({ action:'updateTicket', token: API_TOKEN, ...payload }).toString();
       return fetchJSON(WEB_APP_URL, {
@@ -799,7 +762,6 @@
       });
     }
 
-    /* ===== Submit form ===== */
     document.getElementById('ticketForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
@@ -838,8 +800,7 @@
       }
     });
 
-    /* ===== Render table ===== */
-    let LAST_ROWS = []; // เก็บไว้ใช้ตอนกด Update
+    let LAST_ROWS = [];
 
     function pick(obj, keys){
       for(const k of keys){
@@ -852,9 +813,7 @@
 
     function normalizeDate(v){
       if(!v) return '';
-      // ถ้าเป็น Date object จาก GAS อาจถูกส่งเป็น string already
       const s = String(v);
-      // บางทีจะเป็น ISO เช่น 2026-02-04T17:00:00.000Z
       if(s.includes('T')) return s.slice(0,10);
       return s;
     }
@@ -868,9 +827,9 @@
         const r = await apiListTickets(500);
         rows = (r.rows||[]).map(x=>({
           id: pick(x, ['ID','id']),
-          workOrderNo: pick(x, ['Work Order No.','WorkOrderNo','Work Order No','WorkOrderNo.']),
+          workOrderNo: pick(x, ['Work Order No.','WorkOrderNo']),
           requestDate: normalizeDate(pick(x, ['RequestDate','Request Date'])),
-          timeRequest: pick(x, ['TimeREquest','Request Time','Time request','TimeRequest']),
+          timeRequest: pick(x, ['TimeREquest','Request Time','TimeRequest']),
           machineSection: pick(x, ['Machine Section','Machine Department','MachineSection']),
           machine: pick(x, ['Machine','Machine Name','MachineName']),
           desc: pick(x, ['Repairdescription','Problem Description','Description']),
@@ -931,7 +890,6 @@
         .replaceAll("'","&#039;");
     }
 
-    /* ===== Update modal ===== */
     function openUpdateById(id){
       const row = LAST_ROWS.find(x => String(x.id) === String(id));
       if(!row){
@@ -941,7 +899,6 @@
 
       document.getElementById('u_id').value = row.id;
 
-      // meta info
       document.getElementById('updateMeta').innerHTML = `
         <div><b>Machine:</b> ${escapeHtml(row.machine||'-')}</div>
         <div><b>Section:</b> ${escapeHtml(row.machineSection||'-')}</div>
@@ -949,12 +906,10 @@
         <div><b>Description:</b> ${escapeHtml(row.desc||'-')}</div>
       `;
 
-      // prefill (ถ้าเคยมีค่าแล้ว)
       document.getElementById('u_supervisor').value = row.supervisor || '';
       document.getElementById('u_timeToRepair').value = row.timeToRepair || '';
       const dep = document.getElementById('u_department');
       if(row.department){
-        // ถ้ามีอยู่ในตัวเลือก
         const opt = Array.from(dep.options).find(o=>o.value===row.department);
         if(opt) dep.value = row.department;
       } else {
@@ -981,12 +936,13 @@
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
 
+      // ✅ FIX จุดสำคัญ: ส่งชื่อ field ให้ตรง Apps Script (ตัวเล็ก)
       const payload = {
         id: data.id,
-        Supervisor: data.supervisor,
-        "Time to repair": data.timeToRepair,
-        Department: data.department,
-        Status: 'Completed'
+        supervisor: data.supervisor,
+        timeToRepair: data.timeToRepair,
+        department: data.department,
+        status: 'Completed'
       };
 
       try{
@@ -1002,7 +958,6 @@
       }
     });
 
-    /* ===== Global click handler ===== */
     document.addEventListener('click', (ev)=>{
       const btn = ev.target.closest('button[data-action="openUpdate"]');
       if(btn){
