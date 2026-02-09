@@ -60,6 +60,21 @@
         0 6px 14px rgba(0,0,0,.18);
       font-size:20px;
       line-height:1;
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .back:hover{
+      background: rgba(255,255,255,.22);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.22),
+        0 10px 20px rgba(0,0,0,.22);
+      transform: translateY(-1px);
+    }
+    .back:active{
+      transform: translateY(1px) scale(.98);
+      background: rgba(0,0,0,.12);
+      box-shadow:
+        inset 0 2px 8px rgba(0,0,0,.25),
+        0 4px 10px rgba(0,0,0,.15);
     }
 
     .container{
@@ -96,6 +111,7 @@
       color:var(--brand);
       letter-spacing:0.6px;
     }
+
     .menu{
       display:flex;
       flex-direction:column;
@@ -119,6 +135,7 @@
       padding: 14px 22px;
       font-weight:900;
       box-shadow:0 4px 0 #5f1c11, var(--shadow);
+      transition:transform .05s ease;
     }
     .btn small{
       display:block;
@@ -127,6 +144,7 @@
       opacity:.92;
       margin-top:2px;
     }
+    .btn:active{transform:translateY(1px)}
 
     form{display:grid; gap:14px}
     .field{display:grid; gap:8px; position:relative}
@@ -216,8 +234,11 @@
       cursor:pointer;
       font-size:14px;
       box-shadow: 0 4px 12px rgba(0,0,0,.06);
+      transition: transform .08s ease;
       white-space:nowrap;
     }
+    .chip:active{ transform: translateY(1px); }
+
     .chip.red{
       background:#ffeceb;
       border-color:#ffeceb;
@@ -289,7 +310,10 @@
       box-shadow:0 18px 60px rgba(0,0,0,.25);
       padding:18px;
     }
-    .modal h3{ margin:0 0 10px; font-size:20px; }
+    .modal h3{
+      margin:0 0 10px;
+      font-size:20px;
+    }
     .modal .meta{
       display:grid;
       gap:6px;
@@ -334,7 +358,10 @@
         margin-right:auto;
         padding: 26px;
       }
-      [data-view="guide"] .card{ font-size:18px; line-height:1.7; }
+      [data-view="guide"] .card{
+        font-size:18px;
+        line-height:1.7;
+      }
       [data-view="guide"] h2{ font-size:24px; margin-bottom:14px; }
       [data-view="guide"] li{ margin: 10px 0; }
       [data-view="powerbi"] h2{ font-size:24px; }
@@ -535,7 +562,7 @@
       </div>
     </section>
 
-    <!-- POWER BI (✅ อยู่ครบ) -->
+    <!-- POWER BI -->
     <section data-view="powerbi">
       <div class="card">
         <h2 style="margin:0 0 12px">Power BI Dashboard</h2>
@@ -549,13 +576,13 @@
 
           <iframe title="Maintenance Wise"
             style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa"
-            src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4Zm-it"
+            src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
             allowfullscreen></iframe>
         </div>
       </div>
     </section>
 
-    <!-- GUIDE (✅ อยู่ครบ) -->
+    <!-- GUIDE -->
     <section data-view="guide">
       <div class="card">
         <h2 style="margin:0 0 10px">คู่มือการใช้งาน (User Guide)</h2>
@@ -613,6 +640,7 @@
     </div>
   </div>
 
+  <!-- Mobile tabbar -->
   <div class="tabbar">
     <div class="inner">
       <button class="chip" onclick="go('home')">Home<br><small>หน้าแรก</small></button>
@@ -662,23 +690,18 @@
       setAutoDateTime();
     });
 
-    let currentStep = 1;
-
     function setAutoDateTime(){
       const now = new Date();
-      const RequestDate = now.toLocaleDateString('en-CA');
-      const TimeREquest = now.toTimeString().slice(0,5);
-      const d = document.getElementById('RequestDateShow');
-      const t = document.getElementById('TimeREquestShow');
-      if(d) d.value = RequestDate;
-      if(t) t.value = TimeREquest;
+      const RequestDate = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
+      const TimeREquest = now.toTimeString().slice(0,5);   // HH:MM
+      document.getElementById('RequestDateShow').value = RequestDate;
+      document.getElementById('TimeREquestShow').value = TimeREquest;
     }
 
     function showStep(n){
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       const target = document.querySelector(`.step[data-step-panel="${n}"]`);
       if(target) target.classList.add('active');
-      currentStep = n;
 
       const title = document.getElementById('stepTitle');
       const count = document.getElementById('stepCount');
@@ -886,10 +909,11 @@
       document.getElementById('u_supervisor').value = row.supervisor || '';
       document.getElementById('u_timeToRepair').value = row.timeToRepair || '';
       const dep = document.getElementById('u_department');
-      dep.selectedIndex = 0;
       if(row.department){
         const opt = Array.from(dep.options).find(o=>o.value===row.department);
         if(opt) dep.value = row.department;
+      } else {
+        dep.selectedIndex = 0;
       }
 
       const m = document.getElementById('updateModal');
@@ -908,11 +932,11 @@
       if(e.target.id === 'updateModal') closeUpdate();
     });
 
-    // ✅ FIX สำคัญ: ส่งชื่อ field ให้ตรงกับ Apps Script (ตัวเล็ก)
     document.getElementById('updateForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
 
+      // ✅ FIX จุดสำคัญ: ส่งชื่อ field ให้ตรง Apps Script (ตัวเล็ก)
       const payload = {
         id: data.id,
         supervisor: data.supervisor,
@@ -937,7 +961,8 @@
     document.addEventListener('click', (ev)=>{
       const btn = ev.target.closest('button[data-action="openUpdate"]');
       if(btn){
-        openUpdateById(btn.getAttribute('data-id'));
+        const id = btn.getAttribute('data-id');
+        openUpdateById(id);
       }
     });
   </script>
