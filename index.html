@@ -385,8 +385,8 @@
             <small>ระบบจะสร้างให้อัตโนมัติ</small>
           </div>
           <div class="field">
-            <label for="TimeREquestShow">Time request (Auto)</label>
-            <input id="TimeREquestShow" type="text" disabled />
+            <label for="TimeRequestShow">Time request (Auto)</label>
+            <input id="TimeRequestShow" type="text" disabled />
             <small>ระบบจะสร้างให้อัตโนมัติ</small>
           </div>
         </div>
@@ -635,11 +635,11 @@
     function setAutoDateTime(){
       const now = new Date();
       const RequestDate = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
-      const TimeREquest = now.toTimeString().slice(0,5);   // HH:MM
+      const TimeRequest = now.toTimeString().slice(0,5);   // HH:MM
       const d = document.getElementById('RequestDateShow');
-      const t = document.getElementById('TimeREquestShow');
+      const t = document.getElementById('TimeRequestShow');
       if(d) d.value = RequestDate;
-      if(t) t.value = TimeREquest;
+      if(t) t.value = TimeRequest;
     }
 
     /* ===== Local fallback (demo) ===== */
@@ -687,12 +687,12 @@
       // auto date/time
       const now = new Date();
       const RequestDate = now.toLocaleDateString('en-CA');
-      const TimeREquest = now.toTimeString().slice(0,5);
+      const TimeRequest = now.toTimeString().slice(0,5);
 
       // payload ตามหน้าแจ้งซ่อม (กรอกน้อย)
       const payload = {
         RequestDate,
-        TimeREquest,
+        TimeRequest,
         "Machine Section": data.dept || '',
         Machine: data.machine || '',
         Repairdescription: data.desc || '',
@@ -708,7 +708,7 @@
             id: Date.now().toString(36),
             workOrderNo: `DEMO-${Date.now()}`,
             RequestDate,
-            TimeREquest,
+            TimeRequest,
             dept: payload["Machine Section"],
             machine: payload.Machine,
             desc: payload.Repairdescription,
@@ -801,7 +801,7 @@
           id: x.id,
           workOrderNo: x.workOrderNo,
           RequestDate: x.RequestDate,
-          TimeREquest: x.TimeREquest,
+          TimeRequest: x.TimeRequest,
           dept: x.dept,
           machine: x.machine,
           desc: x.desc,
@@ -816,7 +816,7 @@
             id: x['ID'] || x['id'] || '',
             workOrderNo: x['WorkOrderNo'] || x['Work Order No.'] || x['Work Order No'] || '',
             RequestDate: x['RequestDate'] || x['Request Date'] || x['Date request'] || '',
-            TimeREquest: x['TimeREquest'] || x['Request Time'] || x['Time request'] || '',
+            TimeRequest: x['TimeRequest'] || x['Request Time'] || x['Time request'] || '',
             dept: x['Machine Section'] || x['Machine Department'] || '',
             machine: x['Machine'] || x['Machine Name'] || '',
             desc: x['Repairdescription'] || x['Problem Description'] || '',
@@ -847,7 +847,7 @@
         tr.innerHTML = `
           <td>${escapeHtml(r.workOrderNo || '')}</td>
           <td>${escapeHtml(r.RequestDate || '')}</td>
-          <td>${escapeHtml(r.TimeREquest || '')}</td>
+          <td>${escapeHtml(r.TimeRequest || '')}</td>
           <td>${escapeHtml(r.dept || '')}</td>
           <td>${escapeHtml(r.machine || '')}</td>
           <td>${escapeHtml(r.desc || '')}</td>
@@ -898,3 +898,4 @@
   </script>
 </body>
 </html>
+
