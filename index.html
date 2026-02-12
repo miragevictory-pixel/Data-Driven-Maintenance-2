@@ -45,324 +45,67 @@
       letter-spacing:.3px
     }
 
-    /* Back button with effect */
     .back{
-      appearance:none;
-      border:0;
-      cursor:pointer;
-      width:40px;
-      height:40px;
-      border-radius:999px;
-      display:grid;
-      place-items:center;
-      color:#fff;
-      background: rgba(255,255,255,.14);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.18),
-        0 6px 14px rgba(0,0,0,.18);
-      font-size:20px;
-      line-height:1;
-      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
-    }
-    .back:hover{
-      background: rgba(255,255,255,.22);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.22),
-        0 10px 20px rgba(0,0,0,.22);
-      transform: translateY(-1px);
-    }
-    .back:active{
-      transform: translateY(1px) scale(.98);
-      background: rgba(0,0,0,.12);
-      box-shadow:
-        inset 0 2px 8px rgba(0,0,0,.25),
-        0 4px 10px rgba(0,0,0,.15);
-    }
-    .back:focus-visible{
-      outline: none;
-      box-shadow:
-        0 0 0 3px rgba(255,255,255,.30),
-        0 0 0 6px rgba(0,0,0,.12),
-        inset 0 0 0 1px rgba(255,255,255,.22);
+      appearance:none; border:0; cursor:pointer; width:40px; height:40px; border-radius:999px;
+      display:grid; place-items:center; color:#fff; background: rgba(255,255,255,.14);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 6px 14px rgba(0,0,0,.18);
+      font-size:20px; line-height:1; transition: transform .08s ease;
     }
 
-    /* Container for desktop */
-    .container{
-      max-width: 520px;
-      margin:0 auto;
-      padding: 22px 18px 78px;
-    }
-    @media (min-width: 640px){
-      .container{ max-width: 920px; }
-    }
-    @media (min-width: 1024px){
-      .container{
-        max-width: 1240px;
-        padding: 28px 26px 40px;
-      }
-    }
+    .container{ max-width: 520px; margin:0 auto; padding: 22px 18px 78px; }
+    @media (min-width: 640px){ .container{ max-width: 920px; } }
+    @media (min-width: 1024px){ .container{ max-width: 1240px; } }
 
-    /* Views */
     [data-view]{display:none}
     [data-view].active{display:block}
 
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:22px;
-      margin:18px 0;
-    }
+    .card{ background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px; margin:18px 0; }
     .muted{color:var(--muted)}
 
-    /* Home */
     .hero{ width:100%; text-align:center; margin: 18px 0 18px; }
-    .hero span{
-      : 40px;
-      font-weight: 900;
-      color:var(--brand);
-      letter-spacing:0.6px;
-    }
-    .menu{
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-      margin-top:14px;
-      max-width: 760px;
-      margin-left:auto;
-      margin-right:auto;
-    }
+    .hero span{ font-size: 40px; font-weight: 900; color:var(--brand); }
+    
+    .menu{ display:flex; flex-direction:column; gap:18px; max-width: 760px; margin:14px auto; }
 
     .btn{
-      display:block;
-      width:100%;
-      text-align:center;
-      text-decoration:none;
-      cursor:pointer;
-      background:var(--brand);
-      color:#fff;
-      border:0;
-      border-radius:999px;
-      padding: 14px 22px;
-      font-weight:900;
-      box-shadow:0 4px 0 #5f1c11, var(--shadow);
-      transition:transform .05s ease;
+      display:block; width:100%; text-align:center; text-decoration:none; cursor:pointer;
+      background:var(--brand); color:#fff; border:0; border-radius:999px; padding: 14px 22px;
+      font-weight:900; box-shadow:0 4px 0 #5f1c11, var(--shadow);
     }
-    .btn small{
-      display:block;
-      font-weight:700;
-      : 15px;
-      opacity:.92;
-      margin-top:2px;
-    }
-    .btn:active{transform:translateY(1px)}
+    .btn small{ display:block; font-weight:700; font-size: 15px; opacity:.92; }
 
-    @media (min-width: 1024px){
-      .hero span{ : 46px; }
-      .btn{ padding: 16px 24px; : 18px; }
-      .btn small{ : 16px; }
-    }
-
-    /* Form */
     form{display:grid; gap:14px}
     .field{display:grid; gap:8px; position:relative}
-    .field label{ font-weight:800; :18px; line-height:1.35; }
-    .field small{color:var(--muted); :13px;}
-    .field input,.field select,.field textarea{
-      width:100%;
-      border-radius:12px;
-      border:1px solid #ddd;
-      padding:12px 12px;
-      font-size:16px;
-      background:#fff;
-      outline-color:var(--brand);
-    }
-    .field textarea{min-height:96px; resize:vertical}
+    .field label{ font-weight:800; font-size:18px; }
+    .field input, .field select, .field textarea{ width:100%; border-radius:12px; border:1px solid #ddd; padding:12px; }
 
-    .field[data-step]{ padding-left: 56px; }
-    .field[data-step]::before{
-      content: attr(data-step);
-      position:absolute;
-      left:16px;
-      top:50%;
-      transform:translateY(-50%);
-      width:28px;
-      height:28px;
-      display:grid;
-      place-items:center;
-      background:var(--brand);
-      color:#fff;
-      border-radius:50%;
-      font-weight:900;
-      font-size:13px;
-      box-shadow:var(--shadow);
-    }
+    .chip{ border-radius:999px; padding:10px 14px; border:1px solid #eee; background:#fff; font-weight:800; cursor:pointer; }
+    .chip.primary{ border:0; background: rgba(158,47,28,.10); color: var(--brand); }
 
-    .row-actions{
-      display:flex;
-      gap:10px;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      margin-top: 6px;
-    }
+    .kpi{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin: 10px 0 14px; }
+    .kpi .box{ background:#fff; border-radius:16px; box-shadow:var(--shadow); padding:16px 14px; text-align:center; }
+    .kpi .box span{ font-size:28px; font-weight:900; color:var(--brand); }
 
-    .chip{
-      border-radius:999px;
-      padding:10px 14px;
-      border:1px solid #eee;
-      background:#fff;
-      font-weight:800;
-      cursor:pointer;
-      font-size:14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.06);
-      transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
-    }
-    .chip:hover{ box-shadow: 0 8px 18px rgba(0,0,0,.10); }
-    .chip:active{ transform: translateY(1px); }
+    table { width:100%; border-collapse:collapse; background:#fff; border-radius:14px; overflow:hidden; }
+    th,td{ padding:12px; border-bottom:1px solid #eee; text-align:left; }
+    th{ background:#fafafa; font-weight:800; font-size:14px; }
 
-    .chip.primary{
-      border:0;
-      background: rgba(158,47,28,.10);
-      color: var(--brand);
-    }
+    .tabbar{ position:fixed; bottom:14px; left:0; right:0; display:flex; justify-content:center; z-index:100; }
+    .tabbar .inner{ background:#fff; border-radius:999px; box-shadow:var(--shadow); display:flex; gap:8px; padding:8px; }
 
-    /* Status */
-    .kpi{
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
-      gap:12px;
-      margin: 10px 0 14px;
-    }
-    .kpi .box{
-      background:#fff;
-      border-radius:16px;
-      box-shadow:var(--shadow);
-      padding:16px 14px;
-      text-align:center;
-    }
-    .kpi .box b{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-    .kpi .box span{
-      font-size:28px;
-      font-weight:900;
-      color:var(--brand);
-      line-height:1;
-    }
-
-    {
-      width:100%;
-      border-collapse:collapse;
-      font-size:16px;
-      background:#fff;
-      border-radius:14px;
-      overflow:hidden;
-    }
-    th,td{
-      padding:12px 12px;
-      border-bottom:1px solid #eee;
-      vertical-align:top
-    }
-    th{
-      background:#fafafa;
-      text-align:left;
-      color:#444;
-      font-weight:800;
-      font-size:14px;
-      white-space:nowrap;
-    }
-    [data-view="status"] .card{ overflow:auto; }
-
-    /* Desktop card size */
-    @media (min-width: 1024px){
-      [data-view="status"] .card,
-      [data-view="guide"] .card,
-      [data-view="powerbi"] .card,
-      [data-view="update"] .card{
-        max-width: 1120px;
-        margin-left:auto;
-        margin-right:auto;
-        padding: 26px;
-      }
-      [data-view="guide"] .card{ font-size:18px; line-height:1.7; }
-      [data-view="guide"] h2{ font-size:24px; margin-bottom:14px; }
-      [data-view="guide"] li{ margin: 10px 0; }
-      [data-view="powerbi"] h2{ font-size:24px; }
-      [data-view="powerbi"] .muted{ font-size:16px; }
-      [data-view="powerbi"] iframe{ border-radius:14px; }
-    }
-
-    /* Report card width */
-    [data-view="report"] .card{
-      max-width: 980px;
-      margin-left:auto;
-      margin-right:auto;
-      padding: 22px;
-    }
-
-    /* Mobile tabbar */
-    .tabbar{
-      position:fixed;
-      bottom:14px; left:0; right:0;
-      display:flex;
-      justify-content:center;
-      pointer-events:none
-    }
-    .tabbar .inner{
-      pointer-events:auto;
-      background:#fff;
-      border-radius:999px;
-      box-shadow:var(--shadow);
-      display:flex;
-      gap:8px;
-      padding:8px
-    }
-    .tabbar .inner .chip{ padding:8px 12px; font-size:13px; box-shadow:none; }
-    .tabbar .inner .chip small{ display:block; font-weight:500; font-size:11px; opacity:.85; }
-
-    @media (min-width: 1024px){
-      .tabbar{ display:none; }
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid #eee;
-      font-weight:800;
-      box-shadow: 0 4px 12px rgba(0,0,0,.06);
-    }
-    .dot{
-      width:10px; height:10px; border-radius:999px; background: var(--brand);
-    }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px; background:#fff; border:1px solid #eee; font-weight:800; }
+    .dot{ width:10px; height:10px; border-radius:999px; background: var(--brand); }
     .pill.completed .dot{ background: #1f8a3b; }
-    .pill.overdue .dot{ background: #c0392b; }
-
-    .grid-2{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 860px){
-      .grid-2{ grid-template-columns: 1fr 1fr; }
-    }
   </style>
 </head>
 
 <body>
   <div class="topbar">
-    <button class="back" aria-label="ย้อนกลับ" onclick="go('home')">⟵</button>
+    <button class="back" onclick="go('home')">⟵</button>
     <h1 id="title">Maintenance</h1>
   </div>
 
   <main class="container">
-    <!-- HOME -->
     <section data-view="home" class="active">
       <div class="hero"><span>Maintenance</span></div>
       <div class="menu">
@@ -373,535 +116,100 @@
       </div>
     </section>
 
-    <!-- REPORT (แจ้งซ่อม: ให้กรอกแค่ 1–7 ตามที่คุยกัน) -->
     <section data-view="report">
       <div class="card">
-        <h2 style="margin:0 0 10px">การแจ้งซ่อม (Repair Request)</h2>
-
-        <div class="grid-2" style="margin: 10px 0 14px;">
-          <div class="field">
-            <label for="RequestDateShow">Date request (Auto)</label>
-            <input id="RequestDateShow" type="text" disabled />
-            <small>ระบบจะสร้างให้อัตโนมัติ</small>
-          </div>
-          <div class="field">
-            <label for="TimeRequestShow">Time request (Auto)</label>
-            <input id="TimeRequestShow" type="text" disabled />
-            <small>ระบบจะสร้างให้อัตโนมัติ</small>
-          </div>
-        </div>
-
+        <h2>การแจ้งซ่อม (Repair Request)</h2>
         <form id="ticketForm">
-          <div class="field" data-step="1">
-            <label for="dept">Machine section</label>
+          <div class="field"><label>Machine section</label>
             <select id="dept" name="dept" required>
-              <option value="" disabled selected>เลือก... / Select...</option>
-              <option>P3/1</option>
-              <option>P3/2</option>
-              <option>P3/3</option>
-              <option>P4/1</option>
+              <option value="" disabled selected>เลือก...</option>
+              <option>P3/1</option><option>P3/2</option><option>P3/3</option><option>P4/1</option>
             </select>
           </div>
-
-          <div class="field" data-step="2">
-            <label for="machine">Machine</label>
-            <input id="machine" name="machine" type="text" placeholder="เช่น เครื่องตัด... / e.g. Cutting machine" required />
-          </div>
-
-          <div class="field" data-step="3">
-            <label for="desc">Repairdescription</label>
-            <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ (Describe problem / location / condition)" required></textarea>
-          </div>
-
-          <div class="field" data-step="4">
-            <label for="preorder">Pre order</label>
-            <input id="preorder" name="preorder" type="text" placeholder="ถ้ามีให้กรอก (Optional)" />
-          </div>
-
-          <div class="field" data-step="5">
-            <label for="assignedTo">Assigned</label>
-            <input id="assignedTo" name="assignedTo" type="text" placeholder="ชื่อช่าง/ผู้รับงาน (Optional)" />
-            <small>ถ้ายังไม่ระบุ ให้เว้นว่างได้</small>
-          </div>
-
-          <div class="row-actions">
-            <span class="pill" title="Status จะถูกตั้งค่าอัตโนมัติ">
-            <span class="dot"></span> Status: Scheduled (Auto)
-              </span>
-            <button class="btn" type="submit">ส่งคำขอซ่อม <small>Submit request</small></button>
-          </div>
+          <div class="field"><label>Machine</label><input id="machine" name="machine" type="text" required /></div>
+          <div class="field"><label>Repairdescription</label><textarea id="desc" name="desc" required></textarea></div>
+          <button class="btn" type="submit">ส่งคำขอซ่อม</button>
         </form>
-
-        <p class="muted" style="margin-top:12px">
-          *หมายเหตุ:* ระบบจะสร้าง Date request / Time request ให้อัตโนมัติ และตั้ง Status = Scheduled
-          (Work order no. ให้ระบบออกเลขให้)
-        </p>
       </div>
     </section>
 
-    <!-- UPDATE (กดจาก Scheduled เพื่อกรอก Supervisor/Time to repair/Department แล้วจบงานเป็น Completed) -->
-    <section data-view="update">
-      <div class="card">
-        <h2 style="margin:0 0 10px">Update สถานะการซ่อม (Job Update)</h2>
-
-        <div class="grid-2" style="margin: 8px 0 12px;">
-          <div class="pill" style="justify-content:space-between;">
-            <span style="display:flex; align-items:center; gap:8px;">
-              <span class="dot"></span>
-              <span>Work Order No.</span>
-            </span>
-            <span id="uWorkOrder" style="font-weight:900; color:var(--brand);">-</span>
-          </div>
-
-          <div class="pill" style="justify-content:space-between;">
-            <span style="display:flex; align-items:center; gap:8px;">
-              <span class="dot"></span>
-              <span>Machine</span>
-            </span>
-            <span id="uMachine" style="font-weight:900;">-</span>
-          </div>
-        </div>
-
-        <p class="muted" style="margin: 0 0 12px;">
-          กรอกข้อมูล 3 ช่องนี้ แล้วกดบันทึก ระบบจะเปลี่ยนสถานะเป็น <b>Completed</b> และอัปเดต “บรรทัดเดิม” ใน Google Sheet
-        </p>
-
-        <form id="updateForm">
-          <input type="hidden" id="uId" name="id" />
-          <input type="hidden" id="uWoHidden" name="workOrderNo" />
-
-          <div class="field" data-step="1">
-            <label for="uSupervisor">Supervisor</label>
-            <input id="uSupervisor" name="supervisor" type="text" placeholder="ชื่อหัวหน้าหรือผู้ตรวจ" required />
-          </div>
-
-          <div class="field" data-step="2">
-            <label for="uTimeToRepair">Time to repair</label>
-            <input id="uTimeToRepair" name="timeToRepair" type="text" placeholder="เช่น 2.5 hrs / 150 min" required />
-          </div>
-
-          <div class="field" data-step="3">
-            <label for="uDepartment">Department</label>
-            <select id="uDepartment" name="department" required>
-              <option value="" disabled selected>เลือก... / Select...</option>
-              <option>Mechanical</option>
-              <option>Electrical</option>
-              <option>Mold</option>
-              <option>PM</option>
-            </select>
-          </div>
-
-          <div class="row-actions">
-            <button type="button" class="chip" onclick="go('status')">⟵ กลับสถานะ</button>
-            <button class="btn" type="submit">บันทึกและปิดงาน <small>Save & Complete</small></button>
-          </div>
-        </form>
-
-        <p class="muted" style="margin-top:12px">
-          *หมายเหตุ:* ถ้าปุ่ม Save แล้วขึ้น error แปลว่า Apps Script ของคุณยังไม่มี action <code>updateJob</code>
-          (ต้องแก้ฝั่ง Apps Script ให้รองรับ)
-        </p>
-      </div>
-    </section>
-
-    <!-- SUCCESS -->
-    <section data-view="success">
-      <div class="card" style="text-align:center">
-        <h2>การแจ้งซ่อมเสร็จสิ้น (Request Submitted)</h2>
-        <p class="muted">ระบบได้บันทึกคำขอไว้แล้ว / Your request has been recorded.</p>
-        <div style="display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap">
-          <button class="chip primary" onclick="go('status')">ดูสถานะ<br><small>View status</small></button>
-          <button class="chip" onclick="go('home')">กลับหน้าแรก<br><small>Back to home</small></button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STATUS -->
     <section data-view="status">
       <div class="kpi">
-        <div class="box"><b>Scheduled</b><span id="kScheduled">0</span></div>
-        <div class="box"><b>Completed</b><span id="kCompleted">0</span></div>
-        <div class="box"><b>Overdue</b><span id="kOverdue">0</span></div>
+        <div class="box"><b>Scheduled</b><br><span id="kScheduled">0</span></div>
+        <div class="box"><b>Completed</b><br><span id="kCompleted">0</span></div>
+        <div class="box"><b>Overdue</b><br><span id="kOverdue">0</span></div>
       </div>
-
-      <div class="card">
-        <h3 style="margin-top:0; font-size:20px">รายการคำขอ (Request List)</h3>
+      <div class="card" style="overflow-x:auto">
         <table id="tbl">
           <thead>
-            <tr>
-              <th>WorkOrderNo</th>
-              <th>RequestDate</th>
-              <th>Time</th>
-              <th>Machine Section</th>
-              <th>Machine</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
+            <tr><th>WorkOrder</th><th>Date</th><th>Time</th><th>Section</th><th>Machine</th><th>Desc</th><th>Status</th><th>Action</th></tr>
           </thead>
           <tbody></tbody>
         </table>
-
-        <p class="muted" style="margin:12px 0 0">
-          *กดปุ่ม “Update” เฉพาะรายการที่เป็น Scheduled เพื่อกรอก Supervisor/Time to repair/Department แล้วปิดงานเป็น Completed
-        </p>
-      </div>
-    </section>
-
-    <!-- POWER BI -->
-    <section data-view="powerbi">
-      <div class="card">
-        <h2 style="margin:0 0 12px">Power BI Dashboard</h2>
-        <p class="muted">ใส่ลิงก์ Embed ของ Power BI แทน <code>IFRAME</code> ด้านล่างนี้ / Replace src with your Power BI embed link.</p>
-
-        <div style="display:grid; gap:14px">
-          <iframe title="Overview"
-            style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa"
-            src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
-            allowfullscreen></iframe>
-
-          <iframe title="Maintenance Wise"
-            style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa"
-            src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
-            allowfullscreen></iframe>
-        </div>
-      </div>
-    </section>
-
-    <!-- GUIDE -->
-    <section data-view="guide">
-      <div class="card">
-        <h2 style="margin:0 0 10px">คู่มือการใช้งาน (User Guide)</h2>
-        <ol>
-          <li>กด “แจ้งซ่อม (Repair request)” กรอกข้อมูล แล้วกด “ส่งคำขอซ่อม”</li>
-          <li>ไปที่ “สถานะการแจ้งซ่อม (Request status)” เพื่อดูรายการ</li>
-          <li>รายการที่เป็น <b>Scheduled</b> ให้กดปุ่ม <b>Update</b> เพื่อกรอก Supervisor / Time to repair / Department</li>
-          <li>กดบันทึก ระบบจะเปลี่ยนสถานะเป็น <b>Completed</b> และอัปเดตข้อมูลใน Google Sheet “บรรทัดเดิม”</li>
-        </ol>
-        <p class="muted">*ไฟล์นี้เป็น Single-File HTML — อัปโหลดขึ้น GitHub Pages/เว็บเซิร์ฟเวอร์แล้วเปิดใช้งานได้ทันที</p>
       </div>
     </section>
   </main>
 
-  <!-- Mobile tabbar -->
   <div class="tabbar">
     <div class="inner">
-      <button class="chip" onclick="go('home')">Home<br><small>หน้าแรก</small></button>
-      <button class="chip" onclick="go('report')">แจ้งซ่อม<br><small>Repair</small></button>
-      <button class="chip" onclick="go('status')">สถานะ<br><small>Status</small></button>
-      <button class="chip" onclick="go('powerbi')">Power BI<br><small>Dashboard</small></button>
-      <button class="chip" onclick="go('guide')">คู่มือ<br><small>Guide</small></button>
+      <button class="chip" onclick="go('home')">Home</button>
+      <button class="chip" onclick="go('report')">Repair</button>
+      <button class="chip" onclick="go('status')">Status</button>
     </div>
   </div>
 
   <script>
-    /* ===== Config ===== */
-    const APP_NAME    = 'Centralized Database from factory';
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxU9dSw9b8YH48jV2U8apxzxj4o7ikoMrdOPzQhhwqfHEmAkI1HyIl1hJTJU76TTtxGxA/exec';
-    const API_TOKEN   = '0992183266';
+    const API_TOKEN = '0992183266';
 
-    /* ===== Router ===== */
-    const titleMap = {
-      home:"Maintenance",
-      report:"การแจ้งซ่อม",
-      success:"การแจ้งซ่อม",
-      status:"สถานะการแจ้งซ่อม",
-      update:"Update งานซ่อม",
-      powerbi:"Power BI",
-      guide:"คู่มือการใช้งาน"
-    };
-
-    function show(view){
+    function go(view){
       document.querySelectorAll('[data-view]').forEach(el=>el.classList.remove('active'));
-      const el = document.querySelector(`[data-view="${view}"]`);
-      if (el) el.classList.add('active');
-
-      document.getElementById('title').textContent = titleMap[view] || 'Maintenance';
-      document.title = `${titleMap[view] || 'Maintenance'} · ${APP_NAME}`;
-      history.replaceState(null, '', `#${view}`);
-      window.scrollTo({top:0, behavior:'smooth'});
-
+      document.querySelector(`[data-view="${view}"]`).classList.add('active');
       if(view === 'status') renderTable();
-      if(view === 'report') setAutoDateTime();
-    }
-    function go(view){ show(view); }
-
-    window.addEventListener('load', () => {
-      const initial = (location.hash || '#home').slice(1);
-      show(initial);
-      setAutoDateTime();
-    });
-
-    function setAutoDateTime(){
-      const now = new Date();
-      const RequestDate = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
-      const TimeRequest = now.toTimeString().slice(0,5);   // HH:MM
-      const d = document.getElementById('RequestDateShow');
-      const t = document.getElementById('TimeRequestShow');
-      if(d) d.value = RequestDate;
-      if(t) t.value = TimeRequest;
     }
 
-    /* ===== Local fallback (demo) ===== */
-    const DEMO = !/^https?:\/\//i.test(WEB_APP_URL);
-    const KEY='tickets.v3';
-    const getTickets=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-    const setTickets=(v)=>localStorage.setItem(KEY,JSON.stringify(v));
+    // ฟังก์ชันช่วยเหลือที่หายไป
+    function formatDateCell(d){ return d ? new Date(d).toLocaleDateString('th-TH') : ''; }
+    function formatTimeCell(t){ return t ? String(t).slice(0,5) : ''; }
+    function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#039;"}[m])); }
 
-    /* ===== API helpers ===== */
-    async function fetchJSON(url, options){
-      const res = await fetch(url, options);
-      const text = await res.text();
-      try{ return JSON.parse(text); }
-      catch(e){ throw new Error(`Bad response (${res.status}): ${text.slice(0,200)}`); }
-    }
-
-    async function apiCreateTicket(payload){
-      const body = new URLSearchParams({ action:'create', token: API_TOKEN, ...payload }).toString();
-      return fetchJSON(WEB_APP_URL, {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body
-      });
-    }
-
-    async function apiListTickets(limit=500){
-      return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}`);
-    }
-
-    // ⚠️ ต้องให้ Apps Script รองรับ action นี้
-    async function apiUpdateJob(payload){
-      const body = new URLSearchParams({ action:'updateJob', token: API_TOKEN, ...payload }).toString();
-      return fetchJSON(WEB_APP_URL, {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body
-      });
-    }
-
-    /* ===== Submit (Create) ===== */
-    document.getElementById('ticketForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.target).entries());
-
-      // auto date/time
-      const now = new Date();
-      const RequestDate = now.toLocaleDateString('en-CA');
-      const TimeRequest = now.toTimeString().slice(0,5);
-
-      // payload ตามหน้าแจ้งซ่อม (กรอกน้อย)
-      const payload = {
-        RequestDate,
-        TimeRequest,
-        "Machine Section": data.dept || '',
-        Machine: data.machine || '',
-        Repairdescription: data.desc || '',
-        "Pre order": data.preorder || '',
-        Assigned: data.assignedTo || '',
-        Status: 'Scheduled'
-        // WorkOrderNo ให้ Apps Script ออกเลขให้
-      };
-
-      try{
-        if(DEMO){
-          const ticket = {
-            id: Date.now().toString(36),
-            workOrderNo: `DEMO-${Date.now()}`,
-            RequestDate,
-            TimeRequest,
-            dept: payload["Machine Section"],
-            machine: payload.Machine,
-            desc: payload.Repairdescription,
-            status: payload.Status
-          };
-          const all = getTickets();
-          all.unshift(ticket);
-          setTickets(all);
-          e.target.reset();
-          setAutoDateTime();
-          go('success');
-        } else {
-          const r = await apiCreateTicket(payload);
-          if(r.ok){
-            e.target.reset();
-            setAutoDateTime();
-            go('success');
-          } else {
-            alert('บันทึกไม่สำเร็จ: ' + (r.error || 'unknown'));
-          }
-        }
-      } catch(err){
-        alert('เครือข่ายผิดพลาด: ' + err.message);
-      }
-    });
-
-    /* ===== Open update view (Scheduled only) ===== */
-    function openUpdate(ticket){
-      // เติมหัวบนหน้า update
-      document.getElementById('uId').value = ticket.id || '';
-      document.getElementById('uWoHidden').value = ticket.workOrderNo || '';
-      document.getElementById('uWorkOrder').textContent = ticket.workOrderNo || '-';
-      document.getElementById('uMachine').textContent = ticket.machine || '-';
-
-      // reset ฟอร์ม
-      document.getElementById('uSupervisor').value = '';
-      document.getElementById('uTimeToRepair').value = '';
-      document.getElementById('uDepartment').value = '';
-
-      go('update');
-    }
-
-    /* ===== Submit update (Complete) ===== */
-    document.getElementById('updateForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.target).entries());
-
-      const payload = {
-        id: data.id || '',
-        "Work Order No.": data.workOrderNo || '',
-        Supervisor: data.supervisor || '',
-        Department: data.department || '',
-        "Time to repair": data.timeToRepair || '',
-        Status: 'Completed'
-      };
-
-      try{
-        if(DEMO){
-          const all = getTickets();
-          const t = all.find(x => x.id === payload.id);
-          if(t){
-            t.supervisor = payload.Supervisor;
-            t.department = payload.Department;
-            t.timeToRepair = payload["Time to repair"];
-            t.status = 'Completed';
-            setTickets(all);
-          }
-          go('status');
-        } else {
-          const r = await apiUpdateJob(payload);
-          if(r.ok){
-            go('status');
-          } else {
-            alert('อัปเดตไม่สำเร็จ: ' + (r.error || 'unknown'));
-          }
-        }
-      } catch(err){
-        alert('เครือข่ายผิดพลาด: ' + err.message);
-      }
-    });
-
-    /* ===== Render table ===== */
     async function renderTable(){
       const tbody = document.querySelector('#tbl tbody');
-      tbody.innerHTML = DEMO ? '' : '<tr><td colspan="8">Loading...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8">Loading...</td></tr>';
+      
+      try {
+        const res = await fetch(`${WEB_APP_URL}?action=list&limit=500`);
+        const data = await res.json();
+        const rows = data.rows || [];
+        
+        let s=0, c=0, o=0;
+        tbody.innerHTML = '';
 
-      let rows = [];
-      if(DEMO){
-        rows = getTickets().map(x=>({
-          id: x.id,
-          workOrderNo: x.workOrderNo,
-          RequestDate: x.RequestDate,
-          TimeRequest: x.TimeRequest,
-          dept: x.dept,
-          machine: x.machine,
-          desc: x.desc,
-          status: x.status || 'Scheduled'
-        }));
-      } else {
-        try{
-          const r = await apiListTickets(500);
+        rows.forEach(r => {
+          const status = r.Status || 'Scheduled';
+          if(status === 'Scheduled') s++; else if(status === 'Completed') c++; else o++;
 
-          // รองรับ header ได้หลายชื่อ เผื่อคุณตั้งคอลัมน์ไม่เหมือนกัน
-          rows = (r.rows||[]).map(x=>({
-            id: x['ID'] || x['id'] || '',
-            workOrderNo: x['WorkOrderNo'] || x['Work Order No.'] || x['Work Order No'] || '',
-            RequestDate: x['RequestDate'] || x['Request Date'] || x['Date request'] || '',
-            TimeRequest: x['TimeRequest'] || x['Request Time'] || x['Time request'] || '',
-            dept: x['Machine Section'] || x['Machine Department'] || '',
-            machine: x['Machine'] || x['Machine Name'] || '',
-            desc: x['Repairdescription'] || x['Problem Description'] || '',
-            status: x['Status'] || 'Scheduled'
-          }));
-        } catch(e){
-          tbody.innerHTML = '<tr><td colspan="8">Load failed</td></tr>';
-          return;
-        }
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${escapeHtml(r.WorkOrderNo || '')}</td>
+            <td>${formatDateCell(r.RequestDate)}</td>
+            <td>${formatTimeCell(r.TimeRequest)}</td>
+            <td>${escapeHtml(r['Machine Section'] || '')}</td>
+            <td><b>${escapeHtml(r.Machine || '')}</b></td>
+            <td>${escapeHtml(r.Repairdescription || '')}</td>
+            <td>${status}</td>
+            <td>${status === 'Scheduled' ? `<button class="chip primary">Update</button>` : '—'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById('kScheduled').textContent = s;
+        document.getElementById('kCompleted').textContent = c;
+        document.getElementById('kOverdue').textContent = o;
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="8">Error loading data</td></tr>';
       }
-
-      let s=0,c=0,o=0;
-      tbody.innerHTML='';
-
-      for(const r of rows){
-        if(r.status==='Scheduled') s++;
-        else if(r.status==='Completed') c++;
-        else o++;
-
-        const statusPill = renderStatusPill(r.status);
-
-        const canUpdate = (r.status === 'Scheduled');
-        const actionBtn = canUpdate
-          ? `<button class="chip primary" data-action="openUpdate" data-id="${escapeHtml(r.id)}">Update</button>`
-          : `<span class="muted">—</span>`;
-
-        const tr = document.createElement('tr');
-   tr.innerHTML = `
-  <td>${escapeHtml(r.workOrderNo || '')}</td>
-  <td>${escapeHtml(formatDateCell(r.RequestDate || ''))}</td>
-  <td>${escapeHtml(formatTimeCell(r.TimeRequest || ''))}</td>
-  <td>${escapeHtml(r.dept || '')}</td>
-
-  <td style="font-size:17px; font-weight:700; line-height:1.35;">
-    ${escapeHtml(r.machine || '')}
-  </td>
-
-  <td style="font-size:17px; font-weight:700; line-height:1.35;">
-    ${escapeHtml(r.desc || '')}
-  </td>
-
-  <td>${statusPill}</td>
-  <td>${actionBtn}</td>
-`;
-tbody.appendChild(tr);
-
-      document.getElementById('kScheduled').textContent=s;
-      document.getElementById('kCompleted').textContent=c;
-      document.getElementById('kOverdue').textContent=o;
-
-      // เก็บ rows ล่าสุดไว้ให้ปุ่ม Update เรียกใช้
-      window.__LAST_ROWS__ = rows;
     }
-
-    function renderStatusPill(status){
-      const st = String(status || '').trim();
-      if(st === 'Completed'){
-        return `<span class="pill completed"><span class="dot"></span>Completed</span>`;
-      }
-      if(st === 'Overdue'){
-        return `<span class="pill overdue"><span class="dot"></span>Overdue</span>`;
-      }
-      return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#039;");
-    }
-
-    /* ===== Click handlers ===== */
-    document.addEventListener('click', (ev)=>{
-      const btn = ev.target.closest('button[data-action="openUpdate"]');
-      if(!btn) return;
-
-      const id = btn.getAttribute('data-id');
-      const rows = window.__LAST_ROWS__ || [];
-      const t = rows.find(x => String(x.id) === String(id));
-      if(t) openUpdate(t);
-    });
   </script>
 </body>
 </html>
-
