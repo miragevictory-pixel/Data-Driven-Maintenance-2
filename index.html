@@ -256,7 +256,7 @@
     {
       width:100%;
       border-collapse:collapse;
-      font-size:20px;
+      font-size:16px;
       background:#fff;
       border-radius:14px;
       overflow:hidden;
@@ -855,6 +855,14 @@
           <td>${actionBtn}</td>
         `;
         tbody.appendChild(tr);
+        /* ✅ ทำให้เฉพาะ Machine + Description ตัวใหญ่ขึ้น */
+        td.td-machine,
+        td.td-desc{
+          font-size:17px;
+          font-weight:700;
+          line-height:1.4;
+          white-space:normal;
+          word-break:break-word;
       }
 
       document.getElementById('kScheduled').textContent=s;
@@ -898,6 +906,7 @@
   </script>
 </body>
 </html>
+
 
 
 
