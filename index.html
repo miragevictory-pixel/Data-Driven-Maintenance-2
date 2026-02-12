@@ -844,18 +844,24 @@
           : `<span class="muted">—</span>`;
 
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${escapeHtml(r.workOrderNo || '')}</td>
-          <td>${escapeHtml(r.RequestDate || '')}</td>
-          <td>${escapeHtml(r.TimeRequest || '')}</td>
-          <td>${escapeHtml(r.dept || '')}</td>
-          <td>${escapeHtml(r.machine || '')}</td>
-          <td>${escapeHtml(r.desc || '')}</td>
-          <td>${statusPill}</td>
-          <td>${actionBtn}</td>
-        `;
-        tbody.appendChild(tr);
-      }
+   tr.innerHTML = `
+  <td>${escapeHtml(r.workOrderNo || '')}</td>
+  <td>${escapeHtml(formatDateCell(r.RequestDate || ''))}</td>
+  <td>${escapeHtml(formatTimeCell(r.TimeRequest || ''))}</td>
+  <td>${escapeHtml(r.dept || '')}</td>
+
+  <td style="font-size:17px; font-weight:700; line-height:1.35;">
+    ${escapeHtml(r.machine || '')}
+  </td>
+
+  <td style="font-size:17px; font-weight:700; line-height:1.35;">
+    ${escapeHtml(r.desc || '')}
+  </td>
+
+  <td>${statusPill}</td>
+  <td>${actionBtn}</td>
+`;
+tbody.appendChild(tr);
 
       document.getElementById('kScheduled').textContent=s;
       document.getElementById('kCompleted').textContent=c;
@@ -898,10 +904,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
