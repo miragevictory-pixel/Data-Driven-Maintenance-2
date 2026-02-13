@@ -1,11 +1,9 @@
-ฟ<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Maintenance Portal</title>
-  <meta name="application-name" content="Maintenance Portal">
-  <meta name="apple-mobile-web-app-title" content="Maintenance Portal">
 
   <style>
     :root{
@@ -17,10 +15,8 @@
       --radius:18px;
       --shadow:0 6px 18px rgba(0,0,0,.12);
     }
-
     * , *::before, *::after{ box-sizing:border-box; }
     html,body{height:100%;}
-
     body{
       margin:0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, "TH Sarabun New", Tahoma, sans-serif;
@@ -30,7 +26,6 @@
       line-height:1.5;
     }
 
-    /* ====== Top Bar ====== */
     .topbar{
       position:sticky; top:0; z-index:20;
       background:var(--brand); color:#fff;
@@ -38,71 +33,20 @@
       display:flex; align-items:center; gap:12px;
       box-shadow:0 2px 8px rgba(0,0,0,.15);
     }
-    .topbar h1{
-      font-size:20px;
-      margin:0;
-      font-weight:800;
-      letter-spacing:.3px
-    }
+    .topbar h1{ font-size:20px; margin:0; font-weight:800; letter-spacing:.3px }
 
-    /* Back button with effect */
     .back{
-      appearance:none;
-      border:0;
-      cursor:pointer;
-      width:40px;
-      height:40px;
-      border-radius:999px;
-      display:grid;
-      place-items:center;
+      appearance:none; border:0; cursor:pointer;
+      width:40px; height:40px; border-radius:999px;
+      display:grid; place-items:center;
       color:#fff;
       background: rgba(255,255,255,.14);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.18),
-        0 6px 14px rgba(0,0,0,.18);
-      font-size:20px;
-      line-height:1;
-      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
-    }
-    .back:hover{
-      background: rgba(255,255,255,.22);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.22),
-        0 10px 20px rgba(0,0,0,.22);
-      transform: translateY(-1px);
-    }
-    .back:active{
-      transform: translateY(1px) scale(.98);
-      background: rgba(0,0,0,.12);
-      box-shadow:
-        inset 0 2px 8px rgba(0,0,0,.25),
-        0 4px 10px rgba(0,0,0,.15);
-    }
-    .back:focus-visible{
-      outline: none;
-      box-shadow:
-        0 0 0 3px rgba(255,255,255,.30),
-        0 0 0 6px rgba(0,0,0,.12),
-        inset 0 0 0 1px rgba(255,255,255,.22);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 6px 14px rgba(0,0,0,.18);
+      font-size:20px; line-height:1;
     }
 
-    /* Container for desktop */
-    .container{
-      max-width: 520px;
-      margin:0 auto;
-      padding: 22px 18px 78px;
-    }
-    @media (min-width: 640px){
-      .container{ max-width: 920px; }
-    }
-    @media (min-width: 1024px){
-      .container{
-        max-width: 1240px;
-        padding: 28px 26px 40px;
-      }
-    }
+    .container{ max-width: 980px; margin:0 auto; padding: 22px 18px 40px; }
 
-    /* Views */
     [data-view]{display:none}
     [data-view].active{display:block}
 
@@ -115,29 +59,18 @@
     }
     .muted{color:var(--muted)}
 
-    /* Home */
     .hero{ width:100%; text-align:center; margin: 18px 0 18px; }
-    .hero span{
-      font-size:40px;
-      font-weight: 900;
-      color:var(--brand);
-      letter-spacing:0.6px;
-    }
+    .hero span{ font-size:40px; font-weight:900; color:var(--brand); letter-spacing:0.6px; }
+
     .menu{
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-      margin-top:14px;
-      max-width: 760px;
-      margin-left:auto;
-      margin-right:auto;
+      display:flex; flex-direction:column;
+      gap:18px; margin-top:14px;
+      max-width: 760px; margin-left:auto; margin-right:auto;
     }
 
     .btn{
-      display:block;
       width:100%;
       text-align:center;
-      text-decoration:none;
       cursor:pointer;
       background:var(--brand);
       color:#fff;
@@ -146,24 +79,9 @@
       padding: 14px 22px;
       font-weight:900;
       box-shadow:0 4px 0 #5f1c11, var(--shadow);
-      transition:transform .05s ease;
     }
-    .btn small{
-      display:block;
-      font-weight:700;
-      font-size:15px;
-      opacity:.92;
-      margin-top:2px;
-    }
-    .btn:active{transform:translateY(1px)}
+    .btn small{ display:block; font-weight:700; font-size:15px; opacity:.92; margin-top:2px; }
 
-    @media (min-width: 1024px){
-      .hero span{font-size:46px;}
-      .btn{ padding: 16px 24px; font-size:18px; }
-      .btn small{ font-size:16px; }
-    }
-
-    /* Form */
     form{display:grid; gap:14px}
     .field{display:grid; gap:8px; position:relative}
     .field label{ font-weight:800; font-size:18px; line-height:1.35; }
@@ -186,24 +104,20 @@
       left:16px;
       top:50%;
       transform:translateY(-50%);
-      width:28px;
-      height:28px;
-      display:grid;
-      place-items:center;
-      background:var(--brand);
-      color:#fff;
+      width:28px; height:28px;
+      display:grid; place-items:center;
+      background:var(--brand); color:#fff;
       border-radius:50%;
-      font-weight:900;
-      font-size:13px;
+      font-weight:900; font-size:13px;
       box-shadow:var(--shadow);
     }
 
     .row-actions{
-      display:flex;
-      gap:10px;
+      display:flex; gap:10px;
       justify-content:space-between;
       flex-wrap:wrap;
       margin-top: 6px;
+      align-items:center;
     }
 
     .chip{
@@ -215,18 +129,9 @@
       cursor:pointer;
       font-size:14px;
       box-shadow: 0 4px 12px rgba(0,0,0,.06);
-      transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
     }
-    .chip:hover{ box-shadow: 0 8px 18px rgba(0,0,0,.10); }
-    .chip:active{ transform: translateY(1px); }
+    .chip.primary{ border:0; background: rgba(158,47,28,.10); color: var(--brand); }
 
-    .chip.primary{
-      border:0;
-      background: rgba(158,47,28,.10);
-      color: var(--brand);
-    }
-
-    /* Status */
     .kpi{
       display:grid;
       grid-template-columns:1fr 1fr 1fr;
@@ -240,18 +145,8 @@
       padding:16px 14px;
       text-align:center;
     }
-    .kpi .box b{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-    .kpi .box span{
-      font-size:28px;
-      font-weight:900;
-      color:var(--brand);
-      line-height:1;
-    }
+    .kpi .box b{ display:block; font-size:13px; color:var(--muted); margin-bottom:6px; }
+    .kpi .box span{ font-size:28px; font-weight:900; color:var(--brand); line-height:1; }
 
     table{
       width:100%;
@@ -264,7 +159,7 @@
     th,td{
       padding:12px 12px;
       border-bottom:1px solid #eee;
-      vertical-align:top
+      vertical-align:top;
     }
     th{
       background:#fafafa;
@@ -276,37 +171,18 @@
     }
     [data-view="status"] .card{ overflow:auto; }
 
-    /* Desktop card size */
-    @media (min-width: 1024px){
-      [data-view="status"] .card,
-      [data-view="guide"] .card,
-      [data-view="powerbi"] .card,
-      [data-view="update"] .card{
-        max-width: 1120px;
-        margin-left:auto;
-        margin-right:auto;
-        padding: 26px;
-      }
-      [data-view="guide"] .card{ font-size:18px; line-height:1.7; }
-      [data-view="guide"] h2{ font-size:24px; margin-bottom:14px; }
-      [data-view="guide"] li{ margin: 10px 0; }
-      [data-view="powerbi"] h2{ font-size:24px; }
-      [data-view="powerbi"] .muted{ font-size:16px; }
-      [data-view="powerbi"] iframe{ border-radius:14px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      background:#fff; border:1px solid #eee; font-weight:800;
+      box-shadow: 0 4px 12px rgba(0,0,0,.06);
     }
+    .dot{ width:10px; height:10px; border-radius:999px; background: var(--brand); }
+    .pill.completed .dot{ background: #1f8a3b; }
+    .pill.overdue .dot{ background: #c0392b; }
 
-    /* Report card width */
-    [data-view="report"] .card{
-      max-width: 980px;
-      margin-left:auto;
-      margin-right:auto;
-      padding: 22px;
-    }
-
-    /* Mobile tabbar */
-    .tabbar{
-      display:none; /* ซ่อน Mobile tabbar */
-    }
+    .grid-2{ display:grid; grid-template-columns:1fr; gap:12px; }
+    @media (min-width:860px){ .grid-2{ grid-template-columns:1fr 1fr; } }
   </style>
 </head>
 
@@ -317,6 +193,7 @@
   </div>
 
   <main class="container">
+
     <!-- HOME -->
     <section data-view="home" class="active">
       <div class="hero"><span>Maintenance</span></div>
@@ -328,7 +205,7 @@
       </div>
     </section>
 
-    <!-- REPORT (แจ้งซ่อม: ให้กรอกแค่ 1–7 ตามที่คุยกัน) -->
+    <!-- REPORT -->
     <section data-view="report">
       <div class="card">
         <h2 style="margin:0 0 10px">การแจ้งซ่อม (Repair Request)</h2>
@@ -365,7 +242,7 @@
 
           <div class="field" data-step="3">
             <label for="desc">Repairdescription</label>
-            <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ (Describe problem / location / condition)" required></textarea>
+            <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ" required></textarea>
           </div>
 
           <div class="field" data-step="4">
@@ -386,11 +263,18 @@
             <button class="btn" type="submit">ส่งคำขอซ่อม <small>Submit request</small></button>
           </div>
         </form>
+      </div>
+    </section>
 
-        <p class="muted" style="margin-top:12px">
-          *หมายเหตุ:* ระบบจะสร้าง Date request / Time request ให้อัตโนมัติ และตั้ง Status = Scheduled
-          (Work order no. ให้ระบบออกเลขให้)
-        </p>
+    <!-- SUCCESS -->
+    <section data-view="success">
+      <div class="card" style="text-align:center">
+        <h2>บันทึกสำเร็จ</h2>
+        <p class="muted">ระบบได้บันทึกคำขอไว้แล้ว</p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+          <button class="chip primary" onclick="go('status')">ดูสถานะ</button>
+          <button class="chip" onclick="go('home')">กลับหน้าแรก</button>
+        </div>
       </div>
     </section>
 
@@ -407,7 +291,7 @@
         <table id="tbl">
           <thead>
             <tr>
-              <th>WorkOrderNo</th>
+              <th>Work Order</th>
               <th>RequestDate</th>
               <th>Time</th>
               <th>Machine Section</th>
@@ -421,10 +305,99 @@
         </table>
 
         <p class="muted" style="margin:12px 0 0">
-          *กดปุ่ม “Update” เฉพาะรายการที่เป็น Scheduled เพื่อกรอก Supervisor/Time to repair/Department แล้วปิดงานเป็น Completed
+          *กด “Update” เฉพาะรายการที่เป็น Scheduled เพื่อกรอก Supervisor/Time to repair/Department แล้วปิดงานเป็น Completed*
         </p>
       </div>
     </section>
+
+    <!-- UPDATE -->
+    <section data-view="update">
+      <div class="card">
+        <h2 style="margin:0 0 10px">Update สถานะการซ่อม (Job Update)</h2>
+
+        <div class="grid-2" style="margin: 8px 0 12px;">
+          <div class="pill" style="justify-content:space-between;">
+            <span style="display:flex; align-items:center; gap:8px;">
+              <span class="dot"></span><span>Work Order No.</span>
+            </span>
+            <span id="uWorkOrder" style="font-weight:900; color:var(--brand);">-</span>
+          </div>
+
+          <div class="pill" style="justify-content:space-between;">
+            <span style="display:flex; align-items:center; gap:8px;">
+              <span class="dot"></span><span>Machine</span>
+            </span>
+            <span id="uMachine" style="font-weight:900;">-</span>
+          </div>
+        </div>
+
+        <p class="muted" style="margin: 0 0 12px;">
+          กรอก 3 ช่องนี้ แล้วกดบันทึก ระบบจะเปลี่ยนสถานะเป็น <b>Completed</b> และอัปเดตในชีต “บรรทัดเดิม”
+        </p>
+
+        <form id="updateForm">
+          <input type="hidden" id="uId" name="id" />
+          <input type="hidden" id="uWoHidden" name="workOrderNo" />
+
+          <div class="field" data-step="1">
+            <label for="uSupervisor">Supervisor</label>
+            <input id="uSupervisor" name="supervisor" type="text" required />
+          </div>
+
+          <div class="field" data-step="2">
+            <label for="uTimeToRepair">Time to repair</label>
+            <input id="uTimeToRepair" name="timeToRepair" type="text" placeholder="เช่น 2.5 hrs / 150 min" required />
+          </div>
+
+          <div class="field" data-step="3">
+            <label for="uDepartment">Department</label>
+            <select id="uDepartment" name="department" required>
+              <option value="" disabled selected>เลือก...</option>
+              <option>Mechanical</option>
+              <option>Electrical</option>
+              <option>Mold</option>
+              <option>PM</option>
+            </select>
+          </div>
+
+          <div class="row-actions">
+            <button type="button" class="chip" onclick="go('status')">⟵ กลับ</button>
+            <button class="btn" type="submit">บันทึกและปิดงาน <small>Save & Complete</small></button>
+          </div>
+        </form>
+
+        <p class="muted" style="margin-top:12px">
+          *หมายเหตุ:* ปุ่ม Save จะทำงานได้เมื่อฝั่ง Apps Script มี action <code>updateJob</code>
+        </p>
+      </div>
+    </section>
+
+    <!-- POWER BI -->
+    <section data-view="powerbi">
+      <div class="card">
+        <h2 style="margin:0 0 12px">Power BI Dashboard</h2>
+        <p class="muted">Replace src ด้วยลิงก์ Embed ของคุณ</p>
+        <iframe
+          title="Overview"
+          style="width:100%; aspect-ratio:16/9; border:0; background:#fafafa; border-radius:14px;"
+          src="https://app.powerbi.com/view?r=eyJrIjoiYWM2MDViNTEtNGU4Mi00ODVlLTk4ZmItMzgzMTg1YzdjNDUxIiwidCI6ImY5MGM0NjQ3LTg4NmYtNGI0Yy1iMmViLTU1NWRmOWVjNGU4MSIsImMiOjEwfQ%3D%3D"
+          allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- GUIDE -->
+    <section data-view="guide">
+      <div class="card">
+        <h2 style="margin:0 0 10px">คู่มือการใช้งาน</h2>
+        <ol>
+          <li>กด “แจ้งซ่อม” กรอกข้อมูล แล้วกด Submit</li>
+          <li>ไปที่ “สถานะการแจ้งซ่อม” เพื่อดูรายการ</li>
+          <li>รายการที่เป็น Scheduled กด Update</li>
+          <li>กรอก Supervisor / Time to repair / Department แล้วกด Save</li>
+        </ol>
+      </div>
+    </section>
+
   </main>
 
   <script>
@@ -457,7 +430,6 @@
       if(view === 'status') renderTable();
       if(view === 'report') setAutoDateTime();
     }
-
     function go(view){ show(view); }
 
     window.addEventListener('load', () => {
@@ -468,21 +440,33 @@
 
     function setAutoDateTime(){
       const now = new Date();
-      const RequestDate = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
-      const TimeRequest = now.toTimeString().slice(0,5);   // HH:MM
+      const RequestDate = now.toLocaleDateString('en-CA');
+      const TimeRequest = now.toTimeString().slice(0,5);
       const d = document.getElementById('RequestDateShow');
       const t = document.getElementById('TimeRequestShow');
       if(d) d.value = RequestDate;
       if(t) t.value = TimeRequest;
     }
 
-    /* ===== Local fallback (demo) ===== */
-    const DEMO = !/^https?:\/\//i.test(WEB_APP_URL);
-    const KEY='tickets.v3';
-    const getTickets=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-    const setTickets=(v)=>localStorage.setItem(KEY,JSON.stringify(v));
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+    }
 
-    /* ===== API helpers ===== */
+    function renderStatusPill(stNorm){
+      if(stNorm === 'completed'){
+        return `<span class="pill completed"><span class="dot"></span>Completed</span>`;
+      }
+      if(stNorm === 'overdue'){
+        return `<span class="pill overdue"><span class="dot"></span>Overdue</span>`;
+      }
+      return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
+    }
+
     async function fetchJSON(url, options){
       const res = await fetch(url, options);
       const text = await res.text();
@@ -546,47 +530,89 @@
       }
     });
 
+    /* ===== Open update ===== */
+    function openUpdate(ticket){
+      document.getElementById('uId').value = ticket.id || '';
+      document.getElementById('uWoHidden').value = ticket.workOrderNo || '';
+      document.getElementById('uWorkOrder').textContent = ticket.workOrderNo || '-';
+      document.getElementById('uMachine').textContent = ticket.machine || '-';
+
+      document.getElementById('uSupervisor').value = '';
+      document.getElementById('uTimeToRepair').value = '';
+      document.getElementById('uDepartment').value = '';
+
+      go('update');
+    }
+
+    /* ===== Submit update ===== */
+    document.getElementById('updateForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      const payload = {
+        id: data.id || '',
+        "Work Order No.": data.workOrderNo || '',
+        Supervisor: data.supervisor || '',
+        Department: data.department || '',
+        "Time to repair": data.timeToRepair || '',
+        Status: 'Completed'
+      };
+
+      try{
+        const r = await apiUpdateJob(payload);
+        if(r.ok){
+          go('status');
+        } else {
+          alert('อัปเดตไม่สำเร็จ: ' + (r.error || 'unknown'));
+        }
+      } catch(err){
+        alert('เครือข่ายผิดพลาด: ' + err.message);
+      }
+    });
+
     /* ===== Render table ===== */
     async function renderTable(){
       const tbody = document.querySelector('#tbl tbody');
       tbody.innerHTML = '<tr><td colspan="8">Loading...</td></tr>';
 
-      let rows = [];
       try{
         const r = await apiListTickets(500);
 
-        rows = (r.rows || []).map(x => ({
+        const rows = (r.rows || []).map(x => ({
           id: x['ID'] || x['id'] || '',
-          workOrderNo: x['WorkOrderNo'] || '',
-          RequestDate: x['RequestDate'] || '',
-          TimeRequest: x['TimeRequest'] || '',
-          dept: x['Machine Section'] || '',
-          machine: x['Machine'] || '',
-          desc: x['Repairdescription'] || '',
+          workOrderNo: x['WorkOrderNo'] || x['Work Order No.'] || x['Work Order No'] || '',
+          RequestDate: x['RequestDate'] || x['Request Date'] || x['Date request'] || '',
+          TimeRequest: x['TimeRequest'] || x['Request Time'] || x['Time request'] || '',
+          dept: x['Machine Section'] || x['Machine Department'] || '',
+          machine: x['Machine'] || x['Machine Name'] || '',
+          desc: x['Repairdescription'] || x['Problem Description'] || '',
           status: x['Status'] || 'Scheduled'
         }));
 
         let s=0,c=0,o=0;
         tbody.innerHTML = '';
-        for(const r of rows){
-          if(r.status==='Scheduled') s++;
-          else if(r.status==='Completed') c++;
+
+        for(const row of rows){
+          const stNorm = String(row.status || '').trim().toLowerCase();
+          if(stNorm === 'scheduled') s++;
+          else if(stNorm === 'completed') c++;
           else o++;
 
-          const statusPill = renderStatusPill(r.status);
-          const canUpdate = (r.status === 'Scheduled');
+          const statusPill = renderStatusPill(stNorm);
+
+          const canUpdate = (stNorm === 'scheduled') && String(row.id || '').trim() !== '';
           const actionBtn = canUpdate
-            ? `<button class="chip primary" data-action="openUpdate" data-id="${escapeHtml(r.id)}">Update</button>`
+            ? `<button class="chip primary" data-action="openUpdate" data-id="${escapeHtml(row.id)}">Update</button>`
             : `<span class="muted">—</span>`;
 
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td>${escapeHtml(r.workOrderNo || '')}</td>
-            <td>${escapeHtml(r.RequestDate || '')}</td>
-            <td>${escapeHtml(r.TimeRequest || '')}</td>
-            <td>${escapeHtml(r.dept || '')}</td>
-            <td>${escapeHtml(r.machine || '')}</td>
-            <td>${escapeHtml(r.desc || '')}</td>
+            <td>${escapeHtml(row.workOrderNo || '')}</td>
+            <td>${escapeHtml(row.RequestDate || '')}</td>
+            <td>${escapeHtml(row.TimeRequest || '')}</td>
+            <td>${escapeHtml(row.dept || '')}</td>
+            <td>${escapeHtml(row.machine || '')}</td>
+            <td>${escapeHtml(row.desc || '')}</td>
             <td>${statusPill}</td>
             <td>${actionBtn}</td>
           `;
@@ -596,31 +622,12 @@
         document.getElementById('kScheduled').textContent = s;
         document.getElementById('kCompleted').textContent = c;
         document.getElementById('kOverdue').textContent = o;
+
         window.__LAST_ROWS__ = rows;
 
       } catch(e){
         tbody.innerHTML = '<tr><td colspan="8">Load failed</td></tr>';
       }
-    }
-
-    function renderStatusPill(status){
-      const st = String(status || '').trim();
-      if(st === 'Completed'){
-        return `<span class="pill completed"><span class="dot"></span>Completed</span>`;
-      }
-      if(st === 'Overdue'){
-        return `<span class="pill overdue"><span class="dot"></span>Overdue</span>`;
-      }
-      return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#039;");
     }
 
     document.addEventListener('click', (ev)=>{
@@ -635,4 +642,3 @@
   </script>
 </body>
 </html>
-
