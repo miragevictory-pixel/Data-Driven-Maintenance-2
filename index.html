@@ -635,7 +635,7 @@
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx7p3IJVPxsjrXMwEZ-u3r4dt2pJKv5vfQ6pg4cUTplFrVvB94RjKtCraftSli1d5avxw/exec';
     const API_TOKEN   = '0992183266';
 
-    const DEMO_MODE = true; // ✅ เปลี่ยนเป็น false เมื่อจะต่อ Apps Script จริง
+    const DEMO_MODE = false; // ✅ เปลี่ยนเป็น false เมื่อจะต่อ Apps Script จริง
 
     /* ===== Router ===== */
     const titleMap = {
@@ -835,7 +835,7 @@
       if(DEMO_MODE){
         return { ok:true, rows: demoGet(K.tickets).slice(0, limit) };
       }
-      return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}`);
+      return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}&token=${encodeURIComponent(API_TOKEN)}`);
     }
 
     async function apiUpdateJob(payload){
@@ -1325,5 +1325,6 @@
   </script>
 </body>
 </html>
+
 
 
