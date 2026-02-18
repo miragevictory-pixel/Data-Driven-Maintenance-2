@@ -271,19 +271,17 @@
 
         <form id="ticketForm">
           <div class="field" data-step="1">
-            <label for="dept">Machine section</label>
-            <select id="dept" name="dept" required>
-              <option value="" disabled selected>เลือก... / Select...</option>
-              <option>P3/1</option>
-              <option>P3/2</option>
-              <option>P3/3</option>
-              <option>P4/1</option>
-            </select>
+            <label for="deptInput">Machine section</label>
+            <input id="deptInput" name="dept" list="deptList" placeholder="พิมพ์เพื่อค้นหา เช่น P3/1" required />
+            <datalist id="deptList"></datalist>
+            <small>พิมพ์ค้นหาได้ / เลือกจากรายการ (ดึงจาก Google Sheet)</small>
           </div>
 
           <div class="field" data-step="2">
-            <label for="machine">Machine</label>
-            <input id="machine" name="machine" type="text" placeholder="เช่น เครื่องตัด... / e.g. Cutting machine" required />
+            <label for="machineInput">Machine</label>
+            <input id="machineInput" name="machine" list="machineList" placeholder="เลือกเครื่องตาม section" required />
+            <datalist id="machineList"></datalist>
+            <small>รายการจะเปลี่ยนตาม Machine section</small>
           </div>
 
           <div class="field" data-step="3">
@@ -632,7 +630,7 @@
       - DEMO_MODE=false: ใช้ Apps Script จริง (ต้องมี API actions)
     ========================================================= */
     const APP_NAME    = 'Centralized Database from factory';
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx7p3IJVPxsjrXMwEZ-u3r4dt2pJKv5vfQ6pg4cUTplFrVvB94RjKtCraftSli1d5avxw/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw7vk2FJMXi9VZe7kz8N5F1VYKcea4JTI9Z63aKwrERxmtpCcEb5BjpsXCL5KF5k7Ri0A/exec';
     const API_TOKEN   = '0992183266';
 
     const DEMO_MODE = false; // ✅ เปลี่ยนเป็น false เมื่อจะต่อ Apps Script จริง
@@ -663,7 +661,15 @@
       window.scrollTo({top:0, behavior:'smooth'});
 
       if(view === 'status') renderTable();
-      if(view === 'report') setAutoDateTime();
+      if(view === 'report'){
+        setAutoDateTime();
+
+        // โหลด Machine Master ครั้งแรก
+      if(!window.__MASTER_LOADED__){
+        window.__MASTER_LOADED__ = true;
+        loadMachineMaster();
+      }
+    }
       if(view === 'pmboard') refreshPMBoard();
       if(view === 'employees') renderEmployees();
       if(view === 'pmtasks') renderPMTasks();
@@ -836,6 +842,20 @@
         return { ok:true, rows: demoGet(K.tickets).slice(0, limit) };
       }
       return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}&token=${encodeURIComponent(API_TOKEN)}`);
+    }
+
+    async function apiGetMachineMaster(){
+      if (DEMO_MODE){
+        // DEMO ตัวอย่าง (แก้เองได้)
+        return {
+          ok:true,
+          map:{
+            "P3/1":["เครื่องขัดขอบเหล็กดำ","เครื่องเชื่อมกระป๋องกลม"],
+            "P3/2":["Conveyor 2","Lathe A"],
+          }
+      };
+    }
+    return fetchJSON(`${WEB_APP_URL}?action=machinemaster&token=${encodeURIComponent(API_TOKEN)}`);
     }
 
     async function apiUpdateJob(payload){
@@ -1322,9 +1342,107 @@
         }
       }, 200);
     });
+    let __MM__ = { sections: [], machinesBySection: {} };
+
+function fillDatalist(el, items){
+  el.innerHTML = '';
+  (items || []).forEach(v=>{
+    const opt = document.createElement('option');
+    opt.value = v;
+    el.appendChild(opt);
+  });
+}
+
+function normalizeKey(s){ return String(s||'').trim(); }
+
+async function initMachineDropdowns(){
+  const deptInput = document.getElementById('deptInput');
+  const machineInput = document.getElementById('machineInput');
+  const deptList = document.getElementById('deptList');
+  const machineList = document.getElementById('machineList');
+
+  if(!deptInput || !machineInput || !deptList || !machineList) return;
+
+  try{
+    // ✅ ดึงจาก Google Sheet ผ่าน Apps Script
+    const r = await apiGetMachineMaster();
+    if(!r.ok) throw new Error(r.error || 'machineMaster_failed');
+
+    __MM__ = {
+      sections: r.sections || [],
+      machinesBySection: r.machinesBySection || {}
+    };
+
+    // ใส่รายการ section
+    fillDatalist(deptList, __MM__.sections);
+
+    // เวลาเลือก/พิมพ์ section -> update machine list
+    const onDeptChange = ()=>{
+      const sec = normalizeKey(deptInput.value);
+      const machines = __MM__.machinesBySection[sec] || [];
+      fillDatalist(machineList, machines);
+
+      // ถ้า machine ที่กรอกอยู่ไม่อยู่ใน list ให้ล้าง (กันผิด section)
+      if(machines.length && machineInput.value && !machines.includes(machineInput.value)){
+        machineInput.value = '';
+      }
+    };
+
+    deptInput.addEventListener('input', onDeptChange);
+    deptInput.addEventListener('change', onDeptChange);
+
+  } catch(err){
+    console.error(err);
+    // fallback: ไม่ให้พัง แค่ปล่อยให้พิมพ์เองได้
+  }
+}
+    
+let __MACHINE_MASTER__ = { map:{} };
+
+function fillDatalist(el, items){
+  el.innerHTML = '';
+  const uniq = Array.from(new Set((items||[]).map(x=>String(x).trim()).filter(Boolean)));
+  for(const v of uniq){
+    const opt = document.createElement('option');
+    opt.value = v;
+    el.appendChild(opt);
+  }
+}
+
+async function loadMachineMaster(){
+  try{
+    const r = await apiGetMachineMaster();
+    if(!r.ok) throw new Error(r.error || 'load failed');
+    __MACHINE_MASTER__ = r;
+
+    const sections = Object.keys(r.map || {}).sort();
+    fillDatalist(document.getElementById('deptList'), sections);
+
+    // ถ้ายังไม่เลือก section ให้ machine list ว่างไว้ก่อน
+    fillDatalist(document.getElementById('machineList'), []);
+  }catch(err){
+    console.warn(err);
+  }
+}
+
+function updateMachineListBySection(section){
+  const map = __MACHINE_MASTER__.map || {};
+  const machines = map[section] || [];
+  fillDatalist(document.getElementById('machineList'), machines);
+
+  // ถ้า machine ที่พิมพ์อยู่ ไม่อยู่ใน list ของ section ใหม่ ก็ล้างให้
+  const mi = document.getElementById('machineInput');
+  if(mi && mi.value && machines.length && !machines.includes(mi.value)){
+    mi.value = '';
+  }
+}
+    
+document.addEventListener('input', (e)=>{
+  if(e.target && e.target.id === 'deptInput'){
+    updateMachineListBySection(e.target.value.trim());
+  }
+});
+
   </script>
 </body>
 </html>
-
-
-
