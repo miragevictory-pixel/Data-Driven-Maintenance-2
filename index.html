@@ -667,7 +667,7 @@
         // โหลด Machine Master ครั้งแรก
       if(!window.__MASTER_LOADED__){
         window.__MASTER_LOADED__ = true;
-        loadMachineMaster();
+        initMachineDropdowns();
       }
     }
       if(view === 'pmboard') refreshPMBoard();
@@ -1395,55 +1395,10 @@ async function initMachineDropdowns(){
     console.error(err);
     // fallback: ไม่ให้พัง แค่ปล่อยให้พิมพ์เองได้
   }
-}
-    
-let __MACHINE_MASTER__ = { map:{} };
-
-function fillDatalist(el, items){
-  el.innerHTML = '';
-  const uniq = Array.from(new Set((items||[]).map(x=>String(x).trim()).filter(Boolean)));
-  for(const v of uniq){
-    const opt = document.createElement('option');
-    opt.value = v;
-    el.appendChild(opt);
   }
-}
-
-async function loadMachineMaster(){
-  try{
-    const r = await apiGetMachineMaster();
-    if(!r.ok) throw new Error(r.error || 'load failed');
-    __MACHINE_MASTER__ = r;
-
-    const sections = Object.keys(r.map || {}).sort();
-    fillDatalist(document.getElementById('deptList'), sections);
-
-    // ถ้ายังไม่เลือก section ให้ machine list ว่างไว้ก่อน
-    fillDatalist(document.getElementById('machineList'), []);
-  }catch(err){
-    console.warn(err);
-  }
-}
-
-function updateMachineListBySection(section){
-  const map = __MACHINE_MASTER__.map || {};
-  const machines = map[section] || [];
-  fillDatalist(document.getElementById('machineList'), machines);
-
-  // ถ้า machine ที่พิมพ์อยู่ ไม่อยู่ใน list ของ section ใหม่ ก็ล้างให้
-  const mi = document.getElementById('machineInput');
-  if(mi && mi.value && machines.length && !machines.includes(mi.value)){
-    mi.value = '';
-  }
-}
-    
-document.addEventListener('input', (e)=>{
-  if(e.target && e.target.id === 'deptInput'){
-    updateMachineListBySection(e.target.value.trim());
-  }
-});
 
   </script>
 </body>
 </html>
+
 
