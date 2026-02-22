@@ -138,7 +138,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,.06);
     }
     .chip.primary{ border:0; background: rgba(158,47,28,.10); color: var(--brand); }
-    .chip.danger{ border:0; background: rgba(192,57,43,.12); color:#c0392b; }
     .chip:active{ transform: translateY(1px); }
 
     .kpi{
@@ -189,34 +188,9 @@
     .dot{ width:10px; height:10px; border-radius:999px; background: var(--brand); }
     .pill.completed .dot{ background: #1f8a3b; }
     .pill.overdue .dot{ background: #c0392b; }
-    .pill.busy .dot{ background:#d35400; }
-    .pill.free .dot{ background:#1f8a3b; }
-    .pill.leave .dot{ background:#7f8c8d; }
 
     .grid-2{ display:grid; grid-template-columns:1fr; gap:12px; }
     @media (min-width:860px){ .grid-2{ grid-template-columns:1fr 1fr; } }
-
-    .toolbar{
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-      margin: 6px 0 14px;
-    }
-    .toolbar .field{ min-width: 220px; }
-    .mini{
-      font-size:13px;
-      color:var(--muted);
-    }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid #eee;
-      box-shadow: 0 4px 12px rgba(0,0,0,.06);
-      font-weight:800;
-      white-space:nowrap;
-    }
   </style>
 </head>
 
@@ -226,10 +200,7 @@
       <button class="back" aria-label="ย้อนกลับ" onclick="go('home')">⟵</button>
       <h1 id="title">Maintenance</h1>
     </div>
-    <div class="right">
-      <span class="badge" id="modeBadge"><span class="dot"></span>DEMO MODE</span>
-      <button class="chip" onclick="hardResetDemo()">Reset Demo Data</button>
-    </div>
+    <div class="right"></div>
   </div>
 
   <main class="container">
@@ -240,12 +211,6 @@
       <div class="menu">
         <button class="btn" onclick="go('report')">แจ้งซ่อม <small>Repair request</small></button>
         <button class="btn" onclick="go('status')">สถานะการแจ้งซ่อม <small>Request status</small></button>
-
-        <!-- ✅ เพิ่ม PM Planning -->
-        <button class="btn" onclick="go('pmboard')">PM Planning (Today Board) <small>ตารางคน/งานวันนี้</small></button>
-        <button class="btn" onclick="go('employees')">Employees <small>คน / Skill / สถานะ</small></button>
-        <button class="btn" onclick="go('pmtasks')">PM Tasks <small>รายการ PM ตาม Due date</small></button>
-
         <button class="btn" onclick="go('powerbi')">Power BI <small>Dashboard</small></button>
         <button class="btn" onclick="go('guide')">คู่มือการใช้งาน <small>User guide</small></button>
       </div>
@@ -416,183 +381,6 @@
       </div>
     </section>
 
-    <!-- ✅ PM BOARD (Today Board) -->
-    <section data-view="pmboard">
-      <div class="card">
-        <h2 style="margin:0 0 6px">PM Planning · Today Board</h2>
-        <div class="toolbar">
-          <div class="field">
-            <label for="pmDate">วันที่</label>
-            <input id="pmDate" type="date" />
-            <small class="mini">เปลี่ยนวันที่เพื่อดูตารางวันอื่น</small>
-          </div>
-
-          <div class="field">
-            <label for="pmDeptFilter">Filter แผนก</label>
-            <select id="pmDeptFilter">
-              <option value="">ทั้งหมด</option>
-              <option>Mechanical</option>
-              <option>Electrical</option>
-              <option>Mold</option>
-              <option>PM</option>
-            </select>
-          </div>
-
-          <button class="chip primary" onclick="go('pmassign')">+ Assign PM</button>
-          <button class="chip" onclick="refreshPMBoard()">Refresh</button>
-        </div>
-
-        <div class="grid-2" style="margin-bottom:12px;">
-          <div class="badge"><span class="dot"></span><span id="pmBoardSummary">—</span></div>
-          <div class="badge"><span class="dot"></span><span>แนวคิด: คน / Skill / โหลดงานวันนี้ / งาน PM ที่ได้รับ</span></div>
-        </div>
-
-        <table id="pmBoardTable">
-          <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Department</th>
-              <th>Role</th>
-              <th>Skill</th>
-              <th>Status (Today)</th>
-              <th>Load (min)</th>
-              <th>Assigned PM (Today)</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <p class="muted" style="margin-top:12px">
-          *Load (min) = เวลามาตรฐานรวมของงาน PM ที่ถูก Assign ให้คนนั้นในวันนั้น*
-        </p>
-      </div>
-    </section>
-
-    <!-- ✅ PM ASSIGN -->
-    <section data-view="pmassign">
-      <div class="card">
-        <h2 style="margin:0 0 10px">Assign PM (มอบหมายงาน)</h2>
-
-        <div class="grid-2" style="margin: 8px 0 12px;">
-          <div class="field">
-            <label>วันที่</label>
-            <input id="assignDate" type="date" />
-            <small>ค่าเดียวกับ Today Board</small>
-          </div>
-          <div class="field">
-            <label>Priority</label>
-            <select id="assignPriority">
-              <option>Normal</option>
-              <option>High</option>
-              <option>Critical</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="field" data-step="1">
-            <label for="assignTask">เลือก PM Task</label>
-            <select id="assignTask"></select>
-            <small>รายการจาก PM Tasks (มี Due date / เวลามาตรฐาน / Required skill)</small>
-          </div>
-
-          <div class="field" data-step="2">
-            <label for="assignEmp">เลือกพนักงาน</label>
-            <select id="assignEmp"></select>
-            <small>ระบบจะช่วยกรองคนที่อยู่แผนกตรง และแสดงสถานะวันนี้</small>
-          </div>
-        </div>
-
-        <div class="field" data-step="3">
-          <label for="assignNote">หมายเหตุ</label>
-          <input id="assignNote" type="text" placeholder="เช่น หยุดเครื่อง 30 นาที / ทำหลังพักเที่ยง" />
-        </div>
-
-        <div class="row-actions">
-          <button class="chip" onclick="go('pmboard')">⟵ กลับ Today Board</button>
-          <button class="btn" onclick="submitAssignPM()">Assign</button>
-        </div>
-
-        <p class="muted" style="margin-top:12px">
-          *ตอนนี้ใช้ DEMO data ได้ทันที / ถ้าจะให้บันทึกลง Google Sheet ต้องเพิ่ม action ใน Apps Script: <code>assignPM</code>*
-        </p>
-      </div>
-    </section>
-
-    <!-- ✅ EMPLOYEES -->
-    <section data-view="employees">
-      <div class="card">
-        <h2 style="margin:0 0 10px">Employees</h2>
-
-        <div class="toolbar">
-          <div class="field">
-            <label for="empDeptFilter">Filter แผนก</label>
-            <select id="empDeptFilter">
-              <option value="">ทั้งหมด</option>
-              <option>Mechanical</option>
-              <option>Electrical</option>
-              <option>Mold</option>
-              <option>PM</option>
-            </select>
-          </div>
-          <button class="chip" onclick="renderEmployees()">Refresh</button>
-        </div>
-
-        <table id="empTable">
-          <thead>
-            <tr>
-              <th>EmployeeID</th>
-              <th>Name</th>
-              <th>Department</th>
-              <th>Role</th>
-              <th>Skill (tags)</th>
-              <th>Status today</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ✅ PM TASKS -->
-    <section data-view="pmtasks">
-      <div class="card">
-        <h2 style="margin:0 0 10px">PM Tasks</h2>
-
-        <div class="toolbar">
-          <div class="field">
-            <label for="taskDueFilter">Filter Due</label>
-            <select id="taskDueFilter">
-              <option value="all">ทั้งหมด</option>
-              <option value="due7">ถึงกำหนดใน 7 วัน</option>
-              <option value="overdue">เลยกำหนด</option>
-            </select>
-          </div>
-          <button class="chip" onclick="renderPMTasks()">Refresh</button>
-        </div>
-
-        <table id="taskTable">
-          <thead>
-            <tr>
-              <th>PM_ID</th>
-              <th>Machine</th>
-              <th>Task</th>
-              <th>Std time (min)</th>
-              <th>Required skill</th>
-              <th>Due date</th>
-              <th>Criticality</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <p class="muted" style="margin-top:12px">
-          *ใช้รายการนี้ในการ Assign PM งานเข้า Today Board*
-        </p>
-      </div>
-    </section>
-
     <!-- POWER BI -->
     <section data-view="powerbi">
       <div class="card">
@@ -615,25 +403,17 @@
           <li>ไปที่ “สถานะการแจ้งซ่อม” เพื่อดูรายการ</li>
           <li>รายการที่เป็น Scheduled กด Update</li>
           <li>กรอก Supervisor / Time to repair / Department แล้วกด Save</li>
-          <li><b>PM Planning:</b> เข้า “PM Planning (Today Board)” → กด “Assign PM” เพื่อมอบหมายงาน → ดูโหลดงานต่อคน</li>
         </ol>
-        <p class="muted">ถ้าจะใช้งานจริงกับชีต: ต้องเพิ่ม Apps Script actions เช่น <code>listEmployees</code>, <code>listPMTasks</code>, <code>listSchedule</code>, <code>assignPM</code></p>
+        <p class="muted">ถ้าจะใช้งานจริงกับชีต: ต้องมี Apps Script actions เช่น <code>create</code>, <code>list</code>, <code>updateJob</code>, <code>machinemaster</code></p>
       </div>
     </section>
 
   </main>
 
   <script>
-    /* =========================================================
-      CONFIG
-      - DEMO_MODE=true: ใช้ข้อมูลจำลอง + localStorage (เปิดดูทันที)
-      - DEMO_MODE=false: ใช้ Apps Script จริง (ต้องมี API actions)
-    ========================================================= */
     const APP_NAME    = 'Centralized Database from factory';
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyEi5-pYJ1YB2SZfoevkufAxyYCZq0Emmq-q7L_QOOOVHiMdT1GBTou_P25LivICETIzQ/exec';
     const API_TOKEN   = '0992183266';
-
-    const DEMO_MODE = false; // ✅ เปลี่ยนเป็น false เมื่อจะต่อ Apps Script จริง
 
     /* ===== Router ===== */
     const titleMap = {
@@ -642,10 +422,6 @@
       success:"การแจ้งซ่อม",
       status:"สถานะการแจ้งซ่อม",
       update:"Update งานซ่อม",
-      pmboard:"PM Planning",
-      pmassign:"Assign PM",
-      employees:"Employees",
-      pmtasks:"PM Tasks",
       powerbi:"Power BI",
       guide:"คู่มือ"
     };
@@ -661,34 +437,19 @@
       window.scrollTo({top:0, behavior:'smooth'});
 
       if(view === 'status') renderTable();
+
       if(view === 'report'){
         setAutoDateTime();
-
-        // โหลด Machine Master ครั้งแรก
-      if(!window.__MASTER_LOADED__){
-        window.__MASTER_LOADED__ = true;
-        initMachineDropdowns();
+        if(!window.__MASTER_LOADED__){
+          window.__MASTER_LOADED__ = true;
+          initMachineDropdowns();
+        }
       }
     }
-      if(view === 'pmboard') refreshPMBoard();
-      if(view === 'employees') renderEmployees();
-      if(view === 'pmtasks') renderPMTasks();
-      if(view === 'pmassign') prepAssignPM();
-    }
+
     function go(view){ show(view); }
 
     window.addEventListener('load', () => {
-      document.getElementById('modeBadge').innerHTML =
-        DEMO_MODE ? `<span class="dot"></span>DEMO MODE` : `<span class="dot"></span>LIVE MODE`;
-
-      const today = toISODate(new Date());
-      const pmDate = document.getElementById('pmDate');
-      const assignDate = document.getElementById('assignDate');
-      if(pmDate) pmDate.value = today;
-      if(assignDate) assignDate.value = today;
-
-      initDemoIfNeeded();
-
       const initial = (location.hash || '#home').slice(1);
       show(initial);
       setAutoDateTime();
@@ -730,13 +491,6 @@
       return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
     }
 
-    function renderEmpStatusPill(st){
-      const s = String(st || '').toLowerCase();
-      if(s === 'busy') return `<span class="pill busy"><span class="dot"></span>Busy</span>`;
-      if(s === 'leave') return `<span class="pill leave"><span class="dot"></span>Leave</span>`;
-      return `<span class="pill free"><span class="dot"></span>Free</span>`;
-    }
-
     async function fetchJSON(url, options){
       const res = await fetch(url, options);
       const text = await res.text();
@@ -745,90 +499,9 @@
     }
 
     /* =========================================================
-      DEMO STORAGE (Employees / PM Tasks / PM Schedule / Tickets)
-    ========================================================= */
-    const K = {
-      tickets: 'demo.tickets.v1',
-      employees: 'demo.employees.v1',
-      pmtasks: 'demo.pmtasks.v1',
-      pmschedule: 'demo.pmschedule.v1'
-    };
-
-    function initDemoIfNeeded(){
-      if(!DEMO_MODE) return;
-
-      if(!localStorage.getItem(K.employees)){
-        const employees = [
-          { employeeId:'E001', name:'Somchai', department:'Mechanical', role:'Technician', skills:['Bearing','Welding','Pump'], statusToday:'Free' },
-          { employeeId:'E002', name:'Naree', department:'Electrical', role:'Technician', skills:['PLC','Sensor','Inverter'], statusToday:'Busy' },
-          { employeeId:'E003', name:'Krit', department:'PM', role:'Senior', skills:['Inspection','Lubrication','5S'], statusToday:'Free' },
-          { employeeId:'E004', name:'Aon', department:'Mold', role:'Technician', skills:['Mold','Polish','Alignment'], statusToday:'Leave' },
-          { employeeId:'E005', name:'Benz', department:'Mechanical', role:'Supervisor', skills:['Planning','Safety','RootCause'], statusToday:'Free' }
-        ];
-        localStorage.setItem(K.employees, JSON.stringify(employees));
-      }
-
-      if(!localStorage.getItem(K.pmtasks)){
-        const today = new Date();
-        const plusDays = (n)=> toISODate(new Date(today.getTime()+n*86400000));
-        const tasks = [
-          { pmId:'PM-001', machine:'P3/1 · Cutter A', task:'Inspect belt tension', stdMin:30, reqSkill:'Inspection', dueDate: plusDays(0), criticality:'High' },
-          { pmId:'PM-002', machine:'P3/2 · Conveyor 2', task:'Lubricate chain', stdMin:25, reqSkill:'Lubrication', dueDate: plusDays(2), criticality:'Normal' },
-          { pmId:'PM-003', machine:'P4/1 · Compressor', task:'Check pressure leak', stdMin:45, reqSkill:'Sensor', dueDate: plusDays(-1), criticality:'Critical' },
-          { pmId:'PM-004', machine:'P3/3 · Press', task:'Check inverter temp log', stdMin:35, reqSkill:'Inverter', dueDate: plusDays(6), criticality:'Normal' },
-          { pmId:'PM-005', machine:'P3/1 · Pump', task:'Replace filter', stdMin:40, reqSkill:'Pump', dueDate: plusDays(1), criticality:'High' }
-        ];
-        localStorage.setItem(K.pmtasks, JSON.stringify(tasks));
-      }
-
-      if(!localStorage.getItem(K.pmschedule)){
-        // schedule records: { scheduleId, date, pmId, employeeId, status, priority, note }
-        localStorage.setItem(K.pmschedule, JSON.stringify([]));
-      }
-
-      if(!localStorage.getItem(K.tickets)){
-        // minimal demo tickets
-        const t = toISODate(new Date());
-        const tickets = [
-          { id:'T-001', workOrderNo:'WO-20260216-1234', RequestDate:t, TimeRequest:'09:10', dept:'P3/1', machine:'Cutter A', desc:'เสียงดังผิดปกติ', status:'Scheduled' },
-          { id:'T-002', workOrderNo:'WO-20260216-2234', RequestDate:t, TimeRequest:'11:20', dept:'P3/2', machine:'Conveyor 2', desc:'สายพานหลวม', status:'Completed' }
-        ];
-        localStorage.setItem(K.tickets, JSON.stringify(tickets));
-      }
-    }
-
-    function hardResetDemo(){
-      if(!confirm('Reset demo data ทั้งหมด?')) return;
-      Object.values(K).forEach(k=>localStorage.removeItem(k));
-      initDemoIfNeeded();
-      alert('Reset แล้ว');
-      go('home');
-    }
-
-    function demoGet(key){ return JSON.parse(localStorage.getItem(key) || '[]'); }
-    function demoSet(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-
-    /* =========================================================
-      APIs (Tickets) : DEMO or LIVE
+      LIVE APIs (Apps Script)
     ========================================================= */
     async function apiCreateTicket(payload){
-      if(DEMO_MODE){
-        const all = demoGet(K.tickets);
-        const id = 'T-' + Math.random().toString(36).slice(2,8).toUpperCase();
-        const workOrderNo = `WO-${payload.RequestDate.replaceAll('-','')}-${Math.floor(1000+Math.random()*9000)}`;
-        all.unshift({
-          id, workOrderNo,
-          RequestDate: payload.RequestDate,
-          TimeRequest: payload.TimeRequest,
-          dept: payload["Machine Section"],
-          machine: payload.Machine,
-          desc: payload.Repairdescription,
-          status: payload.Status || 'Scheduled'
-        });
-        demoSet(K.tickets, all);
-        return { ok:true, id };
-      }
-
       const body = new URLSearchParams({ action:'create', token: API_TOKEN, ...payload }).toString();
       return fetchJSON(WEB_APP_URL, {
         method:'POST',
@@ -838,40 +511,10 @@
     }
 
     async function apiListTickets(limit=500){
-      if(DEMO_MODE){
-        return { ok:true, rows: demoGet(K.tickets).slice(0, limit) };
-      }
       return fetchJSON(`${WEB_APP_URL}?action=list&limit=${limit}&token=${encodeURIComponent(API_TOKEN)}`);
     }
 
-    async function apiGetMachineMaster(){
-      if (DEMO_MODE){
-        // DEMO ตัวอย่าง (แก้เองได้)
-        return {
-          ok:true,
-          map:{
-            "P3/1":["เครื่องขัดขอบเหล็กดำ","เครื่องเชื่อมกระป๋องกลม"],
-            "P3/2":["Conveyor 2","Lathe A"],
-          }
-      };
-    }
-    return fetchJSON(`${WEB_APP_URL}?action=machinemaster&token=${encodeURIComponent(API_TOKEN)}`);
-    }
-
     async function apiUpdateJob(payload){
-      if(DEMO_MODE){
-        // update ticket row by id (simulate)
-        const all = demoGet(K.tickets);
-        const idx = all.findIndex(x => String(x.id) === String(payload.id));
-        if(idx === -1) return { ok:false, error:'id_not_found' };
-        all[idx].status = payload.Status || 'Completed';
-        all[idx].supervisor = payload.Supervisor || '';
-        all[idx].department = payload.Department || '';
-        all[idx].timeToRepair = payload["Time to repair"] || '';
-        demoSet(K.tickets, all);
-        return { ok:true };
-      }
-
       const body = new URLSearchParams({ action:'updateJob', token: API_TOKEN, ...payload }).toString();
       return fetchJSON(WEB_APP_URL, {
         method:'POST',
@@ -880,66 +523,8 @@
       });
     }
 
-    /* =========================================================
-      ✅ PM Planning APIs (DEMO now / LIVE later)
-    ========================================================= */
-    async function apiListEmployees(){
-      if(DEMO_MODE) return { ok:true, rows: demoGet(K.employees) };
-      // LIVE: ต้องเพิ่ม Apps Script action=listEmployees
-      return fetchJSON(`${WEB_APP_URL}?action=listEmployees&token=${encodeURIComponent(API_TOKEN)}`);
-    }
-
-    async function apiListPMTasks(){
-      if(DEMO_MODE) return { ok:true, rows: demoGet(K.pmtasks) };
-      // LIVE: ต้องเพิ่ม Apps Script action=listPMTasks
-      return fetchJSON(`${WEB_APP_URL}?action=listPMTasks&token=${encodeURIComponent(API_TOKEN)}`);
-    }
-
-    async function apiListSchedule(dateISO){
-      if(DEMO_MODE){
-        const rows = demoGet(K.pmschedule).filter(x => x.date === dateISO);
-        return { ok:true, rows };
-      }
-      // LIVE: ต้องเพิ่ม Apps Script action=listSchedule&date=YYYY-MM-DD
-      return fetchJSON(`${WEB_APP_URL}?action=listSchedule&date=${encodeURIComponent(dateISO)}&token=${encodeURIComponent(API_TOKEN)}`);
-    }
-
-    async function apiAssignPM(payload){
-      if(DEMO_MODE){
-        const all = demoGet(K.pmschedule);
-        const scheduleId = 'S-' + Math.random().toString(36).slice(2,9).toUpperCase();
-        all.unshift({
-          scheduleId,
-          date: payload.date,
-          pmId: payload.pmId,
-          employeeId: payload.employeeId,
-          status: 'Planned',
-          priority: payload.priority || 'Normal',
-          note: payload.note || ''
-        });
-        demoSet(K.pmschedule, all);
-        return { ok:true, scheduleId };
-      }
-
-      // LIVE: ต้องเพิ่ม Apps Script action=assignPM (POST)
-      const body = new URLSearchParams({ action:'assignPM', token: API_TOKEN, ...payload }).toString();
-      return fetchJSON(WEB_APP_URL, {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body
-      });
-    }
-
-    async function apiUnassignPM(scheduleId){
-      if(DEMO_MODE){
-        const all = demoGet(K.pmschedule);
-        const left = all.filter(x => x.scheduleId !== scheduleId);
-        demoSet(K.pmschedule, left);
-        return { ok:true };
-      }
-      // LIVE: ต้องเพิ่ม Apps Script action=unassignPM
-      const body = new URLSearchParams({ action:'unassignPM', token: API_TOKEN, scheduleId }).toString();
-      return fetchJSON(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
+    async function apiGetMachineMaster(){
+      return fetchJSON(`${WEB_APP_URL}?action=machinemaster&token=${encodeURIComponent(API_TOKEN)}`);
     }
 
     /* =========================================================
@@ -1085,320 +670,59 @@
     });
 
     /* =========================================================
-      ✅ PM Planning UI
+      Machine master → datalist
     ========================================================= */
-    document.getElementById('pmDate').addEventListener('change', ()=>{
-      document.getElementById('assignDate').value = document.getElementById('pmDate').value;
-      refreshPMBoard();
-    });
-    document.getElementById('pmDeptFilter').addEventListener('change', refreshPMBoard);
-    document.getElementById('empDeptFilter').addEventListener('change', renderEmployees);
-    document.getElementById('taskDueFilter').addEventListener('change', renderPMTasks);
-
-    async function refreshPMBoard(){
-      const dateISO = document.getElementById('pmDate').value || toISODate(new Date());
-      const deptFilter = document.getElementById('pmDeptFilter').value || '';
-
-      const tbody = document.querySelector('#pmBoardTable tbody');
-      tbody.innerHTML = '<tr><td colspan="8">Loading...</td></tr>';
-
-      try{
-        const [empR, taskR, schR] = await Promise.all([
-          apiListEmployees(),
-          apiListPMTasks(),
-          apiListSchedule(dateISO),
-        ]);
-
-        const employees = (empR.rows || []);
-        const tasks = (taskR.rows || []);
-        const schedule = (schR.rows || []);
-
-        const taskMap = new Map(tasks.map(t => [t.pmId, t]));
-
-        // calc load per employee
-        const loadMin = new Map();
-        const listByEmp = new Map(); // employeeId -> schedule[]
-        for(const s of schedule){
-          const empId = s.employeeId;
-          const t = taskMap.get(s.pmId);
-          const min = Number(t?.stdMin || 0);
-          loadMin.set(empId, (loadMin.get(empId) || 0) + min);
-          if(!listByEmp.has(empId)) listByEmp.set(empId, []);
-          listByEmp.get(empId).push(s);
-        }
-
-        // filter employees
-        const filtered = deptFilter ? employees.filter(e => e.department === deptFilter) : employees;
-
-        tbody.innerHTML = '';
-        let totalAss = schedule.length;
-        let freeCount = filtered.filter(e => String(e.statusToday||'').toLowerCase() === 'free').length;
-
-        for(const e of filtered){
-          const empId = e.employeeId;
-          const assigned = (listByEmp.get(empId) || []);
-          const load = loadMin.get(empId) || 0;
-
-          const skillText = (e.skills || []).join(', ');
-          const statusP = renderEmpStatusPill(e.statusToday || 'Free');
-
-          const assignedText = assigned.length
-            ? assigned.map(s=>{
-                const t = taskMap.get(s.pmId);
-                const line = `${s.pmId} · ${(t?.machine||'-')} (${t?.stdMin||0}m)`;
-                return `<div style="margin:4px 0;">• ${escapeHtml(line)}</div>`;
-              }).join('')
-            : `<span class="muted">—</span>`;
-
-          const canAssign = String(e.statusToday||'').toLowerCase() !== 'leave';
-          const actionBtn = canAssign
-            ? `<button class="chip primary" data-action="quickAssign" data-emp="${escapeHtml(empId)}">Assign</button>`
-            : `<span class="muted">—</span>`;
-
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td><b>${escapeHtml(e.name||'')}</b><div class="mini">${escapeHtml(empId)}</div></td>
-            <td>${escapeHtml(e.department||'')}</td>
-            <td>${escapeHtml(e.role||'')}</td>
-            <td>${escapeHtml(skillText)}</td>
-            <td>${statusP}</td>
-            <td><b>${load}</b></td>
-            <td>${assignedText}</td>
-            <td>${actionBtn}</td>
-          `;
-          tbody.appendChild(tr);
-        }
-
-        document.getElementById('pmBoardSummary').textContent =
-          `Date ${dateISO} · Employees ${filtered.length} · Free ${freeCount} · Assigned PM ${totalAss}`;
-
-      } catch(err){
-        tbody.innerHTML = '<tr><td colspan="8">Load failed</td></tr>';
-      }
-    }
-
-    async function prepAssignPM(){
-      const dateISO = document.getElementById('pmDate').value || toISODate(new Date());
-      document.getElementById('assignDate').value = dateISO;
-
-      const taskSel = document.getElementById('assignTask');
-      const empSel = document.getElementById('assignEmp');
-
-      taskSel.innerHTML = `<option>Loading...</option>`;
-      empSel.innerHTML = `<option>Loading...</option>`;
-
-      try{
-        const [empR, taskR] = await Promise.all([ apiListEmployees(), apiListPMTasks() ]);
-        const employees = empR.rows || [];
-        const tasks = taskR.rows || [];
-
-        // tasks dropdown
-        taskSel.innerHTML = `<option value="" disabled selected>เลือก PM Task...</option>`;
-        for(const t of tasks){
-          const label = `${t.pmId} · ${t.machine} · ${t.task} (${t.stdMin}m) · Due ${t.dueDate}`;
-          const opt = document.createElement('option');
-          opt.value = t.pmId;
-          opt.textContent = label;
-          opt.setAttribute('data-reqskill', t.reqSkill || '');
-          taskSel.appendChild(opt);
-        }
-
-        // employees dropdown
-        empSel.innerHTML = `<option value="" disabled selected>เลือกพนักงาน...</option>`;
-        for(const e of employees){
-          const label = `${e.employeeId} · ${e.name} · ${e.department} · ${e.role} · ${e.statusToday}`;
-          const opt = document.createElement('option');
-          opt.value = e.employeeId;
-          opt.textContent = label;
-          opt.setAttribute('data-dept', e.department || '');
-          opt.setAttribute('data-status', e.statusToday || '');
-          opt.setAttribute('data-skills', (e.skills || []).join(','));
-          empSel.appendChild(opt);
-        }
-
-      } catch(err){
-        taskSel.innerHTML = `<option>Load failed</option>`;
-        empSel.innerHTML = `<option>Load failed</option>`;
-      }
-    }
-
-    async function submitAssignPM(){
-      const date = document.getElementById('assignDate').value || toISODate(new Date());
-      const pmId = document.getElementById('assignTask').value;
-      const employeeId = document.getElementById('assignEmp').value;
-      const priority = document.getElementById('assignPriority').value;
-      const note = document.getElementById('assignNote').value;
-
-      if(!pmId || !employeeId){
-        alert('กรุณาเลือก PM Task และพนักงาน');
-        return;
-      }
-
-      // simple validation demo: ถ้า employee status = Leave กันไว้
-      const empOpt = document.querySelector(`#assignEmp option[value="${CSS.escape(employeeId)}"]`);
-      const status = String(empOpt?.getAttribute('data-status') || '').toLowerCase();
-      if(status === 'leave'){
-        alert('คนนี้ลาอยู่วันนี้ เลือกคนอื่น');
-        return;
-      }
-
-      try{
-        const r = await apiAssignPM({ date, pmId, employeeId, priority, note });
-        if(r.ok){
-          alert('Assign สำเร็จ');
-          document.getElementById('assignNote').value = '';
-          go('pmboard');
-        } else {
-          alert('Assign ไม่สำเร็จ: ' + (r.error || 'unknown'));
-        }
-      } catch(err){
-        alert('เครือข่ายผิดพลาด: ' + err.message);
-      }
-    }
-
-    async function renderEmployees(){
-      const dept = document.getElementById('empDeptFilter').value || '';
-      const tbody = document.querySelector('#empTable tbody');
-      tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
-
-      try{
-        const r = await apiListEmployees();
-        const rows = dept ? (r.rows||[]).filter(x=>x.department===dept) : (r.rows||[]);
-        tbody.innerHTML = '';
-
-        for(const e of rows){
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${escapeHtml(e.employeeId||'')}</td>
-            <td><b>${escapeHtml(e.name||'')}</b></td>
-            <td>${escapeHtml(e.department||'')}</td>
-            <td>${escapeHtml(e.role||'')}</td>
-            <td>${escapeHtml((e.skills||[]).join(', '))}</td>
-            <td>${renderEmpStatusPill(e.statusToday||'Free')}</td>
-          `;
-          tbody.appendChild(tr);
-        }
-      } catch(err){
-        tbody.innerHTML = '<tr><td colspan="6">Load failed</td></tr>';
-      }
-    }
-
-    async function renderPMTasks(){
-      const mode = document.getElementById('taskDueFilter').value || 'all';
-      const tbody = document.querySelector('#taskTable tbody');
-      tbody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
-
-      try{
-        const r = await apiListPMTasks();
-        const all = (r.rows||[]);
-        const today = toISODate(new Date());
-
-        const within7 = (d)=>{
-          // safe compare ISO date
-          const a = new Date(today);
-          const b = new Date(d);
-          const diff = Math.floor((b - a)/86400000);
-          return diff >= 0 && diff <= 7;
-        };
-
-        let rows = all;
-        if(mode === 'overdue'){
-          rows = all.filter(t => String(t.dueDate||'') < today);
-        } else if(mode === 'due7'){
-          rows = all.filter(t => within7(String(t.dueDate||'')));
-        }
-
-        tbody.innerHTML = '';
-        for(const t of rows){
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td><b>${escapeHtml(t.pmId||'')}</b></td>
-            <td>${escapeHtml(t.machine||'')}</td>
-            <td>${escapeHtml(t.task||'')}</td>
-            <td><b>${escapeHtml(t.stdMin||0)}</b></td>
-            <td>${escapeHtml(t.reqSkill||'')}</td>
-            <td>${escapeHtml(t.dueDate||'')}</td>
-            <td>${escapeHtml(t.criticality||'')}</td>
-          `;
-          tbody.appendChild(tr);
-        }
-      } catch(err){
-        tbody.innerHTML = '<tr><td colspan="7">Load failed</td></tr>';
-      }
-    }
-
-    // Quick assign button on board
-    document.addEventListener('click', async (ev)=>{
-      const btn = ev.target.closest('button[data-action="quickAssign"]');
-      if(!btn) return;
-      const empId = btn.getAttribute('data-emp') || '';
-      go('pmassign');
-
-      // wait a tick to render select options
-      setTimeout(()=>{
-        const empSel = document.getElementById('assignEmp');
-        if(empSel){
-          empSel.value = empId;
-        }
-      }, 200);
-    });
     let __MM__ = { sections: [], machinesBySection: {} };
 
-function fillDatalist(el, items){
-  el.innerHTML = '';
-  (items || []).forEach(v=>{
-    const opt = document.createElement('option');
-    opt.value = v;
-    el.appendChild(opt);
-  });
-}
+    function fillDatalist(el, items){
+      el.innerHTML = '';
+      (items || []).forEach(v=>{
+        const opt = document.createElement('option');
+        opt.value = v;
+        el.appendChild(opt);
+      });
+    }
 
-function normalizeKey(s){ return String(s||'').trim(); }
+    function normalizeKey(s){ return String(s||'').trim(); }
 
-async function initMachineDropdowns(){
-  const deptInput = document.getElementById('deptInput');
-  const machineInput = document.getElementById('machineInput');
-  const deptList = document.getElementById('deptList');
-  const machineList = document.getElementById('machineList');
+    async function initMachineDropdowns(){
+      const deptInput = document.getElementById('deptInput');
+      const machineInput = document.getElementById('machineInput');
+      const deptList = document.getElementById('deptList');
+      const machineList = document.getElementById('machineList');
 
-  if(!deptInput || !machineInput || !deptList || !machineList) return;
+      if(!deptInput || !machineInput || !deptList || !machineList) return;
 
-  try{
-    // ✅ ดึงจาก Google Sheet ผ่าน Apps Script
-    const r = await apiGetMachineMaster();
-    if(!r.ok) throw new Error(r.error || 'machineMaster_failed');
+      try{
+        const r = await apiGetMachineMaster();
+        if(!r || r.ok === false) throw new Error(r?.error || 'machineMaster_failed');
 
-    __MM__ = {
-      sections: r.sections || [],
-      machinesBySection: r.machinesBySection || {}
-    };
+        // รองรับทั้ง {machinesBySection} หรือ {map}
+        const machinesBySection = r.machinesBySection || r.map || {};
+        const sections = r.sections || Object.keys(machinesBySection);
 
-    // ใส่รายการ section
-    fillDatalist(deptList, __MM__.sections);
+        __MM__ = { sections, machinesBySection };
 
-    // เวลาเลือก/พิมพ์ section -> update machine list
-    const onDeptChange = ()=>{
-      const sec = normalizeKey(deptInput.value);
-      const machines = __MM__.machinesBySection[sec] || [];
-      fillDatalist(machineList, machines);
+        fillDatalist(deptList, __MM__.sections);
 
-      // ถ้า machine ที่กรอกอยู่ไม่อยู่ใน list ให้ล้าง (กันผิด section)
-      if(machines.length && machineInput.value && !machines.includes(machineInput.value)){
-        machineInput.value = '';
+        const onDeptChange = ()=>{
+          const sec = normalizeKey(deptInput.value);
+          const machines = __MM__.machinesBySection[sec] || [];
+          fillDatalist(machineList, machines);
+
+          if(machines.length && machineInput.value && !machines.includes(machineInput.value)){
+            machineInput.value = '';
+          }
+        };
+
+        deptInput.addEventListener('input', onDeptChange);
+        deptInput.addEventListener('change', onDeptChange);
+
+      } catch(err){
+        console.error(err);
+        // fallback: ไม่ให้พัง แค่ปล่อยให้พิมพ์เองได้
       }
-    };
-
-    deptInput.addEventListener('input', onDeptChange);
-    deptInput.addEventListener('change', onDeptChange);
-
-  } catch(err){
-    console.error(err);
-    // fallback: ไม่ให้พัง แค่ปล่อยให้พิมพ์เองได้
-  }
-  }
-
+    }
   </script>
 </body>
 </html>
-
-
