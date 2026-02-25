@@ -223,12 +223,12 @@
         <div class="grid-2" style="margin: 10px 0 14px;">
           <div class="field">
             <label for="RequestDateShow">Date request (Auto)</label>
-            <input id="RequestDateShow" type="text" disabled />
+            <input id="RequestDateShow" name="RequestDateShow" type="text" disabled />
             <small>ระบบจะสร้างให้อัตโนมัติ</small>
           </div>
           <div class="field">
             <label for="TimeRequestShow">Time request (Auto)</label>
-            <input id="TimeRequestShow" type="text" disabled />
+            <input id="TimeRequestShow" name="TimeRequestShow" type="text" disabled />
             <small>ระบบจะสร้างให้อัตโนมัติ</small>
           </div>
         </div>
@@ -285,7 +285,7 @@
     <section data-view="status">
       <div class="kpi">
         <div class="box"><b>Scheduled</b><span id="kScheduled">0</span></div>
-        <div class="box"><b>Completed</b><span id="kCompleted">0</span></div>a
+        <div class="box"><b>Completed</b><span id="kCompleted">0</span></div>
       </div>
 
       <div class="card">
@@ -606,7 +606,7 @@ function renderStatusPill(stNorm){
           dept: x['Machine Section'] || x['Machine Department'] || x.dept || '',
           machine: x['Machine'] || x['Machine Name'] || x.machine || '',
           desc: x['Repairdescription'] || x['Problem Description'] || x.desc || '',
-          status: x['Status'] || x.status || 'Scheduled'|
+          status: x['Status'] || x.status || 'Scheduled'
         }));
 
         let s=0,c=0,o=0;
@@ -715,8 +715,3 @@ function renderStatusPill(stNorm){
   </script>
 </body>
 </html>
-
-
-
-
-
