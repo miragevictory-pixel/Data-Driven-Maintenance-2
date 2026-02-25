@@ -474,12 +474,17 @@
         .replaceAll("'","&#039;");
     }
 
-    function renderStatusPill(stNorm){
-      if(stNorm === 'completed'){
-        return `<span class="pill completed"><span class="dot"></span>Completed</span>`;
-      }
-      return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
-    }
+function renderStatusPill(stNorm){
+  if (!stNorm || (stNorm !== 'completed' && stNorm !== 'scheduled')) {
+    // หาก status ไม่ถูกต้อง, ให้ค่าเริ่มต้นเป็น 'Scheduled'
+    stNorm = 'scheduled';
+  }
+
+  if(stNorm === 'completed'){
+    return `<span class="pill completed"><span class="dot"></span>Completed</span>`;
+  }
+  return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
+}
 
     async function fetchJSON(url, options){
       const res = await fetch(url, options);
@@ -605,7 +610,7 @@
           dept: x['Machine Section'] || x['Machine Department'] || x.dept || '',
           machine: x['Machine'] || x['Machine Name'] || x.machine || '',
           desc: x['Repairdescription'] || x['Problem Description'] || x.desc || '',
-          status: x['Status'] || x.status || 'Scheduled'
+          status: (x['Status'] || x.status || '').toLowerCase() === 'scheduled' || 'completed' ? 'Scheduled' : 'Completed'
         }));
 
         let s=0,c=0,o=0;
@@ -714,4 +719,5 @@
   </script>
 </body>
 </html>
+
 
