@@ -187,7 +187,6 @@
     }
     .dot{ width:10px; height:10px; border-radius:999px; background: var(--brand); }
     .pill.completed .dot{ background: #1f8a3b; }
-    .pill.overdue .dot{ background: #c0392b; }
 
     .grid-2{ display:grid; grid-template-columns:1fr; gap:12px; }
     @media (min-width:860px){ .grid-2{ grid-template-columns:1fr 1fr; } }
@@ -254,11 +253,6 @@
             <textarea id="desc" name="desc" placeholder="เล่าอาการ/ตำแหน่ง/เงื่อนไขที่พบ" required></textarea>
           </div>
 
-          <div class="field" data-step="4">
-            <label for="preorder">Pre order</label>
-            <input id="preorder" name="preorder" type="text" placeholder="ถ้ามีให้กรอก (Optional)" />
-          </div>
-
           <div class="field" data-step="5">
             <label for="assignedTo">Assigned</label>
             <input id="assignedTo" name="assignedTo" type="text" placeholder="ชื่อช่าง/ผู้รับงาน (Optional)" />
@@ -291,8 +285,7 @@
     <section data-view="status">
       <div class="kpi">
         <div class="box"><b>Scheduled</b><span id="kScheduled">0</span></div>
-        <div class="box"><b>Completed</b><span id="kCompleted">0</span></div>
-        <div class="box"><b>Overdue</b><span id="kOverdue">0</span></div>
+        <div class="box"><b>Completed</b><span id="kCompleted">0</span></div>a
       </div>
 
       <div class="card">
@@ -485,9 +478,6 @@
       if(stNorm === 'completed'){
         return `<span class="pill completed"><span class="dot"></span>Completed</span>`;
       }
-      if(stNorm === 'overdue'){
-        return `<span class="pill overdue"><span class="dot"></span>Overdue</span>`;
-      }
       return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
     }
 
@@ -544,7 +534,6 @@
         "Machine Section": data.dept || '',
         Machine: data.machine || '',
         Repairdescription: data.desc || '',
-        "Pre order": data.preorder || '',
         Assigned: data.assignedTo || '',
         Status: 'Scheduled'
       };
@@ -651,7 +640,6 @@
 
         document.getElementById('kScheduled').textContent = s;
         document.getElementById('kCompleted').textContent = c;
-        document.getElementById('kOverdue').textContent = o;
 
         window.__LAST_TICKETS__ = rows;
 
@@ -726,3 +714,4 @@
   </script>
 </body>
 </html>
+
