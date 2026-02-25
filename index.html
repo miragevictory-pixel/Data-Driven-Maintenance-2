@@ -145,6 +145,8 @@
       grid-template-columns:1fr 1fr 1fr;
       gap:12px;
       margin: 10px 0 14px;
+      justify-items: center; /* จัดตำแหน่งในแนวนอน */
+      align-items: center;   /* จัดตำแหน่งในแนวตั้ง */
     }
     .kpi .box{
       background:#fff;
@@ -475,14 +477,10 @@
     }
 
 function renderStatusPill(stNorm){
-  if (!stNorm || (stNorm !== 'completed' && stNorm !== 'scheduled')) {
-    // หาก status ไม่ถูกต้อง, ให้ค่าเริ่มต้นเป็น 'Scheduled'
-    stNorm = 'scheduled';
-  }
-
   if(stNorm === 'completed'){
     return `<span class="pill completed"><span class="dot"></span>Completed</span>`;
   }
+
   return `<span class="pill"><span class="dot"></span>Scheduled</span>`;
 }
 
@@ -610,7 +608,7 @@ function renderStatusPill(stNorm){
           dept: x['Machine Section'] || x['Machine Department'] || x.dept || '',
           machine: x['Machine'] || x['Machine Name'] || x.machine || '',
           desc: x['Repairdescription'] || x['Problem Description'] || x.desc || '',
-          status: (x['Status'] || x.status || '').toLowerCase() === 'scheduled' || 'completed' ? 'Scheduled' : 'Completed'
+          status: x['Status'] || x.status || 'Scheduled'|
         }));
 
         let s=0,c=0,o=0;
@@ -719,5 +717,6 @@ function renderStatusPill(stNorm){
   </script>
 </body>
 </html>
+
 
 
