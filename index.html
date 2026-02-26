@@ -438,7 +438,7 @@
 
   <script>
     const APP_NAME    = 'Centralized Database from factory';
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxi4pxPvPAwZJUjcIkpQGJFvX4sqVpoM4iMV-k1qmtqLVevL-qErvfLL5TG2bSCEG1E-Q/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzk63oWHegGblFU8a9ClMqIT_GkyDxzrqe5fCnIO8A2ppTweh-dVtd-c7XGxK2OWLM84w/exec';
     const API_TOKEN   = '0992183266';
 
     /* ===== Router ===== */
@@ -750,7 +750,7 @@ function renderStatusPill(stNorm){
     // ฟังก์ชันที่ใช้ดึงข้อมูล Technician จาก API
 async function fetchTechnicianRequests() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxi4pxPvPAwZJUjcIkpQGJFvX4sqVpoM4iMV-k1qmtqLVevL-qErvfLL5TG2bSCEG1E-Q/exec');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzk63oWHegGblFU8a9ClMqIT_GkyDxzrqe5fCnIO8A2ppTweh-dVtd-c7XGxK2OWLM84w/exec');
     const data = await response.json();
     console.log("Data received:", data);
     renderTechnicianRequests(data.rows);
@@ -791,6 +791,7 @@ window.onload = function() {
   
 </body>
 </html>
+
 
 
 
