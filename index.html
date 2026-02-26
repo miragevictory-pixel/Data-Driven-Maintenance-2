@@ -400,6 +400,13 @@
         <p class="muted">ถ้าจะใช้งานจริงกับชีต: ต้องมี Apps Script actions เช่น <code>create</code>, <code>list</code>, <code>updateJob</code>, <code>machinemaster</code></p>
       </div>
     </section>
+    <!-- Technician -->
+    <section data-view="technician">
+      <div class="hero"><span>Technician Requests</span></div>
+      <div class="menu">
+        <div id="technician-list"></div> <!-- Display Technician requests here -->
+      </div>
+    </section>
 
   </main>
 
@@ -712,6 +719,44 @@ function renderStatusPill(stNorm){
         // fallback: ไม่ให้พัง แค่ปล่อยให้พิมพ์เองได้
       }
     }
+    // ฟังก์ชันที่ใช้ดึงข้อมูล Technician จาก API
+async function fetchTechnicianRequests() {
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyEi5-pYJ1YB2SZfoevkufAxyYCZq0Emmq-q7L_QOOOVHiMdT1GBTou_P25LivICETIzQ/exec?action=technicianRequests');
+    const data = await response.json();
+    renderTechnicianRequests(data.rows);
+  } catch (error) {
+    console.error('Error fetching technician requests:', error);
+  }
+}
+
+// ฟังก์ชันที่ใช้ในการแสดงข้อมูล Technician
+function renderTechnicianRequests(requests) {
+  const technicianList = document.getElementById('technician-list');
+  technicianList.innerHTML = '';  // เคลียร์ข้อมูลเดิม
+
+  requests.forEach(request => {
+    const technicianDiv = document.createElement('div');
+    technicianDiv.classList.add('technician-request');
+    
+    // แสดงข้อมูลแต่ละ Technician
+    technicianDiv.innerHTML = `
+      <h3>${request.Technician}</h3>
+      <p>Scheduled: ${request.scheduledCount} งาน</p>
+      <p>Completed: ${request.completedCount} งาน</p>
+      <p>Machine Section: ${request.machineSection}</p>
+    `;
+    
+    technicianList.appendChild(technicianDiv);
+  });
+}
+
+// เมื่อโหลดหน้าเว็บจะทำการดึงข้อมูล technician
+window.onload = function() {
+  fetchTechnicianRequests();
+};
   </script>
+  
 </body>
 </html>
+
