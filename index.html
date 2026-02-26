@@ -212,6 +212,7 @@
         <button class="btn" onclick="go('status')">สถานะการแจ้งซ่อม <small>Request status</small></button>
         <button class="btn" onclick="go('powerbi')">Power BI <small>Dashboard</small></button>
         <button class="btn" onclick="go('guide')">คู่มือการใช้งาน <small>User guide</small></button>
+        <button class="btn" onclick="go('technician')">Technician</button>
       </div>
     </section>
 
@@ -400,6 +401,7 @@
         <p class="muted">ถ้าจะใช้งานจริงกับชีต: ต้องมี Apps Script actions เช่น <code>create</code>, <code>list</code>, <code>updateJob</code>, <code>machinemaster</code></p>
       </div>
     </section>
+    
     <!-- Technician -->
     <section data-view="technician">
       <div class="hero"><span>Technician Requests</span></div>
@@ -436,6 +438,8 @@
       history.replaceState(null, '', `#${view}`);
       window.scrollTo({top:0, behavior:'smooth'});
 
+      if(view === 'technician') fetchTechnicianRequests();
+      
       if(view === 'status') renderTable();
 
       if(view === 'report'){
@@ -759,4 +763,5 @@ window.onload = function() {
   
 </body>
 </html>
+
 
