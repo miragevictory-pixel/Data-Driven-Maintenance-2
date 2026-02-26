@@ -750,8 +750,10 @@ function renderStatusPill(stNorm){
     // ฟังก์ชันที่ใช้ดึงข้อมูล Technician จาก API
 async function fetchTechnicianRequests() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxi4pxPvPAwZJUjcIkpQGJFvX4sqVpoM4iMV-k1qmtqLVevL-qErvfLL5TG2bSCEG1E-Q/exec');
+    console.log("Fetching technician requests...");
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxi4pxPvPAwZJUjcIkpQGJFvX4sqVpoM4iMV-k1qmtqLVevL-qErvfLL5TG2bSCEG1E-Q/exec?action=technicianRequests');
     const data = await response.json();
+    console.log("Data received:", data);
     renderTechnicianRequests(data.rows);
   } catch (error) {
     console.error('Error fetching technician requests:', error);
@@ -790,3 +792,4 @@ window.onload = function() {
   
 </body>
 </html>
+
