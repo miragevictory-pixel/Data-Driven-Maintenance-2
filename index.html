@@ -15,6 +15,30 @@
       --radius:18px;
       --shadow:0 6px 18px rgba(0,0,0,.12);
     }
+#technician-list {
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+}
+
+.technician {
+  background: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.technician h3 {
+  color: var(--brand);
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.technician p {
+  margin: 5px 0;
+}
     * , *::before, *::after{ box-sizing:border-box; }
     html,body{height:100%;}
     body{
@@ -25,7 +49,7 @@
       font-size:16px;
       line-height:1.5;
     }
-
+    
     .topbar{
       position:sticky; top:0; z-index:20;
       background:var(--brand); color:#fff;
@@ -759,10 +783,12 @@ function renderTechnicianRequests(requests) {
 window.onload = function() {
   fetchTechnicianRequests();
 };
+
   </script>
   
 </body>
 </html>
+
 
 
 
