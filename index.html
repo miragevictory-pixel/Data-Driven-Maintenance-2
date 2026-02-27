@@ -165,10 +165,11 @@
     .chip:active{ transform: translateY(1px); }
 
     .kpi{
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
+      display:flex;
+      justify-content:center;
       gap:12px;
       margin: 10px 0 14px;
+      flex-wrap:wrap;
     }
     .kpi .box{
       background:#fff;
@@ -1298,6 +1299,7 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
 
