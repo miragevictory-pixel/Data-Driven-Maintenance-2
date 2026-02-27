@@ -236,6 +236,31 @@
     }
     @media (max-width:720px){ .tech-kpi{ grid-template-columns:1fr; } }
 
+    /* ===== KPI cards (Technician) ===== */
+    .tech-kpi .box{
+      background:#fff;
+      border-radius:18px;
+      padding:18px;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 26px rgba(0,0,0,.10);
+    }
+
+    .tech-kpi .box b{
+      display:block;
+      font-size:14px;
+      font-weight:900;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .tech-kpi .box span{
+      display:block;
+      font-size:42px;
+      font-weight:1000;
+      color:var(--brand);
+      line-height:1;
+    }
+
     .tech-split{
       display:grid; grid-template-columns: 360px 1fr;
       gap:12px;
@@ -1273,6 +1298,7 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
 
