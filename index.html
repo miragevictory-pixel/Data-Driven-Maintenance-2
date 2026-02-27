@@ -338,6 +338,121 @@
     .job-row{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
     .job-row b{ color:#333; }
     .job-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+
+    /* =========================
+   GUIDE (User guide)
+========================= */
+.guide-wrap{ display:grid; gap:14px; }
+.guide-intro{
+  display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start;
+  padding:14px; border:1px solid #f0e6e4; border-radius:16px;
+  background: linear-gradient(180deg, #fff, #fff7f5);
+}
+.guide-intro .badge{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:999px;
+  border:1px solid rgba(158,47,28,.18);
+  background: rgba(158,47,28,.10);
+  color: var(--brand);
+  font-weight:900;
+}
+.guide-intro p{ margin:0; color:var(--muted); font-weight:800; }
+
+.guide-tips{
+  display:grid; gap:10px;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width:860px){ .guide-tips{ grid-template-columns: 1fr; } }
+.tip{
+  background:#fff; border:1px solid #f2f2f2;
+  border-radius:16px; padding:12px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.06);
+}
+.tip b{ display:block; color:#333; margin-bottom:4px; }
+.tip span{ color:var(--muted); font-weight:700; }
+
+.guide-acc{
+  border:1px solid #f0f0f0; border-radius:18px;
+  background:#fff; box-shadow: 0 10px 26px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+.guide-acc summary{
+  list-style:none;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 16px;
+  cursor:pointer;
+  font-weight:900; color:#222;
+  background: #fff;
+}
+.guide-acc summary::-webkit-details-marker{ display:none; }
+.guide-acc summary .left{
+  display:flex; gap:10px; align-items:center;
+}
+.guide-acc summary .icon{
+  width:34px; height:34px; border-radius:12px;
+  display:grid; place-items:center;
+  background: rgba(158,47,28,.10);
+  color: var(--brand);
+  font-size:18px;
+}
+.guide-acc summary .sub{
+  display:block; font-weight:800; color:var(--muted); font-size:13px;
+  margin-top:2px;
+}
+.guide-acc summary .chev{
+  width:34px; height:34px; border-radius:999px;
+  display:grid; place-items:center;
+  background:#fafafa; border:1px solid #f0f0f0;
+  font-size:18px;
+}
+.guide-acc[open] summary{
+  background: linear-gradient(180deg, #fff, #fff7f5);
+  border-bottom:1px solid #f1e7e5;
+}
+.guide-acc[open] summary .chev{ transform: rotate(180deg); }
+
+.guide-body{ padding:14px 16px 16px; display:grid; gap:14px; }
+
+.steps{
+  display:grid; gap:12px;
+  grid-template-columns: 1fr;
+}
+.step{
+  border:1px solid #f1f1f1; border-radius:16px;
+  background:#fff;
+  box-shadow: 0 8px 22px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+.step-head{
+  display:flex; gap:10px; align-items:flex-start;
+  padding:12px 12px 10px;
+}
+.step-no{
+  width:30px; height:30px; border-radius:999px;
+  background: var(--brand); color:#fff;
+  display:grid; place-items:center;
+  font-weight:900;
+  flex:0 0 auto;
+}
+.step-head b{ display:block; color:#222; }
+.step-head p{ margin:3px 0 0; color:var(--muted); font-weight:700; }
+
+.step-img{
+  padding:0 12px 12px;
+}
+.step-img img{
+  width:100%;
+  border-radius:14px;
+  border:1px solid #eee;
+  background:#fafafa;
+  box-shadow: 0 10px 26px rgba(0,0,0,.10);
+}
+
+/* ปุ่มดาวน์โหลดคู่มือ (optional) */
+.guide-actions{
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+}
+.guide-actions .chip{ font-weight:900; }
   </style>
 </head>
 
@@ -545,17 +660,321 @@
 
     <!-- GUIDE -->
     <section data-view="guide">
-      <div class="card">
-        <h2 style="margin:0 0 10px">คู่มือการใช้งาน</h2>
-        <ol>
-          <li>กด “แจ้งซ่อม” กรอกข้อมูล แล้วกด Submit</li>
-          <li>ไปที่ “สถานะการแจ้งซ่อม” เพื่อดูรายการ</li>
-          <li>รายการที่เป็น Scheduled กด Update</li>
-          <li>กรอก Supervisor / Time to repair / Department แล้วกด Save</li>
-        </ol>
-        <p class="muted">ถ้าจะใช้งานจริงกับชีต: ต้องมี Apps Script actions เช่น <code>create</code>, <code>list</code>, <code>updateJob</code>, <code>machinemaster</code></p>
+  <div class="card">
+    <h2 style="margin:0 0 10px">คู่มือการใช้งาน (User Guide)</h2>
+
+    <div class="guide-wrap">
+
+      <!-- Intro -->
+      <div class="guide-intro">
+        <div class="badge">✅ มือใหม่ใช้ได้</div>
+        <div class="badge">📷 มีรูปประกอบ</div>
+        <div class="badge">🧭 ทำตามทีละขั้น</div>
+        <p style="flex:1 1 320px">
+          อ่านตามหัวข้อด้านล่าง (กดเพื่อเปิด/ปิด) แล้วทำตาม Step พร้อมรูปประกอบ
+          <br/>ถ้ารูปยังไม่ขึ้น ให้ใส่ไฟล์ภาพตามชื่อที่กำหนดในโฟลเดอร์ <b>img/</b>
+        </p>
       </div>
-    </section>
+
+      <!-- Tips -->
+      <div class="guide-tips">
+        <div class="tip"><b>1 Step = 1 Action</b><span>ทำทีละข้อ ไม่ต้องเดา</span></div>
+        <div class="tip"><b>ดูรูปก่อน อ่านทีหลัง</b><span>วง/ลูกศรช่วยให้หาได้ไว</span></div>
+        <div class="tip"><b>เจอปัญหา</b><span>ให้ถ่ายรูปหน้าจอ ส่งให้หัวหน้าหรือช่างระบบ</span></div>
+      </div>
+
+      <!-- 1) Home -->
+      <details class="guide-acc">
+        <summary>
+          <div class="left">
+            <div class="icon">🏠</div>
+            <div>
+              หน้าแรก (Home)
+              <span class="sub">เริ่มต้นใช้งาน เลือกเมนูที่ต้องการ</span>
+            </div>
+          </div>
+          <div class="chev">⌄</div>
+        </summary>
+
+        <div class="guide-body">
+          <div class="steps">
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">1</div>
+                <div>
+                  <b>เลือกเมนูที่ต้องการ</b>
+                  <p>เช่น “แจ้งซ่อม”, “สถานะการแจ้งซ่อม”, “Power BI”, “Technician”</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-home.png" alt="Home guide image" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 2) Report -->
+      <details class="guide-acc">
+        <summary>
+          <div class="left">
+            <div class="icon">📝</div>
+            <div>
+              แจ้งซ่อม (Repair Request)
+              <span class="sub">กรอกข้อมูลและส่งคำขอ ระบบจะตั้งสถานะ Scheduled อัตโนมัติ</span>
+            </div>
+          </div>
+          <div class="chev">⌄</div>
+        </summary>
+
+        <div class="guide-body">
+          <div class="steps">
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">1</div>
+                <div>
+                  <b>เข้าเมนู “แจ้งซ่อม”</b>
+                  <p>กดจากหน้าแรก</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-report-1.png" alt="Report step 1" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">2</div>
+                <div>
+                  <b>เลือก Machine section และ Machine</b>
+                  <p>พิมพ์ค้นหาได้ เช่น P3/1 แล้วเลือกเครื่องตามรายการ</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-report-2.png" alt="Report step 2" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">3</div>
+                <div>
+                  <b>กรอกอาการ/รายละเอียด (Repairdescription)</b>
+                  <p>เขียนให้ชัด เช่น “เครื่องไม่ทำงาน”, “เสียงดัง”, “มอเตอร์ร้อน”</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-report-3.png" alt="Report step 3" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">4</div>
+                <div>
+                  <b>กด Submit request</b>
+                  <p>ระบบบันทึกสำเร็จแล้วไปหน้าสำเร็จ (Success)</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-report-4.png" alt="Report step 4" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 3) Status -->
+      <details class="guide-acc">
+        <summary>
+          <div class="left">
+            <div class="icon">📊</div>
+            <div>
+              สถานะการแจ้งซ่อม (Request status)
+              <span class="sub">ดูรายการงานทั้งหมด + กด Update เฉพาะ Scheduled</span>
+            </div>
+          </div>
+          <div class="chev">⌄</div>
+        </summary>
+
+        <div class="guide-body">
+          <div class="steps">
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">1</div>
+                <div>
+                  <b>ดู KPI ด้านบน</b>
+                  <p>Scheduled = งานค้าง, Completed = งานเสร็จแล้ว</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-status-1.png" alt="Status step 1" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">2</div>
+                <div>
+                  <b>ดูรายการคำขอในตาราง</b>
+                  <p>อ่านข้อมูล Work Order, วันที่, เวลา, เครื่อง, รายละเอียด</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-status-2.png" alt="Status step 2" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">3</div>
+                <div>
+                  <b>กดปุ่ม Update เฉพาะรายการที่เป็น Scheduled</b>
+                  <p>ถ้าเป็น Completed จะไม่สามารถกด Update ได้</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-status-3.png" alt="Status step 3" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 4) Update -->
+      <details class="guide-acc">
+        <summary>
+          <div class="left">
+            <div class="icon">🔧</div>
+            <div>
+              Update งานซ่อม (Job Update)
+              <span class="sub">กรอก 3 ช่อง แล้ว Save เพื่อปิดงานเป็น Completed</span>
+            </div>
+          </div>
+          <div class="chev">⌄</div>
+        </summary>
+
+        <div class="guide-body">
+          <div class="steps">
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">1</div>
+                <div>
+                  <b>ตรวจสอบ Work Order / Machine</b>
+                  <p>ระบบแสดงข้อมูลงานที่เลือกมา</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-update-1.png" alt="Update step 1" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">2</div>
+                <div>
+                  <b>กรอก Supervisor</b>
+                  <p>ชื่อผู้คุมงาน/ผู้ตรวจสอบ</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-update-2.png" alt="Update step 2" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">3</div>
+                <div>
+                  <b>กรอก Time to repair และเลือก Department</b>
+                  <p>เช่น 150 min หรือ 2.5 hrs</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-update-3.png" alt="Update step 3" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">4</div>
+                <div>
+                  <b>กด Save & Complete</b>
+                  <p>ระบบจะเปลี่ยนสถานะเป็น Completed และกลับไปหน้า Status</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-update-4.png" alt="Update step 4" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 5) Technician -->
+      <details class="guide-acc">
+        <summary>
+          <div class="left">
+            <div class="icon">👷</div>
+            <div>
+              Technician
+              <span class="sub">ดูสรุปงานรายช่าง + คลิกดูรายละเอียด (Modal)</span>
+            </div>
+          </div>
+          <div class="chev">⌄</div>
+        </summary>
+
+        <div class="guide-body">
+          <div class="steps">
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">1</div>
+                <div>
+                  <b>ใช้ช่องค้นหา/ตัวกรอง Machine Section</b>
+                  <p>ค้นหาชื่อช่างหรือเลือก section เพื่อดูเฉพาะกลุ่ม</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-tech-1.png" alt="Technician step 1" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">2</div>
+                <div>
+                  <b>ดู Top 5 งานค้าง</b>
+                  <p>เรียงจาก Scheduled มากที่สุด → น้อยที่สุด</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-tech-2.png" alt="Technician step 2" />
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-head">
+                <div class="step-no">3</div>
+                <div>
+                  <b>คลิกการ์ดช่างเพื่อดูรายละเอียดงาน</b>
+                  <p>เปิด Modal แล้วสลับแท็บ Scheduled/Completed ได้</p>
+                </div>
+              </div>
+              <div class="step-img">
+                <img src="img/guide-tech-3.png" alt="Technician step 3" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="guide-actions">
+        <button class="chip primary" onclick="go('home')">กลับหน้าแรก</button>
+      </div>
+
+    </div>
+  </div>
+</section>
     
     <!-- Technician -->
     <section data-view="technician">
@@ -1301,6 +1720,7 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
 
