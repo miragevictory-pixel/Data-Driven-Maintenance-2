@@ -603,7 +603,7 @@
       status:"สถานะการแจ้งซ่อม",
       update:"Update งานซ่อม",
       powerbi:"Power BI",
-      guide:"คู่มือ"
+      guide:"คู่มือ",
       technician:"เจ้าหน้าที่ซ่อมบำรุง"
     };
 
@@ -963,9 +963,18 @@ function renderStatusPill(stNorm){
       }
     }
 
+  function renderTechnicianRequests(requests) {
+  const technicianList = document.getElementById('technician-list');
+  technicianList.innerHTML = '';
+
+  if (!requests || !requests.length) {
+    technicianList.innerHTML = `<div class="muted">ไม่มีข้อมูล</div>`;
+    return;
+  }
+
   requests.forEach(request => {
     const div = document.createElement('div');
-    div.classList.add('technician'); // ✅ ตรงกับ CSS (.technician)
+    div.classList.add('technician');
 
     div.innerHTML = `
       <h3>${escapeHtml(request.Technician || request.technician || '-')}</h3>
@@ -1264,6 +1273,7 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
 
