@@ -445,15 +445,22 @@
             </span>
             <span id="uWorkOrder" style="font-weight:900; color:var(--brand);">-</span>
           </div>
-
+          
           <div class="pill" style="justify-content:space-between;">
             <span style="display:flex; align-items:center; gap:8px;">
               <span class="dot"></span><span>Machine</span>
             </span>
             <span id="uMachine" style="font-weight:900;">-</span>
           </div>
-        </div>
-
+          
+           <div class="pill" style="justify-content:space-between;">
+            <span style="display:flex; align-items:center; gap:8px;">
+              <span class="dot"></span><span>Update Date-Time (Auto)</span>
+            </span>
+            <span id="uCompletedPreview" style="font-weight:900;">-</span>
+          </div>
+         </div>
+      
         <p class="muted" style="margin: 0 0 12px;">
           กรอก 3 ช่องนี้ แล้วกดบันทึก ระบบจะเปลี่ยนสถานะเป็น <b>Completed</b> และอัปเดตในชีต “บรรทัดเดิม”
         </p>
@@ -735,6 +742,17 @@ function renderStatusPill(stNorm){
       }
     });
 
+    function nowBangkokText(){
+      const d = new Date();
+      // ให้เป็นแนวเดียวกับที่คุณใช้ในชีต (dd/MM/yyyy HH:mm)
+      const dd = String(d.getDate()).padStart(2,'0');
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const yyyy = d.getFullYear();
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mi = String(d.getMinutes()).padStart(2,'0');
+      return `${dd}/${mm}/${yyyy} ${hh}:${mi}`;
+    } 
+
     function openUpdate(ticket){
       document.getElementById('uId').value = ticket.id || '';
       document.getElementById('uWoHidden').value = ticket.workOrderNo || '';
@@ -744,7 +762,10 @@ function renderStatusPill(stNorm){
       document.getElementById('uSupervisor').value = '';
       document.getElementById('uTimeToRepair').value = '';
       document.getElementById('uDepartment').value = '';
-
+      
+      const preview = document.getElementById('uCompletedPreview');
+      if(preview) preview.textContent = nowBangkokText();
+      
       go('update');
     }
 
@@ -789,6 +810,7 @@ function renderStatusPill(stNorm){
           machine: x['Machine'] || x['Machine Name'] || x.machine || '',
           desc: x['Repairdescription'] || x['Problem Description'] || x.desc || '',
           status: x['Status'] || x.status || 'Scheduled'
+          completedDate: x['CompletedDate'] || x.completedDate || ''
         }));
 
         let s=0,c=0,o=0;
@@ -803,9 +825,12 @@ function renderStatusPill(stNorm){
           const statusPill = renderStatusPill(stNorm);
 
           const canUpdate = (stNorm === 'scheduled') && String(row.id || '').trim() !== '';
-          const actionBtn = canUpdate
-            ? `<button class="chip primary" data-action="openUpdate" data-id="${escapeHtml(row.id)}">Update</button>`
-            : `<span class="muted">—</span>`;
+
+          const actionCell = (stNorm === 'completed')
+            ? `<span class="muted">${escapeHtml(row.completedDate || '-')}</span>`
+            : (canUpdate
+                ? `<button class="chip primary" data-action="openUpdate" data-id="${escapeHtml(row.id)}">Update</button>`
+                : `<span class="muted">—</span>`);
 
           const tr = document.createElement('tr');
           tr.innerHTML = `
@@ -1219,4 +1244,5 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
