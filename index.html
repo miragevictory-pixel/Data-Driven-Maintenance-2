@@ -795,67 +795,65 @@ function renderStatusPill(stNorm){
     });
 
     async function renderTable(){
-      const tbody = document.querySelector('#tbl tbody');
-      tbody.innerHTML = '<tr><td colspan="8">Loading...</td></tr>';
+  const tbody = document.querySelector('#tbl tbody');
+  tbody.innerHTML = '<tr><td colspan="8">Loading...</td></tr>';
 
-      try{
-        const r = await apiListTickets(500);
+  try{
+    const r = await apiListTickets(500);
 
-        const rows = (r.rows || []).map(x => ({
-          id: x['ID'] || x['id'] || x.id || '',
-          workOrderNo: x['WorkOrderNo'] || x['Work Order No.'] || x['Work Order No'] || x.workOrderNo || '',
-          RequestDate: x['RequestDate'] || x.RequestDate || '',
-          TimeRequest: x['TimeRequest'] || x.TimeRequest || '',
-          dept: x['Machine Section'] || x['Machine Department'] || x.dept || '',
-          machine: x['Machine'] || x['Machine Name'] || x.machine || '',
-          desc: x['Repairdescription'] || x['Problem Description'] || x.desc || '',
-          status: x['Status'] || x.status || 'Scheduled'
-          completedDate: x['CompletedDate'] || x.completedDate || ''
-        }));
+    const rows = (r.rows || []).map(x => ({
+      id: x['ID'] || x['id'] || x.id || '',
+      workOrderNo: x['WorkOrderNo'] || x['Work Order No.'] || x['Work Order No'] || x.workOrderNo || '',
+      RequestDate: x['RequestDate'] || x.RequestDate || '',
+      TimeRequest: x['TimeRequest'] || x.TimeRequest || '',
+      dept: x['Machine Section'] || x['Machine Department'] || x.dept || '',
+      machine: x['Machine'] || x['Machine Name'] || x.machine || '',
+      desc: x['Repairdescription'] || x['Problem Description'] || x.desc || '',
+      status: x['Status'] || x.status || 'Scheduled',     // ✅ ใส่ comma ตรงนี้
+      completedDate: x['CompletedDate'] || x.completedDate || ''
+    }));
 
-        let s=0,c=0,o=0;
-        tbody.innerHTML = '';
+    let s=0,c=0;
+    tbody.innerHTML = '';
 
-        for(const row of rows){
-          const stNorm = String(row.status || '').trim().toLowerCase();
-          if(stNorm === 'scheduled') s++;
-          else if(stNorm === 'completed') c++;
-          else o++;
+    for(const row of rows){
+      const stNorm = String(row.status || '').trim().toLowerCase();
+      if(stNorm === 'scheduled') s++;
+      else if(stNorm === 'completed') c++;
 
-          const statusPill = renderStatusPill(stNorm);
+      const statusPill = renderStatusPill(stNorm);
+      const canUpdate = (stNorm === 'scheduled') && String(row.id || '').trim() !== '';
 
-          const canUpdate = (stNorm === 'scheduled') && String(row.id || '').trim() !== '';
+      const actionCell = (stNorm === 'completed')
+        ? `<span class="muted">${escapeHtml(row.completedDate || '-')}</span>`
+        : (canUpdate
+            ? `<button class="chip primary" data-action="openUpdate" data-id="${escapeHtml(row.id)}">Update</button>`
+            : `<span class="muted">—</span>`);
 
-          const actionCell = (stNorm === 'completed')
-            ? `<span class="muted">${escapeHtml(row.completedDate || '-')}</span>`
-            : (canUpdate
-                ? `<button class="chip primary" data-action="openUpdate" data-id="${escapeHtml(row.id)}">Update</button>`
-                : `<span class="muted">—</span>`);
-
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${escapeHtml(row.workOrderNo || '')}</td>
-            <td>${escapeHtml(row.RequestDate || '')}</td>
-            <td>${escapeHtml(row.TimeRequest || '')}</td>
-            <td>${escapeHtml(row.dept || '')}</td>
-            <td>${escapeHtml(row.machine || '')}</td>
-            <td>${escapeHtml(row.desc || '')}</td>
-            <td>${statusPill}</td>
-            <td>${actionBtn}</td>
-          `;
-          tbody.appendChild(tr);
-        }
-
-        document.getElementById('kScheduled').textContent = s;
-        document.getElementById('kCompleted').textContent = c;
-
-        window.__LAST_TICKETS__ = rows;
-
-      } catch(e){
-        console.error(e);
-        tbody.innerHTML = `<tr><td colspan="8">Load failed: ${escapeHtml(e.message)}</td></tr>`;
-      }
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(row.workOrderNo || '')}</td>
+        <td>${escapeHtml(row.RequestDate || '')}</td>
+        <td>${escapeHtml(row.TimeRequest || '')}</td>
+        <td>${escapeHtml(row.dept || '')}</td>
+        <td>${escapeHtml(row.machine || '')}</td>
+        <td>${escapeHtml(row.desc || '')}</td>
+        <td>${statusPill}</td>
+        <td>${actionCell}</td>   <!-- ✅ ใช้ actionCell -->
+      `;
+      tbody.appendChild(tr);
     }
+
+    document.getElementById('kScheduled').textContent = s;
+    document.getElementById('kCompleted').textContent = c;
+
+    window.__LAST_TICKETS__ = rows;
+
+  } catch(e){
+    console.error(e);
+    tbody.innerHTML = `<tr><td colspan="8">Load failed: ${escapeHtml(e.message)}</td></tr>`;
+  }
+}
 
     document.addEventListener('click', (ev)=>{
       const btn = ev.target.closest('button[data-action="openUpdate"]');
@@ -1244,5 +1242,6 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
