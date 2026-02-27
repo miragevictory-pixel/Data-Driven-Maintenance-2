@@ -663,6 +663,48 @@
         .replaceAll('"','&quot;')
         .replaceAll("'","&#039;");
     }
+    function formatDateOnly(v){
+  if(v == null) return '';
+  const s = String(v).trim();
+
+  // ถ้าเป็น ISO เช่น 2026-02-26T17:00:00.000Z → เอาแค่ 2026-02-26
+  if (/^\d{4}-\d{2}-\d{2}T/.test(s)) return s.slice(0,10);
+
+  // ถ้าเป็นแบบ YYYY-MM-DD อยู่แล้ว
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+
+  // ถ้าเป็น Date string อื่นๆ ลอง parse
+  const d = new Date(s);
+  if(!isNaN(d)) return d.toLocaleDateString('en-CA'); // YYYY-MM-DD
+
+  return s;
+}
+
+function formatTimeOnly(v){
+  if(v == null) return '';
+  const s = String(v).trim();
+
+  // ISO เช่น 1899-12-30T00:57:56.000Z → เอาแค่ 00:57
+  if (/^\d{4}-\d{2}-\d{2}T/.test(s)) return s.slice(11,16);
+
+  // ถ้าเป็น HH:mm หรือ HH:mm:ss
+  if (/^\d{2}:\d{2}(:\d{2})?$/.test(s)) return s.slice(0,5);
+
+  // ถ้าเป็นตัวเลข (กรณีชีตส่งเวลามาเป็น fraction ของวัน เช่น 0.5)
+  const n = Number(s);
+  if (!isNaN(n)) {
+    const totalMin = Math.round(n * 24 * 60);
+    const hh = String(Math.floor(totalMin / 60) % 24).padStart(2,'0');
+    const mm = String(totalMin % 60).padStart(2,'0');
+    return `${hh}:${mm}`;
+  }
+
+  // fallback: ลอง parse เป็น Date
+  const d = new Date(s);
+  if(!isNaN(d)) return d.toTimeString().slice(0,5);
+
+  return s;
+}
 
 function renderStatusPill(stNorm){
   if(stNorm === 'completed'){
@@ -834,8 +876,8 @@ function renderStatusPill(stNorm){
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${escapeHtml(row.workOrderNo || '')}</td>
-        <td>${escapeHtml(row.RequestDate || '')}</td>
-        <td>${escapeHtml(row.TimeRequest || '')}</td>
+        <td>${escapeHtml(formatDateOnly(row.RequestDate || ''))}</td>
+        <td>${escapeHtml(formatTimeOnly(row.TimeRequest || ''))}</td>
         <td>${escapeHtml(row.dept || '')}</td>
         <td>${escapeHtml(row.machine || '')}</td>
         <td>${escapeHtml(row.desc || '')}</td>
@@ -1221,6 +1263,7 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
 
