@@ -1146,6 +1146,12 @@ function formatTimeOnly(v){
     const mm = String(totalMin % 60).padStart(2,'0');
     return `${hh}:${mm}`;
   }
+    // fallback: ลอง parse เป็น Date
+  const d = new Date(s);
+  if(!isNaN(d)) return d.toTimeString().slice(0,5);
+
+  return s;
+}
 
   function formatDateTimeBangkok(v){
   if(v == null) return '';
@@ -1179,13 +1185,6 @@ function formatTimeOnly(v){
     const mi = String(d.getMinutes()).padStart(2,'0');
     return `${dd}/${mm}/${yyyy} ${hh}:${mi}`;
   }
-
-  return s;
-}
-
-  // fallback: ลอง parse เป็น Date
-  const d = new Date(s);
-  if(!isNaN(d)) return d.toTimeString().slice(0,5);
 
   return s;
 }
@@ -1756,6 +1755,7 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
 
