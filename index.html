@@ -508,12 +508,10 @@
           <div class="field">
             <label for="RequestDateShow">Date request (Auto)</label>
             <input id="RequestDateShow" name="RequestDateShow" type="text" disabled />
-            <small>ระบบจะสร้างให้อัตโนมัติ</small>
           </div>
           <div class="field">
             <label for="TimeRequestShow">Time request (Auto)</label>
             <input id="TimeRequestShow" name="TimeRequestShow" type="text" disabled />
-            <small>ระบบจะสร้างให้อัตโนมัติ</small>
           </div>
         </div>
 
@@ -522,14 +520,12 @@
             <label for="deptInput">Machine section</label>
             <input id="deptInput" name="dept" list="deptList" placeholder="พิมพ์เพื่อค้นหา เช่น P3/1" required />
             <datalist id="deptList"></datalist>
-            <small>พิมพ์ค้นหาได้ / เลือกจากรายการ (ดึงจาก Google Sheet)</small>
           </div>
 
           <div class="field" data-step="2">
             <label for="machineInput">Machine</label>
             <input id="machineInput" name="machine" list="machineList" placeholder="เลือกเครื่องตาม section" required />
             <datalist id="machineList"></datalist>
-            <small>รายการจะเปลี่ยนตาม Machine section</small>
           </div>
 
           <div class="field" data-step="3">
@@ -539,8 +535,7 @@
 
           <div class="field" data-step="5">
             <label for="assignedTo">Assigned</label>
-            <input id="assignedTo" name="assignedTo" type="text" placeholder="ชื่อช่าง/ผู้รับงาน (Optional)" />
-            <small>ถ้ายังไม่ระบุ ให้เว้นว่างได้</small>
+            <input id="assignedTo" name="assignedTo" type="text" placeholder="ชื่อช่าง/ผู้รับงาน" required />
           </div>
 
           <div class="row-actions">
@@ -1775,6 +1770,7 @@ function openUpdateFromModal(id){
   
 </body>
 </html>
+
 
 
 
